@@ -1294,18 +1294,38 @@ html { scroll-behavior: smooth; }
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   z-index: 1000;
-  transition: transform 0.3s, background 0.3s;
+  transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
 }
+.oud-btn::after {
+  content: attr(title);
+  position: absolute;
+  left: 58px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  font-family: var(--font-body, 'Tajawal', sans-serif);
+}
+.oud-btn:hover::after { opacity: 1; }
 .oud-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.12);
   background: var(--accent-dark);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.28);
 }
 .oud-btn.playing {
   animation: pulse-oud 2s infinite;
 }
 
 @keyframes pulse-oud {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201, 169, 106, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(201, 169, 106, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201, 169, 106, 0); }
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0   rgba(201,169,106,0.7); }
+  70%  { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(201,169,106,0);  }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(201,169,106,0);   }
 }
+
+/* Dark mode adjustments */
+body.dark-mode .oud-btn { box-shadow: 0 4px 16px rgba(0,0,0,0.5); }

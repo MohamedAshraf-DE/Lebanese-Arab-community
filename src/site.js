@@ -143,22 +143,53 @@
     el.style.transitionDelay = (i * 0.08) + 's';
   });
 
-  /* ---- Oud Player Toggle ---- */
+  /* ---- Oud Player — persists across page navigations via localStorage ---- */
   var oudAudio = document.getElementById('oud-audio');
-  var oudBtn = document.getElementById('oud-btn');
+  var oudBtn   = document.getElementById('oud-btn');
   if (oudAudio && oudBtn) {
-    // Attempt to set a lower volume
     oudAudio.volume = 0.3;
+
+    function oudSetState(playing) {
+      localStorage.setItem('oud-playing', playing ? 'true' : 'false');
+      oudBtn.classList.toggle('playing', playing);
+      oudBtn.title = playing ? 'إيقاف موسيقى العود' : 'تشغيل موسيقى العود';
+    }
+
+    /* Save position every second while playing */
+    setInterval(function () {
+      if (!oudAudio.paused) localStorage.setItem('oud-time', oudAudio.currentTime);
+    }, 1000);
+
+    /* Save position on page hide / visibility change */
+    window.addEventListener('pagehide', function () {
+      localStorage.setItem('oud-time', oudAudio.currentTime);
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && !oudAudio.paused) {
+        localStorage.setItem('oud-time', oudAudio.currentTime);
+      }
+    });
+
+    /* Resume on page load if was playing before */
+    if (localStorage.getItem('oud-playing') === 'true') {
+      var savedPos = parseFloat(localStorage.getItem('oud-time') || '0');
+      if (savedPos > 0) oudAudio.currentTime = savedPos;
+      oudAudio.play().then(function () {
+        oudSetState(true);
+      }).catch(function () {
+        /* Autoplay blocked — keep stored intent so next click resumes */
+        oudSetState(false);
+      });
+    }
+
+    /* Toggle on button click */
     oudBtn.addEventListener('click', function () {
       if (oudAudio.paused) {
-        oudAudio.play().then(function() {
-          oudBtn.classList.add('playing');
-        }).catch(function(e) {
-          console.error("Audio playback failed:", e);
-        });
+        oudAudio.play().then(function () { oudSetState(true); })
+          .catch(function (e) { console.warn('Oud play failed:', e); });
       } else {
         oudAudio.pause();
-        oudBtn.classList.remove('playing');
+        oudSetState(false);
       }
     });
   }

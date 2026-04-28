@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة التحكم — أ.د. وائل نبيل عبد السلام</title>
+<title>لوحة التحكم — جاليتُنا</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -15,109 +15,133 @@
     --admin-danger: #e74c3c;
   }
   body { font-family: 'Tajawal', sans-serif; background: #f4f7f6; margin: 0; display: flex; }
-  .admin-sidebar { width: 250px; background: var(--admin-primary); color: white; min-height: 100vh; padding: 20px; }
-  .admin-sidebar h2 { font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; text-align: center; }
-  .admin-nav-links { list-style: none; padding: 0; }
-  .admin-nav-links li { margin-bottom: 10px; }
-  .admin-nav-links a { color: #ecf0f1; text-decoration: none; display: block; padding: 10px; border-radius: 4px; transition: 0.3s; }
-  .admin-nav-links a:hover, .admin-nav-links a.active { background: var(--admin-secondary); color: var(--admin-accent); }
-  
-  .admin-main { flex: 1; padding: 30px; }
-  .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-  .admin-header h1 { font-size: 24px; color: var(--admin-primary); margin: 0; }
-  .btn-add { background: var(--admin-accent); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; }
-  
-  .posts-table-wrap { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { padding: 15px; text-align: right; border-bottom: 1px solid #eee; }
-  th { background: #fcfcfc; font-weight: 600; color: #777; }
-  tr:hover { background: #f9f9f9; }
-  .btn-edit { color: var(--admin-accent); cursor: pointer; margin-left: 10px; border: none; background: none; }
-  .btn-delete { color: var(--admin-danger); cursor: pointer; border: none; background: none; }
-  
-  /* Modal Styles */
-  .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
-  .modal-content { background: white; padding: 30px; border-radius: 8px; width: 600px; max-width: 90%; max-height: 90vh; overflow-y: auto; }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-  .modal-header h2 { margin: 0; font-size: 18px; }
-  .close-modal { cursor: pointer; font-size: 24px; color: #aaa; }
-  
-  .form-group { margin-bottom: 15px; }
-  .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
-  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; }
-  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
-  .btn-save { background: var(--admin-success); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-  .btn-cancel { background: #ccc; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
 
-  #imagePreview { max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; }
-
-  /* Login Overlay */
-  #adminLoginOverlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #2c3e50;
-    z-index: 2000;
+  .admin-sidebar {
+    width: 250px;
+    background: var(--admin-primary);
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .admin-sidebar-logo {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #c9a96e;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+  .admin-sidebar h2 {
+    font-size: 13px;
+    color: #8a9bb0;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .admin-nav-links { list-style: none; padding: 0; flex: 1; }
+  .admin-nav-links li { margin-bottom: 6px; }
+  .admin-nav-links a {
+    color: #ecf0f1;
+    text-decoration: none;
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: white;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    transition: 0.25s;
+    font-size: 14px;
   }
-  .login-card {
-    background: white;
-    padding: 40px;
-    border-radius: 8px;
-    width: 350px;
-    color: #333;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  .admin-nav-links a:hover, .admin-nav-links a.active { background: var(--admin-secondary); color: #fff; }
+  .admin-nav-links .logout-link { color: #e8a0a0; margin-top: auto; }
+  .admin-nav-links .logout-link:hover { background: rgba(231,76,60,0.18); color: #e74c3c; }
+
+  .admin-main { flex: 1; padding: 30px; overflow: auto; }
+  .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+  .admin-header h1 { font-size: 22px; color: var(--admin-primary); margin: 0; }
+  .admin-header .admin-user { font-size: 13px; color: #999; }
+  .btn-add { background: var(--admin-accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-family: inherit; }
+  .btn-add:hover { background: #2980b9; }
+
+  .posts-table-wrap { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 14px 16px; text-align: right; border-bottom: 1px solid #f0f0f0; font-size: 13.5px; }
+  th { background: #fafafa; font-weight: 600; color: #888; font-size: 12px; letter-spacing: 0.5px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbfc; }
+  .btn-edit { color: var(--admin-accent); cursor: pointer; margin-left: 8px; border: none; background: none; font-size: 13px; font-family: inherit; }
+  .btn-delete { color: var(--admin-danger); cursor: pointer; border: none; background: none; font-size: 13px; font-family: inherit; }
+
+  .cat-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    background: #eef2ff;
+    color: #4a6cf7;
   }
-  .login-card h2 { margin-top: 0; text-align: center; color: var(--admin-primary); }
-  .login-card input {
+
+  /* Modal */
+  .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal-content { background: white; padding: 32px; border-radius: 10px; width: 600px; max-width: 95%; max-height: 92vh; overflow-y: auto; }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
+  .modal-header h2 { margin: 0; font-size: 17px; color: #333; }
+  .close-modal { cursor: pointer; font-size: 22px; color: #bbb; line-height: 1; }
+  .close-modal:hover { color: #555; }
+
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
+  .form-group input, .form-group select, .form-group textarea {
     width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px 12px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13.5px;
+    transition: border-color 0.2s;
   }
-  .btn-login {
-    width: 100%;
-    padding: 12px;
-    background: var(--admin-accent);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--admin-accent);
   }
-  .login-error { color: var(--admin-danger); font-size: 13px; text-align: center; margin-top: 10px; display: none; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+  .btn-save { background: var(--admin-success); color: white; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .btn-cancel { background: #e5e5e5; color: #555; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 14px; }
+
+  #imagePreview { max-width: 100%; height: 150px; object-fit: cover; border-radius: 6px; display: none; margin-top: 10px; }
 </style>
 </head>
-<body style="overflow: hidden;">
+<body>
 
-<div id="adminLoginOverlay">
-  <div class="login-card">
-    <h2>تسجيل دخول المسؤول</h2>
-    <input type="password" id="adminPassword" placeholder="كلمة المرور (admin123)">
-    <button class="btn-login" id="loginBtn">دخول</button>
-    <div class="login-error" id="loginError">كلمة المرور غير صحيحة</div>
-    <div style="text-align: center; margin-top: 20px;">
-      <a href="index.html" style="font-size: 13px; color: #777;">العودة للموقع</a>
-    </div>
-  </div>
-</div>
+<script>
+  /* Auth guard — redirect to login if not authenticated */
+  if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+    location.replace('login.html');
+  }
+</script>
 
 <aside class="admin-sidebar">
+  <div class="admin-sidebar-logo">جاليتُنا</div>
   <h2>لوحة التحكم</h2>
   <ul class="admin-nav-links">
-    <li><a href="#" class="active">المقالات</a></li>
-    <li><a href="index.html">عرض الموقع</a></li>
+    <li><a href="#" class="active">📄 المقالات</a></li>
+    <li><a href="index.html" target="_blank">🌐 عرض الموقع</a></li>
+    <li style="margin-top:auto; padding-top:20px;">
+      <a href="#" id="logout-btn" class="logout-link">🚪 تسجيل الخروج</a>
+    </li>
   </ul>
 </aside>
 
 <main class="admin-main">
   <header class="admin-header">
-    <h1>إدارة المقالات</h1>
+    <div>
+      <h1>إدارة المقالات</h1>
+      <span class="admin-user">مرحباً، المشرف</span>
+    </div>
     <button class="btn-add" id="openAddModal">+ إضافة مقال جديد</button>
   </header>
 
@@ -133,13 +157,12 @@
         </tr>
       </thead>
       <tbody id="postsTableBody">
-        <!-- Posts will be rendered here -->
       </tbody>
     </table>
   </div>
 </main>
 
-<!-- Modal for Add/Edit -->
+<!-- Add / Edit Modal -->
 <div class="modal" id="postModal">
   <div class="modal-content">
     <div class="modal-header">
@@ -156,6 +179,7 @@
         <label>التصنيف</label>
         <select id="postCategoryInput" required>
           <option value="أخبار السفارة">أخبار السفارة</option>
+          <option value="ثقافة وفنون">ثقافة وفنون</option>
           <option value="قصص نجاح">قصص نجاح</option>
           <option value="مطاعم مصرية">مطاعم مصرية</option>
           <option value="إقامة وأوراق">إقامة وأوراق</option>
@@ -172,18 +196,17 @@
         <input type="text" id="postAuthorInput" value="أ.د. وائل نبيل عبد السلام" required>
       </div>
       <div class="form-group">
-        <label>مقتطف (Excerpt)</label>
+        <label>مقتطف</label>
         <textarea id="postExcerptInput" rows="2" required></textarea>
       </div>
       <div class="form-group">
-        <label>المحتوى (Content)</label>
-        <textarea id="postContentInput" rows="5" required></textarea>
+        <label>المحتوى</label>
+        <textarea id="postContentInput" rows="6" required></textarea>
       </div>
       <div class="form-group">
-        <label>صورة المقال</label>
-        <input type="file" id="postImageInput" accept="image/*">
-        <input type="hidden" id="postImageUrl">
-        <img id="imagePreview" src="" alt="Preview">
+        <label>رابط الصورة (URL)</label>
+        <input type="url" id="postImageUrl" placeholder="https://picsum.photos/seed/example/600/420">
+        <img id="imagePreview" src="" alt="معاينة الصورة">
       </div>
       <div class="form-actions">
         <button type="button" class="btn-cancel" id="cancelBtn">إلغاء</button>
@@ -196,5 +219,24 @@
 <script src="src/mockPosts.js"></script>
 <script src="src/adminLogic.js"></script>
 <script src="src/adminUI.js"></script>
+<script>
+  /* Logout */
+  document.getElementById('logout-btn').addEventListener('click', function (e) {
+    e.preventDefault();
+    sessionStorage.removeItem('adminLoggedIn');
+    location.replace('login.html');
+  });
+
+  /* Image URL preview */
+  var imgUrlInput = document.getElementById('postImageUrl');
+  var imgPreview  = document.getElementById('imagePreview');
+  if (imgUrlInput && imgPreview) {
+    imgUrlInput.addEventListener('input', function () {
+      var val = this.value.trim();
+      if (val) { imgPreview.src = val; imgPreview.style.display = 'block'; }
+      else      { imgPreview.style.display = 'none'; }
+    });
+  }
+</script>
 </body>
 </html>
