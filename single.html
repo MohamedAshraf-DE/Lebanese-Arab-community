@@ -3,43 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>افتتاح المعرض الثقافي — جاليتنا</title>
+<title>افتتاح المعرض الثقافي — جاليتُنا</title>
+<meta name="description" content="تغطية افتتاح المعرض الثقافي المصري اللبناني في بيروت.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- Reading Progress -->
+<div id="reading-progress"></div>
+
+<!-- Top Bar -->
 <div class="top-bar">
   <div class="social">
     <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg></a>
     <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg></a>
     <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a>
   </div>
+  <div class="top-bar-right">
+    <span class="top-bar-date">الإثنين، ٢٨ أبريل ٢٠٢٦</span>
+    <button class="dark-toggle" id="dark-toggle" title="تبديل الوضع الليلي">☾</button>
+  </div>
 </div>
 
+<!-- Logo -->
 <header class="main-header">
-  <a href="index.html" class="logo">جاليتُنا</a>
+  <a href="index.html" class="logo">جاليتُنا<span class="dot">.</span></a>
 </header>
 
+<!-- Navigation -->
 <nav class="main-nav">
+  <button class="nav-toggle" id="nav-toggle" aria-label="قائمة التنقل">
+    <span></span><span></span><span></span>
+  </button>
   <ul>
-    <li><a href="index.html" class="">الرئيسية</a></li>
+    <li><a href="index.html">الرئيسية</a></li>
     <li><a href="blog.html" class="active">المقالات</a></li>
-    <li><a href="category.html" class="">التصنيفات</a></li>
-    <li><a href="events.html" class="">الفعاليات</a></li>
-    <li class="has-sub"><a href="#" class="">الصفحات</a>
+    <li><a href="category.html">التصنيفات</a></li>
+    <li><a href="events.html">الفعاليات</a></li>
+    <li class="has-sub"><a href="#">الصفحات</a>
       <ul class="dropdown">
-        <li><a href="index.html">الرئيسية</a></li>
         <li><a href="about.html">من نحن</a></li>
         <li><a href="events.html">الفعاليات</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
         <li><a href="faq.html">الأسئلة الشائعة</a></li>
-        <li><a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a></li>
+        <li><a href="contact.html">تواصل معنا</a></li>
+        <li><a href="admin.html" style="color:var(--accent);">لوحة التحكم</a></li>
       </ul>
     </li>
     <li class="has-sub"><a href="#">استكشف</a>
@@ -47,7 +59,6 @@
         <li><a href="blog.html">أحدث الأخبار</a></li>
         <li><a href="events.html">فعاليات الجالية</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
-        <li><a href="index.html">إعلانات مهمة</a></li>
         <li><a href="single.html?id=1">قصص وتجارب</a></li>
         <li><a href="gallery.html">معرض الصور</a></li>
       </ul>
@@ -55,58 +66,131 @@
   </ul>
 </nav>
 
+<!-- Main -->
 <div class="container">
   <main class="content">
 
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html">الرئيسية</a>
+      <span class="sep">›</span>
+      <a href="blog.html">المقالات</a>
+      <span class="sep">›</span>
+      <span>افتتاح المعرض الثقافي</span>
+    </nav>
+
     <article class="single-article">
-      <h1 class="post-title" style="font-size:32px; margin-bottom:15px;">افتتاح المعرض الثقافي المصري اللبناني</h1>
-      <span class="post-date" style="margin-bottom:30px;">١٢ أكتوبر ٢٠٢٥</span>
-      <div class="post-image">
-        <img src="https://picsum.photos/seed/egypt1/900/520" alt="">
+      <span class="category-badge">ثقافة وفنون</span>
+      <h1 class="post-title" style="font-size:32px; margin-bottom:14px;">افتتاح المعرض الثقافي المصري اللبناني</h1>
+      <div class="post-meta" style="margin-bottom:28px;">
+        <span class="post-date">١٢ أكتوبر ٢٠٢٥</span>
+        <span class="reading-time">٤ دقائق للقراءة</span>
+        <span style="font-size:11px; color:var(--text-mute); letter-spacing:1px;">بقلم: وائل نبيل</span>
       </div>
+
+      <div class="post-image">
+        <img src="https://picsum.photos/seed/egypt1/900/520" alt="المعرض الثقافي" loading="lazy">
+      </div>
+
       <div class="single-content">
         <p>في أجواء احتفالية رائعة، تم افتتاح المعرض الثقافي الذي يجمع بين التراث المصري واللبناني في وسط بيروت. حضر الحدث العديد من أبناء الجالية المصرية بالإضافة إلى شخصيات بارزة، حيث تم عرض مشغولات يدوية، مأكولات تقليدية، وعروض فنية تعكس الترابط العميق بين الشعبين الشقيقين.</p>
+
         <blockquote>الفن والثقافة هما الجسر الأقوى الذي يربط الشعوب، وهذا المعرض هو تجسيد حي للمحبة بين مصر ولبنان.</blockquote>
+
         <p>وقد شارك في المعرض أكثر من ٢٠ فناناً وحرفياً من أبناء الجالية المصرية المقيمين في لبنان، حيث قدموا أعمالاً فنية مستوحاة من التراث الفرعوني والشعبي المصري، إلى جانب لوحات تعبر عن جمال الطبيعة اللبنانية الساحرة.</p>
+
         <div class="text-cols-2">
           <div>
-            <img src="https://picsum.photos/seed/art1/400/300" alt="المعروضات الفنية">
+            <img src="https://picsum.photos/seed/art1/400/300" alt="المعروضات الفنية" loading="lazy">
             <span class="img-caption">جانب من المعروضات الحرفية</span>
           </div>
           <div>
-            <img src="https://picsum.photos/seed/art2/400/300" alt="حضور الجالية">
+            <img src="https://picsum.photos/seed/art2/400/300" alt="حضور الجالية" loading="lazy">
             <span class="img-caption">إقبال كبير من أبناء الجالية</span>
           </div>
         </div>
-        <p>واختتمت الفعالية بأمسية موسيقية شاركت فيها فرقة موسيقية مشتركة قدمت أغاني من التراثين المصري واللبناني، وسط تفاعل كبير من الحضور. نأمل أن تتكرر مثل هذه المبادرات التي تعزز الروابط وتقوي من تواجدنا الإيجابي في المجتمع اللبناني.</p>
+
+        <p>واختتمت الفعالية بأمسية موسيقية شاركت فيها فرقة موسيقية مشتركة قدمت أغاني من التراثين المصري واللبناني، وسط تفاعل كبير من الحضور الذي تجاوز الخمسمائة شخص من الجاليتين. ونأمل أن تتكرر مثل هذه المبادرات التي تعزز الروابط وتقوي من تواجدنا الإيجابي في المجتمع اللبناني الحبيب.</p>
       </div>
-      
+
+      <!-- Social Share -->
+      <div class="share-section">
+        <p class="share-label">شارك هذا المقال</p>
+        <div class="share-buttons">
+          <button class="share-btn" data-share="facebook">📘 فيسبوك</button>
+          <button class="share-btn" data-share="twitter">🐦 تويتر</button>
+          <button class="share-btn" data-share="whatsapp">💬 واتساب</button>
+          <button class="share-btn" data-share="copy">🔗 نسخ الرابط</button>
+        </div>
+      </div>
+
+      <!-- Author Box -->
       <div class="author-box">
         <img src="Wael.png" alt="أ.د. وائل نبيل عبد السلام">
         <div class="author-box-info">
-          <h4>وائل نبيل</h4>
+          <h4>أ.د. وائل نبيل عبد السلام</h4>
           <p>كاتب وصحفي مهتم بتغطية أخبار ونشاطات الجالية المصرية في لبنان. يسعى دائماً لتسليط الضوء على الإيجابيات وقصص النجاح الملهمة للمصريين في بلاد الأرز.</p>
         </div>
       </div>
+
     </article>
 
+    <!-- Related Posts -->
+    <div class="related-posts reveal">
+      <div class="section-divider"><span>مقالات ذات صلة</span></div>
+      <div class="related-grid">
+
+        <article class="post related-post">
+          <div class="post-image"><img src="https://picsum.photos/seed/rel1/400/260" alt="" loading="lazy"></div>
+          <span class="category-badge">فعاليات وتجمعات</span>
+          <h3 class="post-title">فعالية "يوم في حب مصر" الثقافية</h3>
+          <div class="post-meta">
+            <span class="post-date">١٥ سبتمبر ٢٠٢٥</span>
+          </div>
+          <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
+        </article>
+
+        <article class="post related-post">
+          <div class="post-image"><img src="https://picsum.photos/seed/rel2/400/260" alt="" loading="lazy"></div>
+          <span class="category-badge">قصص نجاح</span>
+          <h3 class="post-title">قصة نجاح طالب مصري في الجامعة اللبنانية</h3>
+          <div class="post-meta">
+            <span class="post-date">٢٨ سبتمبر ٢٠٢٥</span>
+          </div>
+          <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
+        </article>
+
+        <article class="post related-post">
+          <div class="post-image"><img src="https://picsum.photos/seed/rel3/400/260" alt="" loading="lazy"></div>
+          <span class="category-badge">مطاعم مصرية</span>
+          <h3 class="post-title">أين تجد الكشري الأصيل في لبنان؟</h3>
+          <div class="post-meta">
+            <span class="post-date">٠٥ أكتوبر ٢٠٢٥</span>
+          </div>
+          <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
+        </article>
+
+      </div>
+    </div>
+
   </main>
+
   <aside class="sidebar">
 
-    <div class="widget widget-about">
+    <div class="widget widget-about reveal">
       <h3 class="widget-title">عن المدوّنة</h3>
       <img src="Wael.png" alt="أ.د. وائل نبيل عبد السلام">
       <p>أهلًا بكم في «جاليتُنا»، فضاءٌ يجمع أبناء الجالية المصرية في لبنان. نروي قصصًا، نُشارك تجارب، ونحتفي بكلّ ما يصنع منّا عائلة واحدة في وطننا الثاني.</p>
       <div class="signature">أ.د. وائل نبيل عبد السلام</div>
     </div>
 
-    <div class="widget widget-subscribe">
+    <div class="widget widget-subscribe reveal">
       <h3 class="widget-title">اشترك في النشرة</h3>
       <input type="email" placeholder="بريدك الإلكتروني">
       <button>اشترك الآن</button>
     </div>
 
-    <div class="widget widget-social">
+    <div class="widget widget-social reveal">
       <h3 class="widget-title">تابعنا على</h3>
       <div class="social-icons">
         <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg></a>
@@ -115,46 +199,44 @@
       </div>
     </div>
 
-    <div class="widget widget-banner">
-      <img src="https://picsum.photos/seed/bannerad2/400/300" alt="">
+    <div class="widget widget-banner reveal">
+      <img src="https://picsum.photos/seed/bannerad2/400/300" alt="إعلان">
       <div class="banner-text">
         <strong>إعلانك هنا</strong>
         <span>٣٠٠ × ٢٥٠</span>
       </div>
     </div>
 
-    <div class="widget widget-categories">
+    <div class="widget widget-categories reveal">
       <h3 class="widget-title">التصنيفات</h3>
       <ul>
-        <li><a href="category.html">أخبار السفارة</a></li>
-        <li><a href="category.html">ثقافة وفنون</a></li>
-        <li><a href="services.html">إقامة وأوراق</a></li>
-        <li><a href="category.html">عمل وفرص</a></li>
-        <li><a href="category.html">مطاعم مصرية</a></li>
-        <li><a href="category.html">قصص نجاح</a></li>
-        <li><a href="events.html">فعاليات وتجمعات</a></li>
+        <li><a href="category.html">أخبار السفارة</a><span class="cat-count">١٢</span></li>
+        <li><a href="category.html">ثقافة وفنون</a><span class="cat-count">٨</span></li>
+        <li><a href="services.html">إقامة وأوراق</a><span class="cat-count">١٥</span></li>
+        <li><a href="category.html">عمل وفرص</a><span class="cat-count">٧</span></li>
+        <li><a href="category.html">مطاعم مصرية</a><span class="cat-count">١٠</span></li>
+        <li><a href="category.html">قصص نجاح</a><span class="cat-count">٦</span></li>
+        <li><a href="events.html">فعاليات وتجمعات</a><span class="cat-count">٩</span></li>
       </ul>
     </div>
 
   </aside>
 </div>
 
+<!-- Footer -->
 <footer>
   <div class="footer-inner">
-
     <div class="footer-col">
       <a href="index.html" class="footer-logo">جاليتُنا</a>
-      <p style="color:#888; font-size:13.5px; margin-top:15px; line-height:1.8;">
-        المنصة الأولى للجالية المصرية في لبنان. أخبار، خدمات، تغطيات حصرية وتجارب ملهمة من قلب بيروت إلى كل مدينة لبنانية.
+      <p style="color:#888; font-size:13px; margin-top:14px; line-height:1.9;">
+        المنصة الأولى للجالية المصرية في لبنان. أخبار، خدمات، تغطيات حصرية وتجارب ملهمة.
       </p>
     </div>
-
     <div class="footer-col">
       <h4>اشترك في النشرة</h4>
       <input type="email" placeholder="بريدك الإلكتروني">
       <button>اشترك الآن</button>
     </div>
-
     <div class="footer-col">
       <h4>أحدث المقالات</h4>
       <div class="footer-post">
@@ -170,7 +252,6 @@
         <span class="date">٢٨ سبتمبر ٢٠٢٥</span>
       </div>
     </div>
-
     <div class="footer-col">
       <h4>المقالات الأكثر قراءة</h4>
       <div class="footer-post">
@@ -186,22 +267,24 @@
         <span class="date">٠١ أبريل ٢٠٢٥</span>
       </div>
     </div>
-
   </div>
-
   <div class="footer-bottom">
-    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٥</div>
+    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٦</div>
     <nav class="footer-nav">
       <a href="index.html">الرئيسية</a>
       <a href="services.html">دليل الخدمات</a>
       <a href="about.html">من نحن</a>
       <a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a>
+      <a href="admin.html" style="color:var(--accent);">لوحة التحكم</a>
     </nav>
   </div>
 </footer>
+
+<button id="back-to-top" title="العودة للأعلى">↑</button>
+
 <script src="src/mockPosts.js"></script>
 <script src="src/blogLogic.js"></script>
 <script src="src/ui.js"></script>
+<script src="src/site.js"></script>
 </body>
 </html>

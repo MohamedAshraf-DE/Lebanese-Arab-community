@@ -19,27 +19,33 @@
     <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg></a>
     <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a>
   </div>
+  <div class="top-bar-right">
+    <span class="top-bar-date">الإثنين، ٢٨ أبريل ٢٠٢٦</span>
+    <button class="dark-toggle" id="dark-toggle" title="تبديل الوضع الليلي">☾</button>
+  </div>
 </div>
 
 <header class="main-header">
-  <a href="index.html" class="logo">جاليتُنا</a>
+  <a href="index.html" class="logo">جاليتُنا<span class="dot">.</span></a>
 </header>
 
 <nav class="main-nav">
+  <button class="nav-toggle" id="nav-toggle" aria-label="قائمة التنقل">
+    <span></span><span></span><span></span>
+  </button>
   <ul>
-    <li><a href="index.html" class="">الرئيسية</a></li>
-    <li><a href="blog.html" class="">المقالات</a></li>
-    <li><a href="category.html" class="">التصنيفات</a></li>
-    <li><a href="events.html" class="">الفعاليات</a></li>
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="blog.html">المقالات</a></li>
+    <li><a href="category.html">التصنيفات</a></li>
+    <li><a href="events.html">الفعاليات</a></li>
     <li class="has-sub"><a href="#" class="active">الصفحات</a>
       <ul class="dropdown">
-        <li><a href="index.html">الرئيسية</a></li>
         <li><a href="about.html">من نحن</a></li>
         <li><a href="events.html">الفعاليات</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
         <li><a href="faq.html">الأسئلة الشائعة</a></li>
-        <li><a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a></li>
+        <li><a href="contact.html">تواصل معنا</a></li>
+        <li><a href="admin.html" style="color:var(--accent);">لوحة التحكم</a></li>
       </ul>
     </li>
     <li class="has-sub"><a href="#">استكشف</a>
@@ -47,7 +53,6 @@
         <li><a href="blog.html">أحدث الأخبار</a></li>
         <li><a href="events.html">فعاليات الجالية</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
-        <li><a href="index.html">إعلانات مهمة</a></li>
         <li><a href="single.html?id=1">قصص وتجارب</a></li>
         <li><a href="gallery.html">معرض الصور</a></li>
       </ul>
@@ -65,13 +70,38 @@
 <div class="container">
   <main class="content">
 
+    <nav class="breadcrumb">
+      <a href="index.html">الرئيسية</a>
+      <span class="sep">›</span>
+      <span>من نحن</span>
+    </nav>
+
     <div class="about-quote">
       "نؤمن بأن الغربة ليست ابتعاداً عن الوطن، بل هي فرصة لبناء مجتمع متماسك يرفع اسم مصر عالياً في وطننا الثاني لبنان."
     </div>
+
+    <div class="team-values">
+      <div class="value-card reveal">
+        <div class="value-icon">🤝</div>
+        <h3 class="value-title">المجتمع أولاً</h3>
+        <p class="value-text">نضع مصلحة الجالية في صميم كل قرار نتخذه ومحتوى ننشره.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">📰</div>
+        <h3 class="value-title">الصدق والمهنية</h3>
+        <p class="value-text">نلتزم بالدقة والموضوعية في كل تغطية إخبارية وتقرير نقدمه.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon">🌉</div>
+        <h3 class="value-title">جسر الثقافات</h3>
+        <p class="value-text">نعزز الحوار والتبادل الثقافي بين المصريين واللبنانيين.</p>
+      </div>
+    </div>
+
     <div class="about-content">
       <p>أهلًا بكم في «جاليتُنا»، المنصة الرقمية الأولى المخصصة لأبناء الجالية المصرية في لبنان. انطلقنا من حاجة حقيقية لوجود فضاء يجمعنا، ينقل همومنا، ويحتفي بنجاحاتنا المشتركة.</p>
-      <p>تأسست المدونة على يد <strong>وائل نبيل</strong> ومجموعة من المتطوعين، بهدف توفير دليل شامل للمصريين المقيمين في لبنان، بدءاً من المعاملات الرسمية وأخبار السفارة، وصولاً إلى الفعاليات الثقافية والاجتماعية التي تذكرنا بأجواء بلدنا الحبيب.</p>
-      <img src="https://picsum.photos/seed/egyptteam/900/400" alt="تجمع الجالية" style="margin-bottom:15px;">
+      <p>تأسست المدونة على يد <strong>أ.د. وائل نبيل عبد السلام</strong> ومجموعة من المتطوعين عام ٢٠١٨، بهدف توفير دليل شامل للمصريين المقيمين في لبنان، بدءاً من المعاملات الرسمية وأخبار السفارة، وصولاً إلى الفعاليات الثقافية والاجتماعية التي تذكرنا بأجواء بلدنا الحبيب.</p>
+      <img src="https://picsum.photos/seed/egyptteam/900/400" alt="تجمع الجالية" style="margin-bottom:15px;" loading="lazy">
       <span class="img-caption">إحدى التجمعات الكبيرة لأبناء الجالية المصرية في بيروت</span>
       <p>فريقنا يعمل باستمرار لتقديم محتوى دقيق ومفيد، لنكون همزة الوصل بين أبناء الجالية، وجسراً يعزز المحبة والتآخي بين الشعبين المصري واللبناني. ندعوكم دائماً للمشاركة بآرائكم وتجاربكم لنكبر معاً كعائلة واحدة.</p>
     </div>
@@ -176,15 +206,18 @@
   </div>
 
   <div class="footer-bottom">
-    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٥</div>
+    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٦</div>
     <nav class="footer-nav">
       <a href="index.html">الرئيسية</a>
       <a href="services.html">دليل الخدمات</a>
       <a href="about.html">من نحن</a>
       <a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a>
+      <a href="admin.html" style="color:var(--accent);">لوحة التحكم</a>
     </nav>
   </div>
 </footer>
+
+<button id="back-to-top" title="العودة للأعلى">↑</button>
+<script src="src/site.js"></script>
 </body>
 </html>
