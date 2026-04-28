@@ -94,7 +94,7 @@ function initBlogUI() {
       results.items.forEach(post => {
         postsGrid.innerHTML += `
           <article class="post">
-            <div class="post-image"><img src="${post.image}" alt="${post.title}"></div>
+            <div class="post-image"><img src="${post.image}" alt="${post.alt || post.title}"></div>
             <h3 class="post-title">${post.title}</h3>
             <span class="post-date">${post.date} - ${post.author}</span>
             <span style="display:inline-block; margin-right:10px; background:#eee; padding:2px 8px; border-radius:12px; font-size:12px;">${post.category}</span>
@@ -179,10 +179,10 @@ function initSinglePostUI() {
     <h1 class="post-title" style="font-size:32px; margin-bottom:15px;">${post.title}</h1>
     <span class="post-date" style="margin-bottom:30px;">${post.date} - ${post.category}</span>
     <div class="post-image">
-      <img src="${post.image}" alt="${post.title}">
+      <img src="${post.image}" alt="${post.alt || post.title}">
     </div>
     <div class="single-content">
-      <p>${post.content}</p>
+      ${post.content.split('\n\n').map(para => `<p style="margin-bottom: 20px; line-height: 1.8;">${para}</p>`).join('')}
     </div>
     
     <div class="author-box">
