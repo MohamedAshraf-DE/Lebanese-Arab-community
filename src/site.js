@@ -67,7 +67,17 @@
 
   /* ---- Breaking News Ticker ---- */
   var track = document.querySelector('.ticker-track');
-  if (track) { track.innerHTML += track.innerHTML; }
+  if (track) {
+    /* Duplicate items so the scroll loops seamlessly */
+    var items = track.querySelectorAll('.ticker-item');
+    items.forEach(function (item) {
+      track.appendChild(item.cloneNode(true));
+    });
+    /* Recalculate animation duration based on total width for consistent speed */
+    var totalWidth = track.scrollWidth;
+    var speed = Math.max(20, totalWidth / 60); /* ~60px per second */
+    track.style.animationDuration = speed + 's';
+  }
 
   /* ---- Toast ---- */
   function showToast(msg) {

@@ -773,6 +773,7 @@ body.dark-mode .form-control { background: #262626; color: var(--text); border-c
   background: var(--accent);
   overflow: hidden;
   line-height: 1;
+  direction: ltr; /* force LTR so flex + animation work correctly regardless of page dir */
 }
 .breaking-news-inner {
   display: flex;
@@ -789,24 +790,29 @@ body.dark-mode .form-control { background: #262626; color: var(--text); border-c
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  direction: rtl; /* keep Arabic label readable */
 }
 .breaking-ticker {
   flex: 1;
   overflow: hidden;
   padding: 10px 0;
+  direction: ltr;
 }
 .ticker-track {
   display: flex;
+  flex-wrap: nowrap;
   animation: scroll-ticker 35s linear infinite;
-  width: max-content;
+  will-change: transform;
 }
 .ticker-track:hover { animation-play-state: paused; }
 .ticker-item {
   white-space: nowrap;
   color: #fff;
   font-size: 12px;
-  padding-left: 80px;
+  padding-right: 80px; /* RTL-safe spacing between items */
   letter-spacing: .5px;
+  direction: rtl; /* keep Arabic text readable */
+  unicode-bidi: embed;
 }
 @keyframes scroll-ticker {
   0%   { transform: translateX(0); }
