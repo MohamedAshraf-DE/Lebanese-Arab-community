@@ -1,6 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
 
+  // Initialize posts in storage if not already there
+  if (window.adminLogic && window.mockPosts) {
+    const storedPosts = window.adminLogic.getPostsFromStorage();
+    if (storedPosts.length === 0) {
+      window.adminLogic.savePostsToStorage(window.mockPosts);
+    }
+  }
+
+  // Helper to get current posts
+  window.getCurrentPosts = () => {
+    return (window.adminLogic) ? window.adminLogic.getPostsFromStorage(window.mockPosts) : window.mockPosts;
+  };
+
   // -- 1. Blog & Category Pages --
   if (path.includes('blog.html') || path.includes('category.html') || path.endsWith('/') || path.endsWith('index.html')) {
     initBlogUI();
@@ -68,7 +81,7 @@ function initBlogUI() {
     const category = categorySelect.value;
     const sort = sortSelect.value;
 
-    const results = window.blogLogic.getBlogResults(window.mockPosts, {
+    const results = window.blogLogic.getBlogResults(window.getCurrentPosts(), {
       query, category, sort, page: currentPage, pageSize
     });
 
@@ -154,7 +167,7 @@ function initSinglePostUI() {
     return;
   }
 
-  const post = window.blogLogic.getPostById(window.mockPosts, postId);
+  const post = window.blogLogic.getPostById(window.getCurrentPosts(), postId);
   
   if (!post) {
     showSinglePostError('عذراً، هذا المقال غير موجود أو تم حذفه.');

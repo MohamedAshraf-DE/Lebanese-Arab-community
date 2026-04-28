@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم — أ.د. وائل نبيل عبد السلام</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root {
+    --admin-primary: #2c3e50;
+    --admin-secondary: #34495e;
+    --admin-accent: #3498db;
+    --admin-success: #27ae60;
+    --admin-danger: #e74c3c;
+  }
+  body { font-family: 'Tajawal', sans-serif; background: #f4f7f6; margin: 0; display: flex; }
+  .admin-sidebar { width: 250px; background: var(--admin-primary); color: white; min-height: 100vh; padding: 20px; }
+  .admin-sidebar h2 { font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; text-align: center; }
+  .admin-nav-links { list-style: none; padding: 0; }
+  .admin-nav-links li { margin-bottom: 10px; }
+  .admin-nav-links a { color: #ecf0f1; text-decoration: none; display: block; padding: 10px; border-radius: 4px; transition: 0.3s; }
+  .admin-nav-links a:hover, .admin-nav-links a.active { background: var(--admin-secondary); color: var(--admin-accent); }
+  
+  .admin-main { flex: 1; padding: 30px; }
+  .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+  .admin-header h1 { font-size: 24px; color: var(--admin-primary); margin: 0; }
+  .btn-add { background: var(--admin-accent); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+  
+  .posts-table-wrap { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 15px; text-align: right; border-bottom: 1px solid #eee; }
+  th { background: #fcfcfc; font-weight: 600; color: #777; }
+  tr:hover { background: #f9f9f9; }
+  .btn-edit { color: var(--admin-accent); cursor: pointer; margin-left: 10px; border: none; background: none; }
+  .btn-delete { color: var(--admin-danger); cursor: pointer; border: none; background: none; }
+  
+  /* Modal Styles */
+  .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+  .modal-content { background: white; padding: 30px; border-radius: 8px; width: 600px; max-width: 90%; max-height: 90vh; overflow-y: auto; }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+  .modal-header h2 { margin: 0; font-size: 18px; }
+  .close-modal { cursor: pointer; font-size: 24px; color: #aaa; }
+  
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+  .btn-save { background: var(--admin-success); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  .btn-cancel { background: #ccc; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+
+  #imagePreview { max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<aside class="admin-sidebar">
+  <h2>لوحة التحكم</h2>
+  <ul class="admin-nav-links">
+    <li><a href="#" class="active">المقالات</a></li>
+    <li><a href="index.html">عرض الموقع</a></li>
+  </ul>
+</aside>
+
+<main class="admin-main">
+  <header class="admin-header">
+    <h1>إدارة المقالات</h1>
+    <button class="btn-add" id="openAddModal">+ إضافة مقال جديد</button>
+  </header>
+
+  <div class="posts-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>العنوان</th>
+          <th>التصنيف</th>
+          <th>التاريخ</th>
+          <th>الكاتب</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody id="postsTableBody">
+        <!-- Posts will be rendered here -->
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<!-- Modal for Add/Edit -->
+<div class="modal" id="postModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle">إضافة مقال جديد</h2>
+      <span class="close-modal" id="closeModal">&times;</span>
+    </div>
+    <form id="postForm">
+      <input type="hidden" id="postId">
+      <div class="form-group">
+        <label>عنوان المقال</label>
+        <input type="text" id="postTitleInput" required>
+      </div>
+      <div class="form-group">
+        <label>التصنيف</label>
+        <select id="postCategoryInput" required>
+          <option value="أخبار السفارة">أخبار السفارة</option>
+          <option value="قصص نجاح">قصص نجاح</option>
+          <option value="مطاعم مصرية">مطاعم مصرية</option>
+          <option value="إقامة وأوراق">إقامة وأوراق</option>
+          <option value="فعاليات وتجمعات">فعاليات وتجمعات</option>
+          <option value="عمل وفرص">عمل وفرص</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>تاريخ النشر</label>
+        <input type="date" id="postDateInput" required>
+      </div>
+      <div class="form-group">
+        <label>الكاتب</label>
+        <input type="text" id="postAuthorInput" value="أ.د. وائل نبيل عبد السلام" required>
+      </div>
+      <div class="form-group">
+        <label>مقتطف (Excerpt)</label>
+        <textarea id="postExcerptInput" rows="2" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>المحتوى (Content)</label>
+        <textarea id="postContentInput" rows="5" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>صورة المقال</label>
+        <input type="file" id="postImageInput" accept="image/*">
+        <input type="hidden" id="postImageUrl">
+        <img id="imagePreview" src="" alt="Preview">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" id="cancelBtn">إلغاء</button>
+        <button type="submit" class="btn-save">حفظ المقال</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="src/mockPosts.js"></script>
+<script src="src/adminLogic.js"></script>
+<script src="src/adminUI.js"></script>
+</body>
+</html>
