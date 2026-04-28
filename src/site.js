@@ -134,39 +134,9 @@
     });
   });
 
-  /* ---- Category Filter Chips ---- */
-  var chips = document.querySelectorAll('.filter-chip');
-  var blogPosts = document.querySelectorAll('.posts-grid .post');
-  
-  chips.forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      chips.forEach(function (c) { c.classList.remove('active'); });
-      this.classList.add('active');
-      
-      var selectedCat = this.textContent.trim();
-      blogPosts.forEach(function (card) {
-        var cardCat = card.querySelector('.category-badge').textContent.trim();
-        if (selectedCat === 'الكل' || cardCat === selectedCat) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  });
+  /* Category Filter Chips logic moved to ui.js for dynamic compatibility */
 
-  /* ---- Live Search on Blog Page ---- */
-  var searchInput = document.getElementById('live-search');
-  var postCards = document.querySelectorAll('.posts-grid .post');
-  if (searchInput && postCards.length) {
-    searchInput.addEventListener('input', function () {
-      var q = this.value.trim().toLowerCase();
-      postCards.forEach(function (card) {
-        var text = card.textContent.toLowerCase();
-        card.style.display = (!q || text.includes(q)) ? '' : 'none';
-      });
-    });
-  }
+  /* Live search logic moved to ui.js for dynamic compatibility */
 
   /* ---- Stagger reveal delay on grid items ---- */
   document.querySelectorAll('.posts-grid .post.reveal').forEach(function (el, i) {

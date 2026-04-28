@@ -35,51 +35,62 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 function initBlogUI() {
   const postsGrid = document.querySelector('.posts-grid');
-  if (!postsGrid) return; // Only run if we have a grid to render to
+  if (!postsGrid) return; 
   
-  // Create search/filter UI
-  const filterContainer = document.createElement('div');
-  filterContainer.className = 'blog-filters';
-  filterContainer.style.marginBottom = '30px';
-  filterContainer.style.display = 'flex';
-  filterContainer.style.gap = '15px';
-  filterContainer.style.flexWrap = 'wrap';
-
-  filterContainer.innerHTML = `
-    <input type="text" id="searchInput" placeholder="ابحث عن مقال، كاتب، أو موضوع..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:4px;">
-    <select id="categorySelect" style="padding:10px; border:1px solid #ddd; border-radius:4px;">
-      <option value="all">كل التصنيفات</option>
-      <option value="أخبار السفارة">أخبار السفارة</option>
-      <option value="قصص نجاح">قصص نجاح</option>
-      <option value="مطاعم مصرية">مطاعم مصرية</option>
-      <option value="إقامة وأوراق">إقامة وأوراق</option>
-      <option value="فعاليات وتجمعات">فعاليات وتجمعات</option>
-      <option value="عمل وفرص">عمل وفرص</option>
-    </select>
-    <select id="sortSelect" style="padding:10px; border:1px solid #ddd; border-radius:4px;">
-      <option value="newest">الأحدث أولاً</option>
-      <option value="oldest">الأقدم أولاً</option>
-    </select>
-  `;
-
-  // Insert above posts grid
-  postsGrid.parentNode.insertBefore(filterContainer, postsGrid);
-
-  const searchInput = document.getElementById('searchInput');
-  const categorySelect = document.getElementById('categorySelect');
-  const sortSelect = document.getElementById('sortSelect');
-  const paginationContainer = document.querySelector('.pagination') || createPaginationContainer(postsGrid);
-
-  // Pre-fill category if on category.html and we have a specific one in mind
-  // For demo, we just rely on the select box.
-
+  // Use existing UI elements if present, otherwise inject fallback
+  let searchInput = document.getElementById('live-search') || document.getElementById('searchInput');
+  let categorySelect = document.getElementById('categorySelect'); // May be null if using chips
+  let sortSelect = document.getElementById('sortSelect');
+  const chips = document.querySelectorAll('.filter-chip');
+  
+  let currentCategory = 'all';
   let currentPage = 1;
   const pageSize = 6;
 
+  // If chips exist, bind them
+  if (chips.length > 0) {
+    chips.forEach(chip => {
+      chip.addEventListener('click', function() {
+        chips.forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        
+        const catText = this.textContent.trim();
+        currentCategory = (catText === 'الكل') ? 'all' : catText;
+        currentPage = 1;
+        render();
+      });
+    });
+  }
+
+  // Inject only what is missing
+  if (!searchInput || !sortSelect) {
+    const filterContainer = document.createElement('div');
+    filterContainer.className = 'blog-filters-injected';
+    filterContainer.style.marginBottom = '20px';
+    filterContainer.style.display = 'flex';
+    filterContainer.style.gap = '10px';
+    
+    let html = '';
+    if (!searchInput) html += `<input type="text" id="searchInput" placeholder="ابحث في المقالات..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:4px;">`;
+    if (!sortSelect) html += `
+      <select id="sortSelect" style="padding:10px; border:1px solid #ddd; border-radius:4px;">
+        <option value="newest">الأحدث أولاً</option>
+        <option value="oldest">الأقدم أولاً</option>
+      </select>`;
+    
+    filterContainer.innerHTML = html;
+    postsGrid.parentNode.insertBefore(filterContainer, postsGrid);
+    
+    if (!searchInput) searchInput = document.getElementById('searchInput');
+    if (!sortSelect) sortSelect = document.getElementById('sortSelect');
+  }
+
+  const paginationContainer = document.querySelector('.pagination') || createPaginationContainer(postsGrid);
+
   function render() {
-    const query = searchInput.value;
-    const category = categorySelect.value;
-    const sort = sortSelect.value;
+    const query = searchInput ? searchInput.value : '';
+    const category = categorySelect ? categorySelect.value : currentCategory;
+    const sort = sortSelect ? sortSelect.value : 'newest';
 
     const results = window.blogLogic.getBlogResults(window.getCurrentPosts(), {
       query, category, sort, page: currentPage, pageSize
@@ -92,20 +103,24 @@ function initBlogUI() {
       postsGrid.innerHTML = '<div style="width:100%; text-align:center; padding:40px; color:#666;">عذراً، لا توجد مقالات تطابق بحثك.</div>';
     } else {
       results.items.forEach(post => {
-        postsGrid.innerHTML += `
-          <article class="post">
-            <div class="post-image"><img src="${post.image}" alt="${post.alt || post.title}"></div>
-            <h3 class="post-title">${post.title}</h3>
-            <span class="post-date">${post.date} - ${post.author}</span>
-            <span style="display:inline-block; margin-right:10px; background:#eee; padding:2px 8px; border-radius:12px; font-size:12px;">${post.category}</span>
+        const article = document.createElement('article');
+        article.className = 'post reveal in-view'; // Add in-view directly since we're rendering dynamically
+        article.innerHTML = `
+          <div class="post-image"><img src="${post.image}" alt="${post.alt || post.title}"></div>
+          <div class="post-content-wrap" style="padding:20px;">
+            <span class="category-badge">${post.category}</span>
+            <h3 class="post-title" style="margin-top:10px;">${post.title}</h3>
+            <div class="post-meta" style="font-size:12px; color:#888; margin-bottom:10px;">
+              <span>${post.date}</span> • <span>${post.author}</span>
+            </div>
             <p class="post-excerpt">${post.excerpt}</p>
             <a href="single.html?id=${post.id}" class="read-more">اقرأ المزيد ←</a>
-          </article>
+          </div>
         `;
+        postsGrid.appendChild(article);
       });
     }
 
-    // Render Pagination
     renderPagination(paginationContainer, results);
   }
 
@@ -115,33 +130,32 @@ function initBlogUI() {
       return;
     }
     container.style.display = 'block';
+    container.style.textAlign = 'center';
+    container.style.marginTop = '30px';
     container.innerHTML = '';
     
     for (let i = 1; i <= results.totalPages; i++) {
       if (i === results.currentPage) {
-        container.innerHTML += `<span class="current">${i}</span>`;
+        container.innerHTML += `<span class="current" style="background:var(--accent); color:white; padding:5px 12px; border-radius:4px; margin:0 3px;">${i}</span>`;
       } else {
-        container.innerHTML += `<a href="#" data-page="${i}">${i}</a>`;
+        container.innerHTML += `<a href="#" data-page="${i}" style="padding:5px 12px; border:1px solid #ddd; border-radius:4px; margin:0 3px; color:var(--text); text-decoration:none;">${i}</a>`;
       }
     }
 
-    // Attach events
     container.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         currentPage = parseInt(e.target.getAttribute('data-page'));
         render();
-        window.scrollTo(0, filterContainer.offsetTop - 20);
+        window.scrollTo(0, postsGrid.offsetTop - 100);
       });
     });
   }
 
-  // Event Listeners
-  searchInput.addEventListener('input', () => { currentPage = 1; render(); });
-  categorySelect.addEventListener('change', () => { currentPage = 1; render(); });
-  sortSelect.addEventListener('change', () => { currentPage = 1; render(); });
+  if (searchInput) searchInput.addEventListener('input', () => { currentPage = 1; render(); });
+  if (categorySelect) categorySelect.addEventListener('change', () => { currentPage = 1; render(); });
+  if (sortSelect) sortSelect.addEventListener('change', () => { currentPage = 1; render(); });
 
-  // Initial render
   render();
 }
 
