@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>افتتاح المعرض الثقافي — جاليتُنا</title>
-<meta name="description" content="تغطية افتتاح المعرض الثقافي المصري اللبناني في بيروت.">
+<title>مقال — جاليتُنا</title>
+<meta name="description" content="">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
     <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a>
   </div>
   <div class="top-bar-right">
-    <span class="top-bar-date">الإثنين، ٢٨ أبريل ٢٠٢٦</span>
+    <span class="top-bar-date" id="top-bar-date"></span>
     <button class="dark-toggle" id="dark-toggle" title="تبديل الوضع الليلي">☾</button>
   </div>
 </div>
@@ -76,101 +76,18 @@
       <span class="sep">›</span>
       <a href="blog.html">المقالات</a>
       <span class="sep">›</span>
-      <span>افتتاح المعرض الثقافي</span>
+      <span id="breadcrumb-title">...</span>
     </nav>
 
-    <article class="single-article">
-      <span class="category-badge">ثقافة وفنون</span>
-      <h1 class="post-title" style="font-size:32px; margin-bottom:14px;">افتتاح المعرض الثقافي المصري اللبناني</h1>
-      <div class="post-meta" style="margin-bottom:28px;">
-        <span class="post-date">١٢ أكتوبر ٢٠٢٥</span>
-        <span class="reading-time">٤ دقائق للقراءة</span>
-        <span style="font-size:11px; color:var(--text-mute); letter-spacing:1px;">بقلم: وائل نبيل</span>
-      </div>
-
-      <div class="post-image">
-        <img src="https://picsum.photos/seed/egypt1/900/520" alt="المعرض الثقافي" loading="lazy">
-      </div>
-
-      <div class="single-content">
-        <p>في أجواء احتفالية رائعة، تم افتتاح المعرض الثقافي الذي يجمع بين التراث المصري واللبناني في وسط بيروت. حضر الحدث العديد من أبناء الجالية المصرية بالإضافة إلى شخصيات بارزة، حيث تم عرض مشغولات يدوية، مأكولات تقليدية، وعروض فنية تعكس الترابط العميق بين الشعبين الشقيقين.</p>
-
-        <blockquote>الفن والثقافة هما الجسر الأقوى الذي يربط الشعوب، وهذا المعرض هو تجسيد حي للمحبة بين مصر ولبنان.</blockquote>
-
-        <p>وقد شارك في المعرض أكثر من ٢٠ فناناً وحرفياً من أبناء الجالية المصرية المقيمين في لبنان، حيث قدموا أعمالاً فنية مستوحاة من التراث الفرعوني والشعبي المصري، إلى جانب لوحات تعبر عن جمال الطبيعة اللبنانية الساحرة.</p>
-
-        <div class="text-cols-2">
-          <div>
-            <img src="https://picsum.photos/seed/art1/400/300" alt="المعروضات الفنية" loading="lazy">
-            <span class="img-caption">جانب من المعروضات الحرفية</span>
-          </div>
-          <div>
-            <img src="https://picsum.photos/seed/art2/400/300" alt="حضور الجالية" loading="lazy">
-            <span class="img-caption">إقبال كبير من أبناء الجالية</span>
-          </div>
-        </div>
-
-        <p>واختتمت الفعالية بأمسية موسيقية شاركت فيها فرقة موسيقية مشتركة قدمت أغاني من التراثين المصري واللبناني، وسط تفاعل كبير من الحضور الذي تجاوز الخمسمائة شخص من الجاليتين. ونأمل أن تتكرر مثل هذه المبادرات التي تعزز الروابط وتقوي من تواجدنا الإيجابي في المجتمع اللبناني الحبيب.</p>
-      </div>
-
-      <!-- Social Share -->
-      <div class="share-section">
-        <p class="share-label">شارك هذا المقال</p>
-        <div class="share-buttons">
-          <button class="share-btn" data-share="facebook">📘 فيسبوك</button>
-          <button class="share-btn" data-share="twitter">🐦 تويتر</button>
-          <button class="share-btn" data-share="whatsapp">💬 واتساب</button>
-          <button class="share-btn" data-share="copy">🔗 نسخ الرابط</button>
-        </div>
-      </div>
-
-      <!-- Author Box -->
-      <div class="author-box">
-        <img src="Wael.png" alt="أ.د. وائل نبيل عبد السلام">
-        <div class="author-box-info">
-          <h4>أ.د. وائل نبيل عبد السلام</h4>
-          <p>كاتب وصحفي مهتم بتغطية أخبار ونشاطات الجالية المصرية في لبنان. يسعى دائماً لتسليط الضوء على الإيجابيات وقصص النجاح الملهمة للمصريين في بلاد الأرز.</p>
-        </div>
-      </div>
-
+    <!-- Article (populated by JS) -->
+    <article class="single-article" id="single-article">
+      <div style="text-align:center; padding:80px 0; color:var(--text-mute);">جاري تحميل المقال...</div>
     </article>
 
-    <!-- Related Posts -->
-    <div class="related-posts reveal">
+    <!-- Related Posts (populated by JS) -->
+    <div class="related-posts reveal" id="related-section" style="display:none">
       <div class="section-divider"><span>مقالات ذات صلة</span></div>
-      <div class="related-grid">
-
-        <article class="post related-post">
-          <div class="post-image"><img src="https://picsum.photos/seed/rel1/400/260" alt="" loading="lazy"></div>
-          <span class="category-badge">فعاليات وتجمعات</span>
-          <h3 class="post-title">فعالية "يوم في حب مصر" الثقافية</h3>
-          <div class="post-meta">
-            <span class="post-date">١٥ سبتمبر ٢٠٢٥</span>
-          </div>
-          <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
-        </article>
-
-        <article class="post related-post">
-          <div class="post-image"><img src="https://picsum.photos/seed/rel2/400/260" alt="" loading="lazy"></div>
-          <span class="category-badge">قصص نجاح</span>
-          <h3 class="post-title">قصة نجاح طالب مصري في الجامعة اللبنانية</h3>
-          <div class="post-meta">
-            <span class="post-date">٢٨ سبتمبر ٢٠٢٥</span>
-          </div>
-          <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
-        </article>
-
-        <article class="post related-post">
-          <div class="post-image"><img src="https://picsum.photos/seed/rel3/400/260" alt="" loading="lazy"></div>
-          <span class="category-badge">مطاعم مصرية</span>
-          <h3 class="post-title">أين تجد الكشري الأصيل في لبنان؟</h3>
-          <div class="post-meta">
-            <span class="post-date">٠٥ أكتوبر ٢٠٢٥</span>
-          </div>
-          <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
-        </article>
-
-      </div>
+      <div class="related-grid" id="related-grid"></div>
     </div>
 
   </main>
@@ -210,13 +127,13 @@
     <div class="widget widget-categories reveal">
       <h3 class="widget-title">التصنيفات</h3>
       <ul>
-        <li><a href="category.html">أخبار السفارة</a><span class="cat-count">١٢</span></li>
-        <li><a href="category.html">ثقافة وفنون</a><span class="cat-count">٨</span></li>
-        <li><a href="services.html">إقامة وأوراق</a><span class="cat-count">١٥</span></li>
-        <li><a href="category.html">عمل وفرص</a><span class="cat-count">٧</span></li>
-        <li><a href="category.html">مطاعم مصرية</a><span class="cat-count">١٠</span></li>
-        <li><a href="category.html">قصص نجاح</a><span class="cat-count">٦</span></li>
-        <li><a href="events.html">فعاليات وتجمعات</a><span class="cat-count">٩</span></li>
+        <li><a href="category.html?cat=embassy">أخبار السفارة</a><span class="cat-count">٢</span></li>
+        <li><a href="category.html?cat=culture">ثقافة وفنون</a><span class="cat-count">٢</span></li>
+        <li><a href="category.html?cat=residency">إقامة وأوراق</a><span class="cat-count">٢</span></li>
+        <li><a href="category.html?cat=work">عمل وفرص</a><span class="cat-count">٢</span></li>
+        <li><a href="category.html?cat=restaurants">مطاعم مصرية</a><span class="cat-count">٢</span></li>
+        <li><a href="category.html?cat=success">قصص نجاح</a><span class="cat-count">٢</span></li>
+        <li><a href="category.html?cat=events">فعاليات وتجمعات</a><span class="cat-count">٢</span></li>
       </ul>
     </div>
 
@@ -240,31 +157,31 @@
     <div class="footer-col">
       <h4>أحدث المقالات</h4>
       <div class="footer-post">
-        <a href="single.html?id=1">مهرجان النيل في بيروت: احتفالية تجمع أبناء الجالية</a>
-        <span class="date">١٠ أكتوبر ٢٠٢٥</span>
+        <a href="single.html?id=1">إجراءات جديدة لتسهيل الوثائق الرسمية بالسفارة</a>
+        <span class="date">٨ أكتوبر ٢٠٢٥</span>
       </div>
       <div class="footer-post">
-        <a href="services.html">دليل العمالة المصرية: خطوات تجديد الإقامة</a>
-        <span class="date">٠٥ أكتوبر ٢٠٢٥</span>
+        <a href="single.html?id=2">رحلة البحث عن مذاق القاهرة: أفضل محلات الكشري</a>
+        <span class="date">٥ أكتوبر ٢٠٢٥</span>
       </div>
       <div class="footer-post">
-        <a href="single.html?id=1">رحلة البحث عن المذاق: أفضل محلات الكشري</a>
-        <span class="date">٢٨ سبتمبر ٢٠٢٥</span>
+        <a href="single.html?id=5">مهرجان النيل في بيروت: احتفالية تجمع الجالية</a>
+        <span class="date">١٥ سبتمبر ٢٠٢٥</span>
       </div>
     </div>
     <div class="footer-col">
       <h4>المقالات الأكثر قراءة</h4>
       <div class="footer-post">
-        <a href="services.html">إجراءات جديدة لتسهيل الوثائق الرسمية بالسفارة</a>
-        <span class="date">١٢ أغسطس ٢٠٢٥</span>
+        <a href="single.html?id=4">دليل العمالة المصرية: خطوات تجديد الإقامة</a>
+        <span class="date">٢٢ سبتمبر ٢٠٢٥</span>
       </div>
       <div class="footer-post">
-        <a href="single.html?id=1">قصة نجاح الطالب أحمد محمود: من بيروت للعالمية</a>
-        <span class="date">٠٥ سبتمبر ٢٠٢٥</span>
+        <a href="single.html?id=3">قصة نجاح الطالب أحمد محمود: من بيروت للعالمية</a>
+        <span class="date">٢٨ سبتمبر ٢٠٢٥</span>
       </div>
       <div class="footer-post">
-        <a href="events.html">فرص واعدة: الشباب المصري وريادة الأعمال</a>
-        <span class="date">٠١ أبريل ٢٠٢٥</span>
+        <a href="single.html?id=6">فرص واعدة: الشباب المصري وريادة الأعمال</a>
+        <span class="date">٢ سبتمبر ٢٠٢٥</span>
       </div>
     </div>
   </div>
@@ -283,8 +200,117 @@
 <button id="back-to-top" title="العودة للأعلى">↑</button>
 
 <script src="src/mockPosts.js"></script>
-<script src="src/blogLogic.js"></script>
-<script src="src/ui.js"></script>
+<script>
+(function () {
+  var months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  var days   = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+  /* Top-bar date */
+  var now = new Date();
+  var tbEl = document.getElementById('top-bar-date');
+  if (tbEl) tbEl.textContent = days[now.getDay()] + '، ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+
+  function formatDate(dateStr) {
+    var d = new Date(dateStr);
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  function readTime(text) {
+    return Math.max(2, Math.ceil((text || '').split(' ').length / 200));
+  }
+
+  /* Slug map for category links */
+  var CAT_SLUG = {
+    'أخبار السفارة':   'embassy',
+    'مطاعم مصرية':    'restaurants',
+    'قصص نجاح':       'success',
+    'إقامة وأوراق':   'residency',
+    'فعاليات وتجمعات':'events',
+    'عمل وفرص':       'work',
+    'ثقافة وفنون':    'culture'
+  };
+
+  /* Read post ID */
+  var id = parseInt(new URLSearchParams(location.search).get('id'), 10);
+  var posts = window.mockPosts || [];
+  var post = posts.filter(function (p) { return p.id === id; })[0];
+
+  var articleEl = document.getElementById('single-article');
+
+  if (!post) {
+    articleEl.innerHTML =
+      '<div style="text-align:center; padding:80px 0;">' +
+        '<h2 style="color:var(--text-mute);">المقال غير موجود</h2>' +
+        '<p>ربما تم حذفه أو الرابط خاطئ.</p>' +
+        '<a href="blog.html" class="read-more">← العودة للمقالات</a>' +
+      '</div>';
+    return;
+  }
+
+  /* Update page title & meta */
+  document.title = post.title + ' — جاليتُنا';
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', post.excerpt);
+  document.getElementById('breadcrumb-title').textContent = post.title;
+
+  var catSlug = CAT_SLUG[post.category] || 'embassy';
+  var rt = readTime(post.content);
+
+  /* Build paragraphs from content */
+  var paragraphs = (post.content || '').trim().split(/\n\n+/).map(function (para) {
+    para = para.trim();
+    if (!para) return '';
+    return '<p>' + para + '</p>';
+  }).join('');
+
+  /* Render article */
+  articleEl.innerHTML =
+    '<a href="category.html?cat=' + catSlug + '" class="category-badge">' + post.category + '</a>' +
+    '<h1 class="post-title" style="font-size:32px; margin:14px 0;">' + post.title + '</h1>' +
+    '<div class="post-meta" style="margin-bottom:28px;">' +
+      '<span class="post-date">' + formatDate(post.date) + '</span>' +
+      '<span class="reading-time">' + rt + ' دقائق للقراءة</span>' +
+      '<span style="font-size:11px; color:var(--text-mute); letter-spacing:1px;">بقلم: ' + post.author + '</span>' +
+    '</div>' +
+    '<div class="post-image"><img src="' + post.image + '" alt="' + (post.alt || post.title) + '" loading="lazy"></div>' +
+    '<div class="single-content">' + paragraphs + '</div>' +
+    '<div class="share-section">' +
+      '<p class="share-label">شارك هذا المقال</p>' +
+      '<div class="share-buttons">' +
+        '<button class="share-btn" data-share="facebook">📘 فيسبوك</button>' +
+        '<button class="share-btn" data-share="twitter">🐦 تويتر</button>' +
+        '<button class="share-btn" data-share="whatsapp">💬 واتساب</button>' +
+        '<button class="share-btn" data-share="copy">🔗 نسخ الرابط</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="author-box">' +
+      '<img src="Wael.png" alt="أ.د. وائل نبيل عبد السلام">' +
+      '<div class="author-box-info">' +
+        '<h4>أ.د. وائل نبيل عبد السلام</h4>' +
+        '<p>كاتب وصحفي مهتم بتغطية أخبار ونشاطات الجالية المصرية في لبنان. يسعى دائماً لتسليط الضوء على الإيجابيات وقصص النجاح الملهمة للمصريين في بلاد الأرز.</p>' +
+      '</div>' +
+    '</div>';
+
+  /* Related posts (same category, exclude current, max 3) */
+  var related = posts.filter(function (p) { return p.category === post.category && p.id !== post.id; }).slice(0, 3);
+  if (related.length) {
+    var relSection = document.getElementById('related-section');
+    var relGrid = document.getElementById('related-grid');
+    relSection.style.display = '';
+    related.forEach(function (rp) {
+      var card = document.createElement('article');
+      card.className = 'post related-post';
+      card.innerHTML =
+        '<div class="post-image"><img src="' + rp.image + '" alt="' + (rp.alt || rp.title) + '" loading="lazy"></div>' +
+        '<span class="category-badge">' + rp.category + '</span>' +
+        '<h3 class="post-title">' + rp.title + '</h3>' +
+        '<div class="post-meta"><span class="post-date">' + formatDate(rp.date) + '</span></div>' +
+        '<a href="single.html?id=' + rp.id + '" class="read-more">اقرأ المزيد ←</a>';
+      relGrid.appendChild(card);
+    });
+  }
+})();
+</script>
 <script src="src/site.js"></script>
 </body>
 </html>

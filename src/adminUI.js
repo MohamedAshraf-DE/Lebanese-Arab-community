@@ -9,6 +9,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const postImageInput = document.getElementById('postImageInput');
   const postImageUrl = document.getElementById('postImageUrl');
 
+  const loginOverlay = document.getElementById('adminLoginOverlay');
+  const loginBtn = document.getElementById('loginBtn');
+  const adminPassword = document.getElementById('adminPassword');
+  const loginError = document.getElementById('loginError');
+
+  // Check Session
+  if (sessionStorage.getItem('admin_logged_in') === 'true') {
+    loginOverlay.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  loginBtn.addEventListener('click', () => {
+    if (adminPassword.value === 'admin123') {
+      sessionStorage.setItem('admin_logged_in', 'true');
+      loginOverlay.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    } else {
+      loginError.style.display = 'block';
+    }
+  });
+
   let currentPosts = window.adminLogic.getPostsFromStorage(window.mockPosts);
   if (window.adminLogic.getPostsFromStorage().length === 0) {
     window.adminLogic.savePostsToStorage(currentPosts);

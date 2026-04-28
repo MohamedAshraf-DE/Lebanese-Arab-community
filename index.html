@@ -17,13 +17,9 @@
 <div class="breaking-news">
   <div class="breaking-news-inner">
     <span class="breaking-label">عاجل</span>
-    <div class="breaking-ticker">
-      <div class="ticker-track">
-        <span class="ticker-item">إجراءات جديدة لتسهيل استخراج الوثائق الرسمية بالسفارة المصرية في بيروت</span>
-        <span class="ticker-item">مهرجان النيل السنوي يعود هذا الخريف — سجّل الآن</span>
-        <span class="ticker-item">قصص نجاح: مصريون يرسمون مسيرتهم في لبنان</span>
-        <span class="ticker-item">تحديث: خطوات تجديد الإقامة لعام ٢٠٢٥</span>
-        <span class="ticker-item">أفضل المطاعم المصرية في بيروت — دليل شامل</span>
+    <div class="breaking-ticker" id="ticker-container">
+      <div class="ticker-track" id="ticker-track">
+        <!-- Will be populated by JS -->
       </div>
     </div>
   </div>
@@ -69,10 +65,10 @@
     </li>
     <li class="has-sub"><a href="#">استكشف</a>
       <ul class="dropdown">
-        <li><a href="blog.html">أحدث الأخبار</a></li>
-        <li><a href="events.html">فعاليات الجالية</a></li>
+        <li><a href="category.html?cat=embassy">أحدث الأخبار</a></li>
+        <li><a href="category.html?cat=events">فعاليات الجالية</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
-        <li><a href="single.html?id=1">قصص وتجارب</a></li>
+        <li><a href="category.html?cat=success">قصص وتجارب</a></li>
         <li><a href="gallery.html">معرض الصور</a></li>
       </ul>
     </li>
@@ -160,7 +156,7 @@
           <span class="reading-time">٤ دقائق</span>
         </div>
         <p class="post-excerpt">جولة مصورة في أفضل المطاعم التي تقدم الأطباق المصرية الشعبية في العاصمة اللبنانية، من الكشري إلى الملوخية والفول المدمس بأيادي طهاة مصريين...</p>
-        <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
+        <a href="category.html?cat=restaurants" class="read-more">اقرأ المزيد ←</a>
       </article>
 
       <article class="post reveal">
@@ -172,7 +168,7 @@
           <span class="reading-time">٥ دقائق</span>
         </div>
         <p class="post-excerpt">لقاء خاص مع الشاب أحمد الذي تخرج بتفوق من كلية الهندسة في الجامعة اللبنانية، ليروي لنا تحديات الغربة وكيف استطاع التغلب عليها بدعم الجالية...</p>
-        <a href="single.html?id=1" class="read-more">اقرأ المزيد ←</a>
+        <a href="category.html?cat=success" class="read-more">اقرأ المزيد ←</a>
       </article>
 
       <article class="post reveal">
@@ -254,13 +250,13 @@
     <div class="widget widget-categories reveal">
       <h3 class="widget-title">التصنيفات</h3>
       <ul>
-        <li><a href="category.html">أخبار السفارة</a><span class="cat-count">١٢</span></li>
-        <li><a href="category.html">ثقافة وفنون</a><span class="cat-count">٨</span></li>
-        <li><a href="services.html">إقامة وأوراق</a><span class="cat-count">١٥</span></li>
-        <li><a href="category.html">عمل وفرص</a><span class="cat-count">٧</span></li>
-        <li><a href="category.html">مطاعم مصرية</a><span class="cat-count">١٠</span></li>
-        <li><a href="category.html">قصص نجاح</a><span class="cat-count">٦</span></li>
-        <li><a href="events.html">فعاليات وتجمعات</a><span class="cat-count">٩</span></li>
+        <li><a href="category.html?cat=embassy">أخبار السفارة</a><span class="cat-count">١٢</span></li>
+        <li><a href="category.html?cat=culture">ثقافة وفنون</a><span class="cat-count">٨</span></li>
+        <li><a href="category.html?cat=residency">إقامة وأوراق</a><span class="cat-count">١٥</span></li>
+        <li><a href="category.html?cat=work">عمل وفرص</a><span class="cat-count">٧</span></li>
+        <li><a href="category.html?cat=restaurants">مطاعم مصرية</a><span class="cat-count">١٠</span></li>
+        <li><a href="category.html?cat=success">قصص نجاح</a><span class="cat-count">٦</span></li>
+        <li><a href="category.html?cat=events">فعاليات وتجمعات</a><span class="cat-count">٩</span></li>
       </ul>
     </div>
 
@@ -340,6 +336,34 @@
 <script src="src/mockPosts.js"></script>
 <script src="src/blogLogic.js"></script>
 <script src="src/ui.js"></script>
+<script>
+  // Dynamic Ticker Logic
+  const tickerItems = [
+    "إجراءات جديدة لتسهيل استخراج الوثائق الرسمية بالسفارة المصرية في بيروت",
+    "مهرجان النيل السنوي يعود هذا الخريف — سجّل الآن",
+    "قصص نجاح: مصريون يرسمون مسيرتهم في لبنان",
+    "تحديث: خطوات تجديد الإقامة لعام ٢٠٢٥",
+    "أفضل المطاعم المصرية في بيروت — دليل شامل",
+    "تغطية خاصة: مباراة قدامى اللاعبين غداً في بيروت"
+  ];
+  
+  const track = document.getElementById('ticker-track');
+  let currentIdx = 0;
+  
+  function updateTicker() {
+    track.style.opacity = '0';
+    setTimeout(() => {
+      track.innerHTML = `<span class="ticker-item" style="padding-right:0; animation:none; opacity:1;">${tickerItems[currentIdx]}</span>`;
+      track.style.opacity = '1';
+      currentIdx = (currentIdx + 1) % tickerItems.length;
+    }, 500);
+  }
+  
+  // Set initial
+  track.style.transition = 'opacity 0.5s ease-in-out';
+  updateTicker();
+  setInterval(updateTicker, 5000);
+</script>
 <script src="src/site.js"></script>
 </body>
 </html>

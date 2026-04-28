@@ -801,8 +801,10 @@ body.dark-mode .form-control { background: #262626; color: var(--text); border-c
 .ticker-track {
   display: flex;
   flex-wrap: nowrap;
-  animation: scroll-ticker 35s linear infinite;
+  /* animation: scroll-ticker 35s linear infinite; REMOVED FOR JS TICKER */
   will-change: transform;
+  justify-content: center; /* Center for JS ticker */
+  width: 100%;
 }
 .ticker-track:hover { animation-play-state: paused; }
 .ticker-item {
