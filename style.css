@@ -801,10 +801,10 @@ body.dark-mode .form-control { background: #262626; color: var(--text); border-c
 .ticker-track {
   display: flex;
   flex-wrap: nowrap;
-  /* animation: scroll-ticker 35s linear infinite; REMOVED FOR JS TICKER */
+  animation: scroll-ticker 25s linear infinite;
   will-change: transform;
-  justify-content: center; /* Center for JS ticker */
-  width: 100%;
+  justify-content: flex-start;
+  width: max-content;
 }
 .ticker-track:hover { animation-play-state: paused; }
 .ticker-item {
@@ -1275,3 +1275,37 @@ body.dark-mode .contact-info-card { background: #1e1e1e; }
 
 /* ============ SMOOTH SCROLL ============ */
 html { scroll-behavior: smooth; }
+
+/* ============ OUD PLAYER BUTTON ============ */
+.oud-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: transform 0.3s, background 0.3s;
+}
+.oud-btn:hover {
+  transform: scale(1.1);
+  background: var(--accent-dark);
+}
+.oud-btn.playing {
+  animation: pulse-oud 2s infinite;
+}
+
+@keyframes pulse-oud {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201, 169, 106, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(201, 169, 106, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201, 169, 106, 0); }
+}

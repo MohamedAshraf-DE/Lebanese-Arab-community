@@ -173,4 +173,24 @@
     el.style.transitionDelay = (i * 0.08) + 's';
   });
 
+  /* ---- Oud Player Toggle ---- */
+  var oudAudio = document.getElementById('oud-audio');
+  var oudBtn = document.getElementById('oud-btn');
+  if (oudAudio && oudBtn) {
+    // Attempt to set a lower volume
+    oudAudio.volume = 0.3;
+    oudBtn.addEventListener('click', function () {
+      if (oudAudio.paused) {
+        oudAudio.play().then(function() {
+          oudBtn.classList.add('playing');
+        }).catch(function(e) {
+          console.error("Audio playback failed:", e);
+        });
+      } else {
+        oudAudio.pause();
+        oudBtn.classList.remove('playing');
+      }
+    });
+  }
+
 })();
