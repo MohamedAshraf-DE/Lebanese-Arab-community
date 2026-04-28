@@ -19,10 +19,7 @@ app.get('/api/posts', (req, res) => {
   res.json({ message: 'API is working. Posts endpoint ready.' });
 });
 
-// Fallback to index.html for unmatched routes (SPA-like behavior if needed)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+// No fallback needed for static multi-page app
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
