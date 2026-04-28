@@ -136,10 +136,22 @@
 
   /* ---- Category Filter Chips ---- */
   var chips = document.querySelectorAll('.filter-chip');
+  var blogPosts = document.querySelectorAll('.posts-grid .post');
+  
   chips.forEach(function (chip) {
     chip.addEventListener('click', function () {
       chips.forEach(function (c) { c.classList.remove('active'); });
       this.classList.add('active');
+      
+      var selectedCat = this.textContent.trim();
+      blogPosts.forEach(function (card) {
+        var cardCat = card.querySelector('.category-badge').textContent.trim();
+        if (selectedCat === 'الكل' || cardCat === selectedCat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
   });
 

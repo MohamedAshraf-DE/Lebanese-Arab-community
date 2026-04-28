@@ -129,14 +129,14 @@
 
     <div class="widget widget-categories reveal">
       <h3 class="widget-title">التصنيفات</h3>
-      <ul>
-        <li><a href="category.html?cat=embassy">أخبار السفارة</a><span class="cat-count">٢</span></li>
-        <li><a href="category.html?cat=culture">ثقافة وفنون</a><span class="cat-count">٢</span></li>
-        <li><a href="category.html?cat=residency">إقامة وأوراق</a><span class="cat-count">٢</span></li>
-        <li><a href="category.html?cat=work">عمل وفرص</a><span class="cat-count">٢</span></li>
-        <li><a href="category.html?cat=restaurants">مطاعم مصرية</a><span class="cat-count">٢</span></li>
-        <li><a href="category.html?cat=success">قصص نجاح</a><span class="cat-count">٢</span></li>
-        <li><a href="category.html?cat=events">فعاليات وتجمعات</a><span class="cat-count">٢</span></li>
+      <ul id="sidebar-cat-list">
+        <li><a href="category.html?cat=embassy">أخبار السفارة</a><span class="cat-count"></span></li>
+        <li><a href="category.html?cat=culture">ثقافة وفنون</a><span class="cat-count"></span></li>
+        <li><a href="category.html?cat=residency">إقامة وأوراق</a><span class="cat-count"></span></li>
+        <li><a href="category.html?cat=work">عمل وفرص</a><span class="cat-count"></span></li>
+        <li><a href="category.html?cat=restaurants">مطاعم مصرية</a><span class="cat-count"></span></li>
+        <li><a href="category.html?cat=success">قصص نجاح</a><span class="cat-count"></span></li>
+        <li><a href="category.html?cat=events">فعاليات وتجمعات</a><span class="cat-count"></span></li>
       </ul>
     </div>
 
@@ -202,67 +202,95 @@
   /* ---- Date in top bar ---- */
   var days = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
   var months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-  var now = new Date();
-  var el = document.getElementById('top-bar-date');
-  if (el) el.textContent = days[now.getDay()] + '، ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  
+  function updateDate() {
+    var now = new Date();
+    var el = document.getElementById('top-bar-date');
+    if (el) el.textContent = days[now.getDay()] + '، ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  }
 
   /* ---- Category config ---- */
   var CATS = {
-    embassy:     { name: 'أخبار السفارة',    desc: 'كل ما يهمك من قرارات رسمية وخدمات قنصلية جديدة',    bg: 'https://picsum.photos/seed/embassy-hero/1920/600' },
-    restaurants: { name: 'مطاعم مصرية',      desc: 'استكشف أفضل أماكن الطعام المصري الأصيل في لبنان',   bg: 'https://picsum.photos/seed/food-hero/1920/600' },
-    success:     { name: 'قصص نجاح',          desc: 'قصص ملهمة من أبناء الجالية الذين حققوا تميزهم',     bg: 'https://picsum.photos/seed/success-hero/1920/600' },
-    residency:   { name: 'إقامة وأوراق',      desc: 'دليلك القانوني لتسوية أوراقك والعيش براحة تامة',    bg: 'https://picsum.photos/seed/residency-hero/1920/600' },
-    events:      { name: 'فعاليات وتجمعات',  desc: 'تغطيات حصرية لأبرز تجمعات الجالية في لبنان',        bg: 'https://picsum.photos/seed/events-hero/1920/600' },
-    work:        { name: 'عمل وفرص',          desc: 'فرص العمل والمشاريع المتاحة للكفاءات المصرية',       bg: 'https://picsum.photos/seed/work-hero/1920/600' },
-    culture:     { name: 'ثقافة وفنون',       desc: 'إبداع مصري ولبناني في معارض وأمسيات بيروتية رائعة', bg: 'https://picsum.photos/seed/culture-hero/1920/600' }
+    embassy:     { name: 'أخبار السفارة',    desc: 'كل ما يهمك من قرارات رسمية وخدمات قنصلية جديدة',    bg: 'https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?auto=format&fit=crop&q=80&w=1920' },
+    restaurants: { name: 'مطاعم مصرية',      desc: 'استكشف أفضل أماكن الطعام المصري الأصيل في لبنان',   bg: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1920' },
+    success:     { name: 'قصص نجاح',          desc: 'قصص ملهمة من أبناء الجالية الذين حققوا تميزهم',     bg: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1920' },
+    residency:   { name: 'إقامة وأوراق',      desc: 'دليلك القانوني لتسوية أوراقك والعيش براحة تامة',    bg: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1920' },
+    events:      { name: 'فعاليات وتجمعات',  desc: 'تغطيات حصرية لأبرز تجمعات الجالية في لبنان',        bg: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=1920' },
+    work:        { name: 'عمل وفرص',          desc: 'فرص العمل والمشاريع المتاحة للكفاءات المصرية',       bg: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920' },
+    culture:     { name: 'ثقافة وفنون',       desc: 'إبداع مصري ولبناني في معارض وأمسيات بيروتية رائعة', bg: 'https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&q=80&w=1920' }
   };
 
-  function formatDate(dateStr) {
-    var d = new Date(dateStr);
-    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  function loadCategory() {
+    var params = new URLSearchParams(window.location.search);
+    var slug = params.get('cat') || 'embassy';
+    var cat = CATS[slug] || CATS.embassy;
+
+    /* Update page elements */
+    document.title = cat.name + ' — جاليتُنا';
+    document.getElementById('cat-name').textContent = cat.name;
+    document.getElementById('cat-desc').textContent = cat.desc;
+    document.getElementById('cat-header').style.backgroundImage = "url('" + cat.bg + "')";
+    document.getElementById('breadcrumb-cat').textContent = cat.name;
+
+    /* Calculate counts and filter posts */
+    var allPosts = window.mockPosts || [];
+    var filteredPosts = allPosts.filter(function (p) { return p.category === cat.name; });
+    
+    /* Update category sidebar counts */
+    var counts = {};
+    allPosts.forEach(function(p) { counts[p.category] = (counts[p.category] || 0) + 1; });
+
+    var catMap = {
+      'embassy': 'أخبار السفارة',
+      'restaurants': 'مطاعم مصرية',
+      'success': 'قصص نجاح',
+      'residency': 'إقامة وأوراق',
+      'events': 'فعاليات وتجمعات',
+      'work': 'عمل وفرص',
+      'culture': 'ثقافة وفنون'
+    };
+
+    Object.keys(catMap).forEach(function(s) {
+      var name = catMap[s];
+      var countEl = document.querySelector('a[href*="cat=' + s + '"] + .cat-count');
+      if (countEl) countEl.textContent = counts[name] || 0;
+    });
+
+    var grid = document.getElementById('cat-grid');
+    grid.innerHTML = '';
+
+    if (!filteredPosts.length) {
+      document.getElementById('no-posts').style.display = 'block';
+    } else {
+      document.getElementById('no-posts').style.display = 'none';
+      filteredPosts.forEach(function (p, i) {
+        var d = new Date(p.date);
+        var fDate = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+        var rt = Math.max(2, Math.ceil((p.excerpt + ' ' + p.content).split(' ').length / 200));
+        
+        var art = document.createElement('article');
+        art.className = 'post reveal in-view';
+        art.innerHTML =
+          '<div class="post-image"><img src="' + p.image + '" alt="' + (p.alt || p.title) + '" loading="lazy"></div>' +
+          '<span class="category-badge">' + p.category + '</span>' +
+          '<h3 class="post-title">' + p.title + '</h3>' +
+          '<div class="post-meta">' +
+            '<span class="post-date">' + fDate + '</span>' +
+            '<span class="reading-time">' + rt + ' دقائق للقراءة</span>' +
+          '</div>' +
+          '<p class="post-excerpt">' + p.excerpt + '</p>' +
+          '<a href="single.html?id=' + p.id + '" class="read-more">اقرأ المزيد ←</a>';
+        grid.appendChild(art);
+      });
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function readTime(text) {
-    return Math.max(2, Math.ceil((text || '').split(' ').length / 200));
-  }
+  updateDate();
+  loadCategory();
 
-  var slug = new URLSearchParams(location.search).get('cat') || 'embassy';
-  var cat = CATS[slug] || CATS.embassy;
-
-  /* Update page elements */
-  document.title = cat.name + ' — جاليتُنا';
-  document.getElementById('cat-name').textContent = cat.name;
-  document.getElementById('cat-desc').textContent = cat.desc;
-  document.getElementById('cat-header').style.backgroundImage = "url('" + cat.bg + "')";
-  document.getElementById('breadcrumb-cat').textContent = cat.name;
-
-  /* Filter posts */
-  var posts = (window.mockPosts || []).filter(function (p) { return p.category === cat.name; });
-  var grid = document.getElementById('cat-grid');
-
-  if (!posts.length) {
-    document.getElementById('no-posts').style.display = 'block';
-    return;
-  }
-
-  /* Render posts */
-  posts.forEach(function (p, i) {
-    var rt = readTime(p.excerpt + ' ' + p.content);
-    var art = document.createElement('article');
-    art.className = 'post reveal';
-    art.style.transitionDelay = (i * 0.08) + 's';
-    art.innerHTML =
-      '<div class="post-image"><img src="' + p.image + '" alt="' + (p.alt || p.title) + '" loading="lazy"></div>' +
-      '<span class="category-badge">' + p.category + '</span>' +
-      '<h3 class="post-title">' + p.title + '</h3>' +
-      '<div class="post-meta">' +
-        '<span class="post-date">' + formatDate(p.date) + '</span>' +
-        '<span class="reading-time">' + rt + ' دقائق للقراءة</span>' +
-      '</div>' +
-      '<p class="post-excerpt">' + p.excerpt + '</p>' +
-      '<a href="single.html?id=' + p.id + '" class="read-more">اقرأ المزيد ←</a>';
-    grid.appendChild(art);
-  });
+  /* Listen for URL changes */
+  window.addEventListener('popstate', loadCategory);
 })();
 </script>
 <script src="src/site.js"></script>
