@@ -186,7 +186,7 @@ function initSinglePostUI() {
     </div>
     
     <div class="author-box">
-      <img src="https://picsum.photos/seed/author123/300/300" alt="${post.author}">
+      <img src="Wael.png" alt="${post.author}">
       <div class="author-box-info">
         <h4>أ.د. وائل نبيل عبد السلام</h4>
         <p style="font-size: 14px; line-height: 1.6;">أ.د. وائل نبيل عبد السلام هو رئيس جامعة بيروت العربية، تم تعيينه في سبتمبر 2023. وهو أستاذ متميز في الجراحة العامة يتمتع بمسيرة أكاديمية وإدارية حافلة. شغل سابقاً منصب نائب رئيس جامعة الإسكندرية وعميد كلية الطب. تتميز قيادته بالالتزام بالتفوق الأكاديمي وتطوير البحث العلمي.</p>
