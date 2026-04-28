@@ -3,13 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>معرض الصور — جاليتنا</title>
-
+<title>معرض الصور — جاليتُنا</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
+<style>
+  /* Gallery Filter Chips */
+  .gallery-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+  }
+  .gal-chip {
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 1.5px solid #e0d5c0;
+    background: transparent;
+    color: var(--text-mute);
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.22s;
+  }
+  .gal-chip:hover, .gal-chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* Gallery Grid */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .gallery-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .gallery-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+  }
+  .gallery-item.wide {
+    grid-column: span 2;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+  }
+  .gallery-item:hover img {
+    transform: scale(1.08);
+  }
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+  }
+  .gallery-caption {
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .gallery-caption small {
+    display: block;
+    font-size: 11.5px;
+    opacity: 0.75;
+    margin-top: 3px;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 6px;
+    object-fit: contain;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+    color: #fff;
+    font-size: 32px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    background: rgba(0,0,0,0.5);
+    padding: 8px 18px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item.wide { grid-column: span 1; }
+  }
+  @media (max-width: 480px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
@@ -19,66 +154,228 @@
 </audio>
 <button id="oud-btn" class="oud-btn" title="تشغيل / إيقاف العود">🎵</button>
 
+<!-- Reading Progress -->
+<div class="reading-progress-bar" id="reading-progress"></div>
 
+<!-- Top Bar -->
 <div class="top-bar">
   <div class="social">
     <a href="https://facebook.com/jalituna" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg></a>
     <a href="https://twitter.com/jalituna" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg></a>
     <a href="https://instagram.com/jalituna" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a>
   </div>
+  <div class="top-bar-right">
+    <span class="top-bar-date" id="top-bar-date"></span>
+    <button class="dark-toggle" id="dark-toggle" title="تبديل الوضع الليلي">☾</button>
+  </div>
 </div>
 
+<!-- Logo -->
 <header class="main-header">
-  <a href="index.html" class="logo">جاليتُنا</a>
+  <a href="index.html" class="logo">جاليتُنا<span class="dot">.</span></a>
 </header>
 
+<!-- Navigation -->
 <nav class="main-nav">
+  <button class="nav-toggle" id="nav-toggle" aria-label="قائمة التنقل">
+    <span></span><span></span><span></span>
+  </button>
   <ul>
-    <li><a href="index.html" class="">الرئيسية</a></li>
-    <li><a href="blog.html" class="">المقالات</a></li>
-    <li><a href="category.html" class="">التصنيفات</a></li>
-    <li><a href="events.html" class="">الفعاليات</a></li>
-    <li class="has-sub"><a href="#" class="active">الصفحات</a>
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="blog.html">المقالات</a></li>
+    <li><a href="category.html?cat=embassy">التصنيفات</a></li>
+    <li><a href="events.html">الفعاليات</a></li>
+    <li class="has-sub"><a href="#">الصفحات</a>
       <ul class="dropdown">
-        <li><a href="index.html">الرئيسية</a></li>
         <li><a href="about.html">من نحن</a></li>
         <li><a href="events.html">الفعاليات</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
         <li><a href="faq.html">الأسئلة الشائعة</a></li>
-        <li><a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a></li>
+        <li><a href="contact.html">تواصل معنا</a></li>
+        <li><a href="admin.html" style="color:#c9a96a;">لوحة التحكم</a></li>
       </ul>
     </li>
-    <li class="has-sub"><a href="#">استكشف</a>
+    <li class="has-sub"><a href="#" class="active">استكشف</a>
       <ul class="dropdown">
-        <li><a href="blog.html">أحدث الأخبار</a></li>
-        <li><a href="events.html">فعاليات الجالية</a></li>
+        <li><a href="category.html?cat=embassy">أحدث الأخبار</a></li>
+        <li><a href="category.html?cat=events">فعاليات الجالية</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
-        <li><a href="index.html">إعلانات مهمة</a></li>
-        <li><a href="single.html?id=1">قصص وتجارب</a></li>
+        <li><a href="category.html?cat=success">قصص وتجارب</a></li>
         <li><a href="gallery.html">معرض الصور</a></li>
       </ul>
     </li>
   </ul>
 </nav>
 
-<section class="page-header" style="background-image:url('https://picsum.photos/seed/gallery/1920/600')">
+<!-- Page Header -->
+<section class="page-header" style="background-image:url('https://picsum.photos/seed/galleryhero7/1920/600')">
   <div class="page-header-inner">
     <h1>معرض الصور</h1>
-    <span>لقطات وذكريات من فعالياتنا المتنوعة</span>
+    <span>لقطات وذكريات من فعاليات وتجمعات جاليتُنا المصرية في لبنان</span>
   </div>
 </section>
 
 <div class="container">
   <main class="content">
 
-    <div class="posts-grid">
-      <div class="post-image" style="margin-bottom:0;"><img src="https://picsum.photos/seed/gal1/600/420" alt="صورة ١"></div>
-      <div class="post-image" style="margin-bottom:0;"><img src="https://picsum.photos/seed/gal2/600/420" alt="صورة ٢"></div>
-      <div class="post-image" style="margin-bottom:0;"><img src="https://picsum.photos/seed/gal3/600/420" alt="صورة ٣"></div>
-      <div class="post-image" style="margin-bottom:0;"><img src="https://picsum.photos/seed/gal4/600/420" alt="صورة ٤"></div>
-      <div class="post-image" style="margin-bottom:0;"><img src="https://picsum.photos/seed/gal5/600/420" alt="صورة ٥"></div>
-      <div class="post-image" style="margin-bottom:0;"><img src="https://picsum.photos/seed/gal6/600/420" alt="صورة ٦"></div>
+    <div class="ornament"><span>ذكريات وتجمعات</span></div>
+
+    <!-- Filter Chips -->
+    <div class="gallery-filters">
+      <button class="gal-chip active" data-filter="all">الكل</button>
+      <button class="gal-chip" data-filter="events">فعاليات</button>
+      <button class="gal-chip" data-filter="culture">ثقافة وفنون</button>
+      <button class="gal-chip" data-filter="food">مطاعم</button>
+      <button class="gal-chip" data-filter="community">مجتمع</button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-grid" id="galleryGrid">
+
+      <div class="gallery-item wide reveal" data-cat="events"
+           data-src="https://picsum.photos/seed/galevent1/1200/800"
+           data-cap="مهرجان النيل السنوي في بيروت — سبتمبر ٢٠٢٥">
+        <img src="https://picsum.photos/seed/galevent1/800/560" alt="مهرجان النيل في بيروت">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            مهرجان النيل السنوي في بيروت
+            <small>فعاليات — سبتمبر ٢٠٢٥</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="community"
+           data-src="https://picsum.photos/seed/galcom1/800/600"
+           data-cap="لقاء أبناء الجالية الشهري — أكتوبر ٢٠٢٥">
+        <img src="https://picsum.photos/seed/galcom1/600/450" alt="لقاء شهري">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            لقاء أبناء الجالية الشهري
+            <small>مجتمع — أكتوبر ٢٠٢٥</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="culture"
+           data-src="https://picsum.photos/seed/galcult1/800/600"
+           data-cap="معرض الفنون التشكيلية المصرية — نوفمبر ٢٠٢٥">
+        <img src="https://picsum.photos/seed/galcult1/600/450" alt="معرض فنون">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            معرض الفنون التشكيلية المصرية
+            <small>ثقافة — نوفمبر ٢٠٢٥</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="food"
+           data-src="https://picsum.photos/seed/galfood1/800/600"
+           data-cap="مطعم النيل — ألذ الأكلات المصرية الأصيلة">
+        <img src="https://picsum.photos/seed/galfood1/600/450" alt="مطعم مصري">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            مطعم النيل — أكلات مصرية أصيلة
+            <small>مطاعم — بيروت</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="events"
+           data-src="https://picsum.photos/seed/galevent2/800/600"
+           data-cap="ليلة رأس السنة المصرية — يناير ٢٠٢٦">
+        <img src="https://picsum.photos/seed/galevent2/600/450" alt="رأس السنة">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            ليلة رأس السنة المصرية
+            <small>فعاليات — يناير ٢٠٢٦</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item wide reveal" data-cat="culture"
+           data-src="https://picsum.photos/seed/galcult2/1200/800"
+           data-cap="حفل موسيقى عربية وأغاني الوطن — ديسمبر ٢٠٢٥">
+        <img src="https://picsum.photos/seed/galcult2/800/560" alt="حفل موسيقى">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            حفل موسيقى عربية وأغاني الوطن
+            <small>ثقافة — ديسمبر ٢٠٢٥</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="community"
+           data-src="https://picsum.photos/seed/galcom2/800/600"
+           data-cap="يوم التطوع السنوي — مارس ٢٠٢٦">
+        <img src="https://picsum.photos/seed/galcom2/600/450" alt="يوم تطوع">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            يوم التطوع السنوي للجالية
+            <small>مجتمع — مارس ٢٠٢٦</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="food"
+           data-src="https://picsum.photos/seed/galfood2/800/600"
+           data-cap="ورشة الطبخ المصري التقليدي — أبريل ٢٠٢٦">
+        <img src="https://picsum.photos/seed/galfood2/600/450" alt="ورشة طبخ">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            ورشة الطبخ المصري التقليدي
+            <small>مطاعم — أبريل ٢٠٢٦</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="events"
+           data-src="https://picsum.photos/seed/galevent3/800/600"
+           data-cap="رحلة التنورة — مغامرة في جبال لبنان">
+        <img src="https://picsum.photos/seed/galevent3/600/450" alt="رحلة التنورة">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            رحلة التنورة في جبال لبنان
+            <small>فعاليات — يونيو ٢٠٢٦</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="community"
+           data-src="https://picsum.photos/seed/galcom3/800/600"
+           data-cap="ختام الدراسة — تكريم الطلاب المتميزين">
+        <img src="https://picsum.photos/seed/galcom3/600/450" alt="تكريم الطلاب">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            تكريم الطلاب المتميزين
+            <small>مجتمع — يونيو ٢٠٢٥</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item wide reveal" data-cat="events"
+           data-src="https://picsum.photos/seed/galevent4/1200/800"
+           data-cap="بيبلوس ٢٠٢٥ — مهرجان التراث المصري اللبناني">
+        <img src="https://picsum.photos/seed/galevent4/800/560" alt="مهرجان بيبلوس">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            مهرجان بيبلوس — التراث المصري اللبناني
+            <small>فعاليات — أغسطس ٢٠٢٥</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="culture"
+           data-src="https://picsum.photos/seed/galcult3/800/600"
+           data-cap="ورشة الخط العربي — الكتابة كفن راقٍ">
+        <img src="https://picsum.photos/seed/galcult3/600/450" alt="خط عربي">
+        <div class="gallery-overlay">
+          <div class="gallery-caption">
+            ورشة الخط العربي الاحترافي
+            <small>ثقافة — فبراير ٢٠٢٦</small>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </main>
@@ -87,7 +384,7 @@
     <div class="widget widget-about">
       <h3 class="widget-title">عن المدوّنة</h3>
       <img src="Wael.png" alt="أ.د. وائل نبيل عبد السلام">
-      <p>أهلًا بكم في «جاليتُنا»، فضاءٌ يجمع أبناء الجالية المصرية في لبنان. نروي قصصًا، نُشارك تجارب، ونحتفي بكلّ ما يصنع منّا عائلة واحدة في وطننا الثاني.</p>
+      <p>أهلًا بكم في «جاليتُنا»، فضاءٌ يجمع أبناء الجالية المصرية في لبنان. نروي قصصًا، نُشارك تجارب، ونحتفي بكلّ ما يصنع منّا عائلة واحدة.</p>
       <div class="signature">أ.د. وائل نبيل عبد السلام</div>
     </div>
 
@@ -99,97 +396,139 @@
 
     <div class="widget widget-social">
       <h3 class="widget-title">تابعنا على</h3>
-      <div class="social-icons">
-        <a href="https://facebook.com/jalituna" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg></a>
-        <a href="https://twitter.com/jalituna" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg></a>
-        <a href="https://instagram.com/jalituna" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a>
-      </div>
-    </div>
-
-    <div class="widget widget-banner">
-      <img src="https://picsum.photos/seed/bannerad2/400/300" alt="">
-      <div class="banner-text">
-        <strong>إعلانك هنا</strong>
-        <span>٣٠٠ × ٢٥٠</span>
+      <div class="social-grid">
+        <a href="https://facebook.com/jalituna" target="_blank" class="social-pill fb" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg>
+          Facebook
+        </a>
+        <a href="https://twitter.com/jalituna" target="_blank" class="social-pill tw" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg>
+          Twitter
+        </a>
+        <a href="https://instagram.com/jalituna" target="_blank" class="social-pill ig" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg>
+          Instagram
+        </a>
       </div>
     </div>
 
     <div class="widget widget-categories">
       <h3 class="widget-title">التصنيفات</h3>
       <ul>
-        <li><a href="category.html">أخبار السفارة</a></li>
-        <li><a href="category.html">ثقافة وفنون</a></li>
-        <li><a href="services.html">إقامة وأوراق</a></li>
-        <li><a href="category.html">عمل وفرص</a></li>
-        <li><a href="category.html">مطاعم مصرية</a></li>
-        <li><a href="category.html">قصص نجاح</a></li>
-        <li><a href="events.html">فعاليات وتجمعات</a></li>
+        <li><a href="category.html?cat=embassy">أخبار السفارة</a></li>
+        <li><a href="category.html?cat=culture">ثقافة وفنون</a></li>
+        <li><a href="category.html?cat=residency">إقامة وأوراق</a></li>
+        <li><a href="category.html?cat=work">عمل وفرص</a></li>
+        <li><a href="category.html?cat=restaurants">مطاعم مصرية</a></li>
+        <li><a href="category.html?cat=success">قصص نجاح</a></li>
+        <li><a href="category.html?cat=events">فعاليات وتجمعات</a></li>
       </ul>
     </div>
 
   </aside>
 </div>
 
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<button id="back-to-top" class="back-to-top" aria-label="العودة للأعلى">↑</button>
+
 <footer>
   <div class="footer-inner">
-
     <div class="footer-col">
       <a href="index.html" class="footer-logo">جاليتُنا</a>
-      <p style="color:#888; font-size:13.5px; margin-top:15px; line-height:1.8;">
-        المنصة الأولى للجالية المصرية في لبنان. أخبار، خدمات، تغطيات حصرية وتجارب ملهمة من قلب بيروت إلى كل مدينة لبنانية.
-      </p>
+      <p style="color:#888; font-size:13.5px; margin-top:15px; line-height:1.8;">المنصة الأولى للجالية المصرية في لبنان. أخبار، خدمات، تغطيات حصرية وتجارب ملهمة.</p>
     </div>
-
     <div class="footer-col">
-      <h4>اشترك في النشرة</h4>
-      <input type="email" placeholder="بريدك الإلكتروني">
-      <button>اشترك الآن</button>
+      <h4>روابط سريعة</h4>
+      <div class="footer-post"><a href="index.html">الرئيسية</a></div>
+      <div class="footer-post"><a href="blog.html">المقالات</a></div>
+      <div class="footer-post"><a href="events.html">الفعاليات</a></div>
+      <div class="footer-post"><a href="services.html">دليل الخدمات</a></div>
+      <div class="footer-post"><a href="faq.html">الأسئلة الشائعة</a></div>
     </div>
-
     <div class="footer-col">
       <h4>أحدث المقالات</h4>
       <div class="footer-post">
-        <a href="single.html?id=1">مهرجان النيل في بيروت: احتفالية تجمع أبناء الجالية</a>
+        <a href="single.html?id=5">مهرجان النيل في بيروت</a>
         <span class="date">١٠ أكتوبر ٢٠٢٥</span>
       </div>
       <div class="footer-post">
-        <a href="services.html">دليل العمالة المصرية: خطوات تجديد الإقامة</a>
-        <span class="date">٠٥ أكتوبر ٢٠٢٥</span>
+        <a href="single.html?id=7">معرض الفن التشكيلي المصري</a>
+        <span class="date">٢٢ نوفمبر ٢٠٢٥</span>
       </div>
       <div class="footer-post">
-        <a href="single.html?id=1">رحلة البحث عن المذاق: أفضل محلات الكشري</a>
-        <span class="date">٢٨ سبتمبر ٢٠٢٥</span>
+        <a href="single.html?id=12">مهرجان بيبلوس الثقافي</a>
+        <span class="date">٠٣ أغسطس ٢٠٢٥</span>
       </div>
     </div>
-
     <div class="footer-col">
-      <h4>المقالات الأكثر قراءة</h4>
-      <div class="footer-post">
-        <a href="services.html">إجراءات جديدة لتسهيل الوثائق الرسمية بالسفارة</a>
-        <span class="date">١٢ أغسطس ٢٠٢٥</span>
-      </div>
-      <div class="footer-post">
-        <a href="single.html?id=1">قصة نجاح الطالب أحمد محمود: من بيروت للعالمية</a>
-        <span class="date">٠٥ سبتمبر ٢٠٢٥</span>
-      </div>
-      <div class="footer-post">
-        <a href="events.html">فرص واعدة: الشباب المصري وريادة الأعمال</a>
-        <span class="date">٠١ أبريل ٢٠٢٥</span>
-      </div>
+      <h4>اشترك في النشرة</h4>
+      <input type="email" placeholder="بريدك الإلكتروني" style="width:100%;padding:9px 12px;border:1.5px solid #333;border-radius:6px;background:#1a1a1a;color:#ccc;font-family:inherit;margin-bottom:8px;">
+      <button style="width:100%;padding:9px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;">اشترك الآن</button>
     </div>
-
   </div>
-
   <div class="footer-bottom">
-    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٥</div>
+    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٦</div>
     <nav class="footer-nav">
       <a href="index.html">الرئيسية</a>
       <a href="services.html">دليل الخدمات</a>
       <a href="about.html">من نحن</a>
       <a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a>
+      <a href="admin.html" style="color:#c9a96a;">لوحة التحكم</a>
     </nav>
   </div>
 </footer>
+
+<script src="src/mockPosts.js"></script>
+<script src="src/site.js"></script>
+<script>
+  /* Gallery filter chips */
+  var chips = document.querySelectorAll('.gal-chip');
+  var items = document.querySelectorAll('.gallery-item');
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.classList.remove('active'); });
+      this.classList.add('active');
+      var filter = this.dataset.filter;
+      items.forEach(function (item) {
+        if (filter === 'all' || item.dataset.cat === filter) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  /* Lightbox */
+  var lightbox    = document.getElementById('lightbox');
+  var lbImg       = document.getElementById('lightboxImg');
+  var lbCap       = document.getElementById('lightboxCaption');
+  var lbClose     = document.getElementById('lightboxClose');
+  items.forEach(function (item) {
+    item.addEventListener('click', function () {
+      lbImg.src = this.dataset.src || this.querySelector('img').src;
+      lbCap.textContent = this.dataset.cap || '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
 </body>
 </html>

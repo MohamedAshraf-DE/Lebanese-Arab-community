@@ -143,6 +143,57 @@
     el.style.transitionDelay = (i * 0.08) + 's';
   });
 
+  /* ---- Hero Carousel ---- */
+  var carouselSlides = document.querySelectorAll('.carousel-slide');
+  var carouselDots   = document.querySelectorAll('.carousel-dot');
+  if (carouselSlides.length) {
+    var cCurrent = 0;
+    var cTimer;
+    function cGoTo(n) {
+      carouselSlides[cCurrent].classList.remove('active');
+      if (carouselDots[cCurrent]) carouselDots[cCurrent].classList.remove('active');
+      cCurrent = (n + carouselSlides.length) % carouselSlides.length;
+      carouselSlides[cCurrent].classList.add('active');
+      if (carouselDots[cCurrent]) carouselDots[cCurrent].classList.add('active');
+    }
+    function cStart() {
+      clearInterval(cTimer);
+      cTimer = setInterval(function () { cGoTo(cCurrent + 1); }, 5500);
+    }
+    cGoTo(0);
+    cStart();
+    document.querySelectorAll('.carousel-prev').forEach(function (btn) {
+      btn.addEventListener('click', function () { cGoTo(cCurrent - 1); cStart(); });
+    });
+    document.querySelectorAll('.carousel-next').forEach(function (btn) {
+      btn.addEventListener('click', function () { cGoTo(cCurrent + 1); cStart(); });
+    });
+    carouselDots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { cGoTo(i); cStart(); });
+    });
+  }
+
+  /* ---- FAQ Accordion ---- */
+  document.querySelectorAll('.faq-question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = this.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (el) { el.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* ---- Top-bar live date ---- */
+  (function () {
+    var days   = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    var months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    var now = new Date();
+    var el = document.getElementById('top-bar-date');
+    if (el && !el.textContent.trim()) {
+      el.textContent = days[now.getDay()] + '، ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+    }
+  }());
+
   /* ---- Oud Player — persists across page navigations via localStorage ---- */
   var oudAudio = document.getElementById('oud-audio');
   var oudBtn   = document.getElementById('oud-btn');

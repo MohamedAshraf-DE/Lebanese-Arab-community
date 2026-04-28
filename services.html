@@ -3,13 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>دليل الخدمات — جاليتنا</title>
-
+<title>دليل الخدمات — جاليتُنا</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
+<style>
+  /* Services intro banner */
+  .services-intro {
+    background: linear-gradient(135deg, var(--accent) 0%, #b8935a 100%);
+    border-radius: 12px;
+    padding: 28px 32px;
+    color: #fff;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .services-intro::before {
+    content: '⚙';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 80px;
+    opacity: 0.1;
+  }
+  .services-intro h2 { font-size: 20px; margin: 0 0 8px; font-family: var(--font-display); }
+  .services-intro p { margin: 0; font-size: 14px; opacity: 0.9; line-height: 1.7; }
+
+  /* Service Cards Grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+  }
+  .service-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 26px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    border-top: 4px solid var(--accent);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.12);
+  }
+  .service-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(201,169,110,0.08));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .service-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+  }
+  .service-desc {
+    font-size: 13.5px;
+    color: var(--text-mute);
+    line-height: 1.7;
+    margin: 0 0 18px;
+  }
+  .service-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step-counter;
+  }
+  .service-steps li {
+    counter-increment: step-counter;
+    padding: 8px 0 8px 0;
+    border-bottom: 1px dashed #ece7dc;
+    font-size: 13px;
+    color: var(--text-mute);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.55;
+  }
+  .service-steps li:last-child { border-bottom: none; }
+  .service-steps li::before {
+    content: counter(step-counter);
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .service-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fef9ef;
+    border: 1px solid #f0e4c0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #8a6a20;
+    line-height: 1.55;
+  }
+  .service-note::before { content: '⚠'; flex-shrink: 0; }
+
+  /* Service CTA */
+  .services-cta {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    border-radius: 12px;
+    padding: 36px 32px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 40px;
+  }
+  .services-cta h3 { font-size: 20px; margin: 0 0 10px; font-family: var(--font-display); }
+  .services-cta p { font-size: 14px; opacity: 0.8; margin: 0 0 20px; }
+  .services-cta a {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .services-cta a:hover { opacity: 0.88; }
+
+  .dark-mode .service-card { background: #1a1a1a; border-top-color: var(--accent); }
+  .dark-mode .service-steps li { border-bottom-color: #2a2a2a; }
+  .dark-mode .service-note { background: #1e1a0f; border-color: #3a2e0a; color: #c9a96e; }
+  .dark-mode .services-intro { background: linear-gradient(135deg, #8a6a20, #6b5019); }
+
+  @media (max-width: 768px) {
+    .services-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
@@ -19,34 +164,45 @@
 </audio>
 <button id="oud-btn" class="oud-btn" title="تشغيل / إيقاف العود">🎵</button>
 
+<!-- Reading Progress -->
+<div class="reading-progress-bar" id="reading-progress"></div>
 
+<!-- Top Bar -->
 <div class="top-bar">
   <div class="social">
     <a href="https://facebook.com/jalituna" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg></a>
     <a href="https://twitter.com/jalituna" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg></a>
     <a href="https://instagram.com/jalituna" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a>
   </div>
+  <div class="top-bar-right">
+    <span class="top-bar-date" id="top-bar-date"></span>
+    <button class="dark-toggle" id="dark-toggle" title="تبديل الوضع الليلي">☾</button>
+  </div>
 </div>
 
+<!-- Logo -->
 <header class="main-header">
-  <a href="index.html" class="logo">جاليتُنا</a>
+  <a href="index.html" class="logo">جاليتُنا<span class="dot">.</span></a>
 </header>
 
+<!-- Navigation -->
 <nav class="main-nav">
+  <button class="nav-toggle" id="nav-toggle" aria-label="قائمة التنقل">
+    <span></span><span></span><span></span>
+  </button>
   <ul>
-    <li><a href="index.html" class="">الرئيسية</a></li>
-    <li><a href="blog.html" class="">المقالات</a></li>
-    <li><a href="category.html" class="">التصنيفات</a></li>
-    <li><a href="events.html" class="">الفعاليات</a></li>
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="blog.html">المقالات</a></li>
+    <li><a href="category.html?cat=embassy">التصنيفات</a></li>
+    <li><a href="events.html">الفعاليات</a></li>
     <li class="has-sub"><a href="#" class="active">الصفحات</a>
       <ul class="dropdown">
-        <li><a href="index.html">الرئيسية</a></li>
         <li><a href="about.html">من نحن</a></li>
         <li><a href="events.html">الفعاليات</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
         <li><a href="faq.html">الأسئلة الشائعة</a></li>
-        <li><a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a></li>
+        <li><a href="contact.html">تواصل معنا</a></li>
+        <li><a href="admin.html" style="color:#c9a96a;">لوحة التحكم</a></li>
       </ul>
     </li>
     <li class="has-sub"><a href="#">استكشف</a>
@@ -54,7 +210,6 @@
         <li><a href="category.html?cat=embassy">أحدث الأخبار</a></li>
         <li><a href="category.html?cat=events">فعاليات الجالية</a></li>
         <li><a href="services.html">دليل الخدمات</a></li>
-        <li><a href="index.html">إعلانات مهمة</a></li>
         <li><a href="category.html?cat=success">قصص وتجارب</a></li>
         <li><a href="gallery.html">معرض الصور</a></li>
       </ul>
@@ -62,7 +217,8 @@
   </ul>
 </nav>
 
-<section class="page-header" style="background-image:url('https://picsum.photos/seed/services/1920/600')">
+<!-- Page Header -->
+<section class="page-header" style="background-image:url('https://picsum.photos/seed/serviceshero9/1920/600')">
   <div class="page-header-inner">
     <h1>دليل الخدمات</h1>
     <span>إرشادات وخطوات تهم كل مصري مقيم في لبنان</span>
@@ -72,19 +228,109 @@
 <div class="container">
   <main class="content">
 
-    <div class="about-content">
-      <p>في هذا القسم، نجمع لكم أهم الخطوات المتعلقة بالمعاملات الورقية والقانونية لتسهيل حياتكم في لبنان.</p>
-      
-      <h3 style="margin-top:30px; margin-bottom:15px; font-family:var(--font-display);">١. تجديد جواز السفر المصري</h3>
-      <p>يتم التجديد عبر السفارة المصرية في بيروت. يرجى إحضار أصل الجواز القديم، صورة من بطاقة الرقم القومي، و٤ صور شخصية خلفية بيضاء. تستغرق العملية حوالي أسبوعين إلى ثلاثة أسابيع.</p>
-      
-      <h3 style="margin-top:30px; margin-bottom:15px; font-family:var(--font-display);">٢. تصاريح العمل والإقامات</h3>
-      <p>للحصول على إقامة عمل قانونية، يجب على الكفيل تقديم الأوراق للأمن العام اللبناني قبل انتهاء فترة السمة. تأكد دائماً من توقيع عقد العمل في وزارة العمل اللبنانية لتكون وضعيتك سليمة.</p>
-      
-      <h3 style="margin-top:30px; margin-bottom:15px; font-family:var(--font-display);">٣. استخراج التوكيلات الرسمية</h3>
-      <p>تقدم السفارة خدمة استخراج التوكيلات الرسمية بكل أنواعها، يجب حجز موعد مسبق والحضور شخصياً مع أصل بطاقة الرقم القومي السارية.</p>
-      
-      <p style="margin-top:40px; color:var(--text-mute); font-size:13px;">* ملاحظة: القوانين قد تتغير، يرجى مراجعة الموقع الرسمي للسفارة المصرية قبل التوجه.</p>
+    <div class="ornament"><span>خدمات الجالية المصرية</span></div>
+
+    <div class="services-intro">
+      <h2>كل ما تحتاجه في مكان واحد</h2>
+      <p>نجمع لكم في هذا الدليل أهم الإجراءات والخطوات المتعلقة بالمعاملات الورقية والقانونية والخدمات اليومية لتسهيل حياتكم في لبنان. ملاحظة: القوانين واللوائح قد تتغير، يُنصح دائماً بمراجعة الجهة المختصة قبل التوجه.</p>
+    </div>
+
+    <div class="services-grid">
+
+      <!-- Service 1 -->
+      <div class="service-card reveal">
+        <div class="service-icon">🛂</div>
+        <h3 class="service-title">تجديد جواز السفر المصري</h3>
+        <p class="service-desc">تجديد جواز السفر في لبنان يتم عبر القسم القنصلي في السفارة المصرية ببيروت، ويستغرق عادةً من أسبوعين إلى ثلاثة أسابيع.</p>
+        <ul class="service-steps">
+          <li>حجز موعد مسبق عبر البريد الإلكتروني الرسمي للسفارة</li>
+          <li>إحضار أصل الجواز القديم وصورة منه</li>
+          <li>تقديم صورة سارية من بطاقة الرقم القومي</li>
+          <li>إرفاق ٤ صور شخصية حديثة بخلفية بيضاء</li>
+          <li>دفع الرسوم المقررة وانتظار إشعار الاستلام</li>
+        </ul>
+        <div class="service-note">تأكد من أن الجواز الحالي لم تنتهِ صلاحيته بعد للتجديد العادي.</div>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="service-card reveal">
+        <div class="service-icon">📋</div>
+        <h3 class="service-title">إقامة العمل والتأشيرات</h3>
+        <p class="service-desc">للعمل بصورة قانونية في لبنان يجب الحصول على إقامة عمل سارية تجدَّد سنوياً من الأمن العام اللبناني.</p>
+        <ul class="service-steps">
+          <li>توقيع عقد عمل موثق في وزارة العمل اللبنانية</li>
+          <li>تقديم أوراق الكفيل للأمن العام قبل انتهاء السمة</li>
+          <li>إرفاق صور شخصية حديثة وصورة جواز السفر</li>
+          <li>تقديم شهادة عدم المحكومية (تُستخرج من القنصلية)</li>
+          <li>استلام بطاقة الإقامة والاحتفاظ بها دائماً</li>
+        </ul>
+        <div class="service-note">تجديد الإقامة قبل انتهائها بشهر على الأقل يتجنب غرامة التأخير.</div>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="service-card reveal">
+        <div class="service-icon">📜</div>
+        <h3 class="service-title">التوكيلات الرسمية والتوثيق</h3>
+        <p class="service-desc">تُوثِّق السفارة التوكيلات بجميع أنواعها: بيع عقارات، إدارة أعمال، حضانة أطفال، وغيرها من الوثائق القانونية.</p>
+        <ul class="service-steps">
+          <li>تحديد نوع التوكيل المطلوب بدقة</li>
+          <li>حجز موعد في القسم القنصلي بالسفارة</li>
+          <li>الحضور شخصياً بأصل بطاقة الرقم القومي السارية</li>
+          <li>مراجعة النص القانوني للتوكيل قبل التوقيع</li>
+          <li>استلام الوثيقة مختومةً بختم السفارة ووزارة الخارجية</li>
+        </ul>
+      </div>
+
+      <!-- Service 4 -->
+      <div class="service-card reveal">
+        <div class="service-icon">💸</div>
+        <h3 class="service-title">تحويل الأموال لمصر</h3>
+        <p class="service-desc">تتوفر في لبنان عدة شركات معتمدة لتحويل الأموال إلى مصر بأسعار تنافسية وبطرق آمنة ومضمونة.</p>
+        <ul class="service-steps">
+          <li>اختر شركة تحويل معتمدة (Western Union، MoneyGram...)</li>
+          <li>قارن الأسعار والرسوم بين الشركات قبل التحويل</li>
+          <li>أحضر هويتك الشخصية ورقم هاتف المستلم</li>
+          <li>احتفظ بإيصال التحويل حتى وصول المبلغ</li>
+          <li>تحقق من وصول المبلغ للمستلم في مصر</li>
+        </ul>
+        <div class="service-note">تتراوح الرسوم بين ١٪ و٣٪؛ تفاوض للحصول على أفضل سعر عند مبالغ كبيرة.</div>
+      </div>
+
+      <!-- Service 5 -->
+      <div class="service-card reveal">
+        <div class="service-icon">🏥</div>
+        <h3 class="service-title">التأمين الصحي والرعاية الطبية</h3>
+        <p class="service-desc">يتمتع لبنان بمستوى طبي متقدم. معرفة خياراتك الصحية مسبقاً يوفر عليك وقتاً ومالاً في حالات الطوارئ.</p>
+        <ul class="service-steps">
+          <li>تحقق من شبكة المستشفيات التي يغطيها تأمينك</li>
+          <li>اطلب من صاحب العمل توفير تأمين صحي شامل</li>
+          <li>احتفظ بأرقام الطوارئ للمستشفيات الكبرى في بيروت</li>
+          <li>راجع طبيباً عاماً قبل أي إجراء متخصص لتوجيهك</li>
+          <li>احتفظ بسجل طبي شخصي مع وثائق التطعيم</li>
+        </ul>
+      </div>
+
+      <!-- Service 6 -->
+      <div class="service-card reveal">
+        <div class="service-icon">🎓</div>
+        <h3 class="service-title">تعليم الأبناء ونقل السجلات</h3>
+        <p class="service-desc">توفر السفارة المصرية خدمات توثيق الشهادات الدراسية ونقل السجلات المدرسية للطلاب المصريين في لبنان.</p>
+        <ul class="service-steps">
+          <li>تحديد المدارس التي تعتمد المناهج الدولية أو العربية</li>
+          <li>توثيق الشهادات الدراسية عبر القسم القنصلي بالسفارة</li>
+          <li>التسجيل في قوائم الطلاب المصريين للبعثات الدراسية</li>
+          <li>الاستعلام عن المنح الجامعية المتاحة للجالية</li>
+          <li>التواصل مع اتحاد طلاب الجالية المصرية للدعم</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- CTA Block -->
+    <div class="services-cta">
+      <h3>هل تحتاج مساعدة إضافية؟</h3>
+      <p>فريقنا جاهز للإجابة على استفساراتكم والتوجيه للجهات المختصة</p>
+      <a href="contact.html">تواصل معنا الآن</a>
     </div>
 
   </main>
@@ -93,7 +339,7 @@
     <div class="widget widget-about">
       <h3 class="widget-title">عن المدوّنة</h3>
       <img src="Wael.png" alt="أ.د. وائل نبيل عبد السلام">
-      <p>أهلًا بكم في «جاليتُنا»، فضاءٌ يجمع أبناء الجالية المصرية في لبنان. نروي قصصًا، نُشارك تجارب، ونحتفي بكلّ ما يصنع منّا عائلة واحدة في وطننا الثاني.</p>
+      <p>أهلًا بكم في «جاليتُنا»، فضاءٌ يجمع أبناء الجالية المصرية في لبنان. نروي قصصًا، نُشارك تجارب، ونحتفي بكلّ ما يصنع منّا عائلة واحدة.</p>
       <div class="signature">أ.د. وائل نبيل عبد السلام</div>
     </div>
 
@@ -103,20 +349,29 @@
       <button>اشترك الآن</button>
     </div>
 
-    <div class="widget widget-social">
-      <h3 class="widget-title">تابعنا على</h3>
-      <div class="social-icons">
-        <a href="https://facebook.com/jalituna" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg></a>
-        <a href="https://twitter.com/jalituna" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg></a>
-        <a href="https://instagram.com/jalituna" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg></a>
-      </div>
+    <div class="widget">
+      <h3 class="widget-title">مقالات ذات صلة</h3>
+      <div class="footer-post"><a href="single.html?id=4">أخطاء شائعة عند تجديد الإقامة</a></div>
+      <div class="footer-post"><a href="single.html?id=9">خدمات السفارة الرقمية الجديدة</a></div>
+      <div class="footer-post"><a href="single.html?id=13">دليل فرص العمل للمصريين في لبنان</a></div>
+      <div class="footer-post"><a href="faq.html">الأسئلة الشائعة الكاملة</a></div>
     </div>
 
-    <div class="widget widget-banner">
-      <img src="https://picsum.photos/seed/bannerad2/400/300" alt="">
-      <div class="banner-text">
-        <strong>إعلانك هنا</strong>
-        <span>٣٠٠ × ٢٥٠</span>
+    <div class="widget widget-social">
+      <h3 class="widget-title">تابعنا على</h3>
+      <div class="social-grid">
+        <a href="https://facebook.com/jalituna" target="_blank" class="social-pill fb" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg>
+          Facebook
+        </a>
+        <a href="https://twitter.com/jalituna" target="_blank" class="social-pill tw" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path d="M18.9 7.6a4.5 4.5 0 001.9-2.3c-.8.5-1.7.8-2.6 1a4.1 4.1 0 00-7.1 3.7A11.7 11.7 0 013 5.5a4.1 4.1 0 001.3 5.5 4 4 0 01-1.9-.5v.1a4.1 4.1 0 003.3 4 4.1 4.1 0 01-1.9.1 4.1 4.1 0 003.9 2.8A8.3 8.3 0 012 19.2 11.7 11.7 0 008.3 21c7.5 0 11.7-6.3 11.7-11.7v-.5a8.3 8.3 0 002-2.1 8.3 8.3 0 01-2.4.6z"/></svg>
+          Twitter
+        </a>
+        <a href="https://instagram.com/jalituna" target="_blank" class="social-pill ig" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.7-2.2 1.4C1.3 2.7.9 3.4.6 4.2.3 5 .1 5.8.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.7-1.5-1.4-2.2C21.3 1.3 20.6.9 19.8.6 19 .3 18.2.1 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-10.5a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z"/></svg>
+          Instagram
+        </a>
       </div>
     </div>
 
@@ -136,66 +391,56 @@
   </aside>
 </div>
 
+<button id="back-to-top" class="back-to-top" aria-label="العودة للأعلى">↑</button>
+
 <footer>
   <div class="footer-inner">
-
     <div class="footer-col">
       <a href="index.html" class="footer-logo">جاليتُنا</a>
-      <p style="color:#888; font-size:13.5px; margin-top:15px; line-height:1.8;">
-        المنصة الأولى للجالية المصرية في لبنان. أخبار، خدمات، تغطيات حصرية وتجارب ملهمة من قلب بيروت إلى كل مدينة لبنانية.
-      </p>
+      <p style="color:#888; font-size:13.5px; margin-top:15px; line-height:1.8;">المنصة الأولى للجالية المصرية في لبنان. أخبار، خدمات، تغطيات حصرية وتجارب ملهمة.</p>
     </div>
-
     <div class="footer-col">
-      <h4>اشترك في النشرة</h4>
-      <input type="email" placeholder="بريدك الإلكتروني">
-      <button>اشترك الآن</button>
+      <h4>روابط سريعة</h4>
+      <div class="footer-post"><a href="index.html">الرئيسية</a></div>
+      <div class="footer-post"><a href="blog.html">المقالات</a></div>
+      <div class="footer-post"><a href="events.html">الفعاليات</a></div>
+      <div class="footer-post"><a href="faq.html">الأسئلة الشائعة</a></div>
+      <div class="footer-post"><a href="gallery.html">معرض الصور</a></div>
     </div>
-
     <div class="footer-col">
       <h4>أحدث المقالات</h4>
       <div class="footer-post">
-        <a href="single.html?id=1">مهرجان النيل في بيروت: احتفالية تجمع أبناء الجالية</a>
-        <span class="date">١٠ أكتوبر ٢٠٢٥</span>
+        <a href="single.html?id=9">خدمات السفارة الرقمية الجديدة</a>
+        <span class="date">١٢ نوفمبر ٢٠٢٥</span>
       </div>
       <div class="footer-post">
-        <a href="services.html">دليل العمالة المصرية: خطوات تجديد الإقامة</a>
+        <a href="single.html?id=4">أخطاء شائعة في تجديد الإقامة</a>
+        <span class="date">٢٠ سبتمبر ٢٠٢٥</span>
+      </div>
+      <div class="footer-post">
+        <a href="single.html?id=13">دليل فرص العمل للمصريين</a>
         <span class="date">٠٥ أكتوبر ٢٠٢٥</span>
       </div>
-      <div class="footer-post">
-        <a href="single.html?id=1">رحلة البحث عن المذاق: أفضل محلات الكشري</a>
-        <span class="date">٢٨ سبتمبر ٢٠٢٥</span>
-      </div>
     </div>
-
     <div class="footer-col">
-      <h4>المقالات الأكثر قراءة</h4>
-      <div class="footer-post">
-        <a href="services.html">إجراءات جديدة لتسهيل الوثائق الرسمية بالسفارة</a>
-        <span class="date">١٢ أغسطس ٢٠٢٥</span>
-      </div>
-      <div class="footer-post">
-        <a href="single.html?id=1">قصة نجاح الطالب أحمد محمود: من بيروت للعالمية</a>
-        <span class="date">٠٥ سبتمبر ٢٠٢٥</span>
-      </div>
-      <div class="footer-post">
-        <a href="events.html">فرص واعدة: الشباب المصري وريادة الأعمال</a>
-        <span class="date">٠١ أبريل ٢٠٢٥</span>
-      </div>
+      <h4>اشترك في النشرة</h4>
+      <input type="email" placeholder="بريدك الإلكتروني" style="width:100%;padding:9px 12px;border:1.5px solid #333;border-radius:6px;background:#1a1a1a;color:#ccc;font-family:inherit;margin-bottom:8px;">
+      <button style="width:100%;padding:9px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;">اشترك الآن</button>
     </div>
-
   </div>
-
   <div class="footer-bottom">
-    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٥</div>
+    <div>© جميع الحقوق محفوظة — جاليتُنا ٢٠٢٦</div>
     <nav class="footer-nav">
       <a href="index.html">الرئيسية</a>
       <a href="services.html">دليل الخدمات</a>
       <a href="about.html">من نحن</a>
       <a href="contact.html">تواصل معنا</a>
-      <a href="admin.html" style="color:#3498db; font-weight:bold;">لوحة التحكم</a>
+      <a href="admin.html" style="color:#c9a96a;">لوحة التحكم</a>
     </nav>
   </div>
 </footer>
+
+<script src="src/mockPosts.js"></script>
+<script src="src/site.js"></script>
 </body>
 </html>
