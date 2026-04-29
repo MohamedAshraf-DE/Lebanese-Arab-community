@@ -8,235 +8,393 @@
 <link rel="stylesheet" href="style.css">
 <style>
   :root {
-    --admin-primary: #2c3e50;
-    --admin-secondary: #34495e;
-    --admin-accent: #3498db;
-    --admin-success: #27ae60;
-    --admin-danger: #e74c3c;
+    --ap: #2c3e50; --as: #34495e; --aa: #3498db;
+    --ok: #27ae60; --err: #e74c3c; --warn: #f39c12;
   }
-  body { font-family: 'Tajawal', sans-serif; background: #f4f7f6; margin: 0; display: flex; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family:'Tajawal',sans-serif; background:#f0f2f5; margin:0; display:flex; min-height:100vh; animation:none; }
 
-  .admin-sidebar {
-    width: 250px;
-    background: var(--admin-primary);
-    color: white;
-    min-height: 100vh;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+  /* ---- Sidebar ---- */
+  .admin-sidebar { width:240px; background:var(--ap); color:#fff; min-height:100vh; display:flex; flex-direction:column; padding:0; flex-shrink:0; }
+  .a-logo { padding:22px 20px 6px; font-size:22px; font-weight:700; color:#c9a96e; letter-spacing:-.5px; }
+  .a-sub  { padding:0 20px 14px; font-size:12px; color:#8a9bb0; border-bottom:1px solid rgba(255,255,255,.1); margin-bottom:10px; }
+  .a-nav  { list-style:none; margin:0; padding:0 10px; flex:1; }
+  .a-nav li { margin-bottom:2px; }
+  .a-nav a {
+    display:flex; align-items:center; gap:10px;
+    padding:10px 12px; border-radius:7px;
+    color:#cdd9e5; text-decoration:none; font-size:13.5px;
+    transition:.2s; cursor:pointer;
   }
-  .admin-sidebar-logo {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    color: #c9a96e;
-    margin-bottom: 6px;
-    letter-spacing: -0.5px;
-  }
-  .admin-sidebar h2 {
-    font-size: 13px;
-    color: #8a9bb0;
-    text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    font-weight: 400;
-  }
-  .admin-nav-links { list-style: none; padding: 0; flex: 1; }
-  .admin-nav-links li { margin-bottom: 6px; }
-  .admin-nav-links a {
-    color: #ecf0f1;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 6px;
-    transition: 0.25s;
-    font-size: 14px;
-  }
-  .admin-nav-links a:hover, .admin-nav-links a.active { background: var(--admin-secondary); color: #fff; }
-  .admin-nav-links .logout-link { color: #e8a0a0; margin-top: auto; }
-  .admin-nav-links .logout-link:hover { background: rgba(231,76,60,0.18); color: #e74c3c; }
+  .a-nav a:hover, .a-nav a.active { background:var(--as); color:#fff; }
+  .a-nav .a-logout { color:#e8a0a0; margin-top:20px; }
+  .a-nav .a-logout:hover { background:rgba(231,76,60,.15); color:#e74c3c; }
+  .a-divider { height:1px; background:rgba(255,255,255,.1); margin:10px 16px; }
 
-  .admin-main { flex: 1; padding: 30px; overflow: auto; }
-  .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-  .admin-header h1 { font-size: 22px; color: var(--admin-primary); margin: 0; }
-  .admin-header .admin-user { font-size: 13px; color: #999; }
-  .btn-add { background: var(--admin-accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-family: inherit; }
-  .btn-add:hover { background: #2980b9; }
+  /* ---- Main ---- */
+  .admin-main { flex:1; overflow:auto; padding:28px 30px; }
+  .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
+  .admin-header h1 { font-size:20px; color:#2c3e50; margin:0; }
+  .admin-header small { font-size:12.5px; color:#999; display:block; margin-top:2px; }
+  .btn-add { background:var(--aa); color:#fff; border:none; padding:9px 18px; border-radius:7px; cursor:pointer; font-size:13.5px; font-family:inherit; transition:.2s; }
+  .btn-add:hover { background:#2980b9; }
 
-  .posts-table-wrap { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { padding: 14px 16px; text-align: right; border-bottom: 1px solid #f0f0f0; font-size: 13.5px; }
-  th { background: #fafafa; font-weight: 600; color: #888; font-size: 12px; letter-spacing: 0.5px; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #fafbfc; }
-  .btn-edit { color: var(--admin-accent); cursor: pointer; margin-left: 8px; border: none; background: none; font-size: 13px; font-family: inherit; }
-  .btn-delete { color: var(--admin-danger); cursor: pointer; border: none; background: none; font-size: 13px; font-family: inherit; }
+  /* ---- Tabs ---- */
+  .admin-tab { display:none; }
+  .admin-tab.active { display:block; }
 
-  .cat-pill {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    background: #eef2ff;
-    color: #4a6cf7;
-  }
+  /* ---- Dashboard stats ---- */
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:28px; }
+  .stat-card { background:#fff; border-radius:10px; padding:20px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  .stat-icon { font-size:28px; margin-bottom:8px; }
+  .stat-val  { font-size:30px; font-weight:700; color:#2c3e50; line-height:1; }
+  .stat-lbl  { font-size:12px; color:#999; margin-top:4px; }
+  .recent-box { background:#fff; border-radius:10px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  .recent-box h3 { font-size:14px; color:#555; margin:0 0 14px; }
+  .recent-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f5f5f5; font-size:13px; }
+  .recent-item:last-child { border-bottom:none; }
+  .recent-item .ri-title { color:#333; }
+  .recent-item .ri-cat { color:#888; font-size:11px; }
 
-  /* Modal */
-  .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); align-items: center; justify-content: center; }
-  .modal.open { display: flex; }
-  .modal-content { background: white; padding: 32px; border-radius: 10px; width: 600px; max-width: 95%; max-height: 92vh; overflow-y: auto; }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
-  .modal-header h2 { margin: 0; font-size: 17px; color: #333; }
-  .close-modal { cursor: pointer; font-size: 22px; color: #bbb; line-height: 1; }
-  .close-modal:hover { color: #555; }
+  /* ---- Table ---- */
+  .table-wrap { background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.06); overflow:hidden; }
+  table { width:100%; border-collapse:collapse; }
+  th,td { padding:13px 15px; text-align:right; border-bottom:1px solid #f2f2f2; font-size:13px; }
+  th { background:#fafafa; font-weight:600; color:#888; font-size:11.5px; letter-spacing:.4px; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:#fafbfc; }
+  .btn-edit   { color:var(--aa);  border:none; background:none; font-size:12.5px; font-family:inherit; cursor:pointer; margin-left:6px; padding:3px 8px; border-radius:4px; }
+  .btn-delete { color:var(--err); border:none; background:none; font-size:12.5px; font-family:inherit; cursor:pointer; padding:3px 8px; border-radius:4px; }
+  .btn-edit:hover   { background:#eef5fb; }
+  .btn-delete:hover { background:#fdf0f0; }
+  .pill { display:inline-block; padding:2px 9px; border-radius:20px; font-size:11px; background:#eef2ff; color:#4a6cf7; }
+  .pill.upcoming { background:#e6f9f0; color:#27ae60; }
+  .pill.past     { background:#f5f5f5; color:#888; }
+  .empty-row td  { text-align:center; color:#bbb; padding:30px; }
 
-  .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #555; }
+  /* ---- Modal ---- */
+  .modal { display:none; position:fixed; z-index:1000; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.45); align-items:center; justify-content:center; }
+  .modal.open { display:flex; }
+  .modal-box { background:#fff; padding:28px 30px; border-radius:12px; width:580px; max-width:96%; max-height:90vh; overflow-y:auto; }
+  .modal-hdr { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:12px; }
+  .modal-hdr h2 { margin:0; font-size:16px; color:#333; }
+  .modal-close { cursor:pointer; font-size:24px; color:#ccc; line-height:1; border:none; background:none; }
+  .modal-close:hover { color:#555; }
+  .form-group { margin-bottom:14px; }
+  .form-group label { display:block; margin-bottom:5px; font-weight:600; font-size:12.5px; color:#555; }
   .form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 13.5px;
-    transition: border-color 0.2s;
+    width:100%; padding:9px 11px; border:1.5px solid #e5e5e5;
+    border-radius:6px; font-family:inherit; font-size:13px; transition:border-color .2s;
   }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none;
-    border-color: var(--admin-accent);
-  }
-  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
-  .btn-save { background: var(--admin-success); color: white; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 14px; }
-  .btn-cancel { background: #e5e5e5; color: #555; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline:none; border-color:var(--aa); }
+  .form-group input.invalid, .form-group select.invalid, .form-group textarea.invalid { border-color:var(--err); }
+  .form-group .field-err { font-size:11px; color:var(--err); margin-top:3px; display:none; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .form-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:20px; }
+  .btn-save   { background:var(--ok);  color:#fff; border:none; padding:9px 22px; border-radius:6px; cursor:pointer; font-family:inherit; font-size:13.5px; }
+  .btn-cancel { background:#eee; color:#555; border:none; padding:9px 22px; border-radius:6px; cursor:pointer; font-family:inherit; font-size:13.5px; }
+  #articleImagePreview { max-width:100%; height:140px; object-fit:cover; border-radius:6px; display:none; margin-top:8px; }
 
-  #imagePreview { max-width: 100%; height: 150px; object-fit: cover; border-radius: 6px; display: none; margin-top: 10px; }
+  /* ---- Toast ---- */
+  .admin-toast {
+    position:fixed; bottom:28px; right:28px;
+    padding:12px 20px; border-radius:8px; color:#fff;
+    font-size:13.5px; font-family:inherit;
+    opacity:0; transform:translateY(8px);
+    transition:opacity .3s, transform .3s;
+    z-index:9999; pointer-events:none; min-width:220px;
+    box-shadow:0 4px 16px rgba(0,0,0,.18);
+  }
+  .admin-toast.visible { opacity:1; transform:translateY(0); }
+  .admin-toast.ok  { background:var(--ok); }
+  .admin-toast.err { background:var(--err); }
+
+  /* ---- Responsive ---- */
+  @media(max-width:900px){
+    body { flex-direction:column; }
+    .admin-sidebar { width:100%; min-height:auto; flex-direction:row; flex-wrap:wrap; padding:10px; }
+    .a-logo { padding:8px 12px; font-size:18px; }
+    .a-nav  { display:flex; flex-direction:row; flex-wrap:wrap; gap:4px; padding:0; }
+    .a-nav li { margin:0; }
+    .a-nav a  { padding:6px 10px; font-size:12px; }
+    .a-divider { display:none; }
+    .admin-main { padding:16px; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); }
+    .form-row { grid-template-columns:1fr; }
+  }
+  @media(max-width:600px){ .stats-grid { grid-template-columns:1fr 1fr; } }
 </style>
 </head>
 <body>
 
 <script>
-  /* Auth guard — redirect to login if not authenticated */
   if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
     location.replace('login.html');
   }
 </script>
 
+<!-- Sidebar -->
 <aside class="admin-sidebar">
-  <div class="admin-sidebar-logo">جاليتُنا</div>
-  <h2>لوحة التحكم</h2>
-  <ul class="admin-nav-links">
-    <li><a href="#" class="active">📄 المقالات</a></li>
+  <div class="a-logo">جاليتُنا</div>
+  <div class="a-sub">لوحة التحكم</div>
+  <ul class="a-nav">
+    <li><a href="#" class="a-tab-link active" data-tab="dashboard">📊 لوحة المعلومات</a></li>
+    <li><a href="#" class="a-tab-link" data-tab="articles">📄 المقالات</a></li>
+    <li><a href="#" class="a-tab-link" data-tab="events">📅 الفعاليات</a></li>
+    <li><a href="#" class="a-tab-link" data-tab="carousel">🖼 الكاروسيل</a></li>
+    <div class="a-divider"></div>
     <li><a href="index.html" target="_blank">🌐 عرض الموقع</a></li>
-    <li style="margin-top:auto; padding-top:20px;">
-      <a href="#" id="logout-btn" class="logout-link">🚪 تسجيل الخروج</a>
-    </li>
+    <li><a href="#" id="logout-btn" class="a-logout">🚪 تسجيل الخروج</a></li>
   </ul>
 </aside>
 
+<!-- Main area -->
 <main class="admin-main">
-  <header class="admin-header">
-    <div>
-      <h1>إدارة المقالات</h1>
-      <span class="admin-user">مرحباً، المشرف</span>
-    </div>
-    <button class="btn-add" id="openAddModal">+ إضافة مقال جديد</button>
-  </header>
 
-  <div class="posts-table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>العنوان</th>
-          <th>التصنيف</th>
-          <th>التاريخ</th>
-          <th>الكاتب</th>
-          <th>الإجراءات</th>
-        </tr>
-      </thead>
-      <tbody id="postsTableBody">
-      </tbody>
-    </table>
-  </div>
+  <!-- Toast -->
+  <div class="admin-toast" id="admin-toast"></div>
+
+  <!-- TAB: Dashboard -->
+  <section class="admin-tab active" id="tab-dashboard">
+    <div class="admin-header">
+      <div><h1>لوحة المعلومات</h1><small>مرحباً بك، المشرف</small></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon">📄</div><div class="stat-val" id="stat-art">0</div><div class="stat-lbl">إجمالي المقالات</div></div>
+      <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-val" id="stat-ev">0</div><div class="stat-lbl">إجمالي الفعاليات</div></div>
+      <div class="stat-card"><div class="stat-icon">🏷</div><div class="stat-val">7</div><div class="stat-lbl">التصنيفات</div></div>
+      <div class="stat-card"><div class="stat-icon">🖼</div><div class="stat-val" id="stat-sl">0</div><div class="stat-lbl">شرائح الكاروسيل</div></div>
+    </div>
+    <div class="recent-box">
+      <h3>آخر ٥ مقالات مضافة</h3>
+      <div id="recent-list"></div>
+    </div>
+  </section>
+
+  <!-- TAB: Articles -->
+  <section class="admin-tab" id="tab-articles">
+    <div class="admin-header">
+      <div><h1>إدارة المقالات</h1></div>
+      <button class="btn-add" id="openAddArticle">+ إضافة مقال جديد</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>العنوان</th><th>التصنيف</th><th>التاريخ</th><th>الكاتب</th><th>الإجراءات</th></tr></thead>
+        <tbody id="articlesBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB: Events -->
+  <section class="admin-tab" id="tab-events">
+    <div class="admin-header">
+      <div><h1>إدارة الفعاليات</h1></div>
+      <button class="btn-add" id="openAddEvent">+ إضافة فعالية جديدة</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>عنوان الفعالية</th><th>التاريخ</th><th>المكان</th><th>الحالة</th><th>الإجراءات</th></tr></thead>
+        <tbody id="eventsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB: Carousel -->
+  <section class="admin-tab" id="tab-carousel">
+    <div class="admin-header">
+      <div><h1>إدارة شرائح الكاروسيل</h1><small>تظهر في الصفحة الرئيسية</small></div>
+      <button class="btn-add" id="openAddSlide">+ إضافة شريحة جديدة</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>العنوان</th><th>التصنيف</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
+        <tbody id="carouselBody"></tbody>
+      </table>
+    </div>
+  </section>
+
 </main>
 
-<!-- Add / Edit Modal -->
-<div class="modal" id="postModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 id="modalTitle">إضافة مقال جديد</h2>
-      <span class="close-modal" id="closeModal">&times;</span>
+<!-- ========== ARTICLE MODAL ========== -->
+<div class="modal" id="articleModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="articleModalTitle">إضافة مقال جديد</h2>
+      <button class="modal-close" data-close="articleModal">&times;</button>
     </div>
-    <form id="postForm">
-      <input type="hidden" id="postId">
+    <form id="articleForm" novalidate>
+      <input type="hidden" id="articleId">
       <div class="form-group">
-        <label>عنوان المقال</label>
-        <input type="text" id="postTitleInput" required>
+        <label>عنوان المقال <span style="color:red">*</span></label>
+        <input type="text" id="artTitle" placeholder="أدخل العنوان">
+        <div class="field-err" id="err-artTitle">الرجاء إدخال عنوان المقال</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>التصنيف <span style="color:red">*</span></label>
+          <select id="artCategory">
+            <option value="">اختر التصنيف</option>
+            <option value="أخبار السفارة">أخبار السفارة</option>
+            <option value="ثقافة وفنون">ثقافة وفنون</option>
+            <option value="قصص نجاح">قصص نجاح</option>
+            <option value="مطاعم مصرية">مطاعم مصرية</option>
+            <option value="إقامة وأوراق">إقامة وأوراق</option>
+            <option value="فعاليات وتجمعات">فعاليات وتجمعات</option>
+            <option value="عمل وفرص">عمل وفرص</option>
+          </select>
+          <div class="field-err" id="err-artCategory">الرجاء اختيار التصنيف</div>
+        </div>
+        <div class="form-group">
+          <label>تاريخ النشر <span style="color:red">*</span></label>
+          <input type="date" id="artDate">
+          <div class="field-err" id="err-artDate">الرجاء إدخال تاريخ النشر</div>
+        </div>
       </div>
       <div class="form-group">
-        <label>التصنيف</label>
-        <select id="postCategoryInput" required>
-          <option value="أخبار السفارة">أخبار السفارة</option>
-          <option value="ثقافة وفنون">ثقافة وفنون</option>
-          <option value="قصص نجاح">قصص نجاح</option>
-          <option value="مطاعم مصرية">مطاعم مصرية</option>
-          <option value="إقامة وأوراق">إقامة وأوراق</option>
-          <option value="فعاليات وتجمعات">فعاليات وتجمعات</option>
-          <option value="عمل وفرص">عمل وفرص</option>
-        </select>
+        <label>الكاتب <span style="color:red">*</span></label>
+        <input type="text" id="artAuthor" placeholder="اسم الكاتب" value="أ.د. وائل نبيل عبد السلام">
+        <div class="field-err" id="err-artAuthor">الرجاء إدخال اسم الكاتب</div>
       </div>
       <div class="form-group">
-        <label>تاريخ النشر</label>
-        <input type="date" id="postDateInput" required>
+        <label>مقتطف <span style="color:red">*</span></label>
+        <textarea id="artExcerpt" rows="2" placeholder="ملخص قصير للمقال"></textarea>
+        <div class="field-err" id="err-artExcerpt">الرجاء إدخال مقتطف</div>
       </div>
       <div class="form-group">
-        <label>الكاتب</label>
-        <input type="text" id="postAuthorInput" value="أ.د. وائل نبيل عبد السلام" required>
-      </div>
-      <div class="form-group">
-        <label>مقتطف</label>
-        <textarea id="postExcerptInput" rows="2" required></textarea>
-      </div>
-      <div class="form-group">
-        <label>المحتوى</label>
-        <textarea id="postContentInput" rows="6" required></textarea>
+        <label>المحتوى <span style="color:red">*</span></label>
+        <textarea id="artContent" rows="5" placeholder="نص المقال كاملاً"></textarea>
+        <div class="field-err" id="err-artContent">الرجاء إدخال محتوى المقال</div>
       </div>
       <div class="form-group">
         <label>رابط الصورة (URL)</label>
-        <input type="url" id="postImageUrl" placeholder="https://picsum.photos/seed/example/600/420">
-        <img id="imagePreview" src="" alt="معاينة الصورة">
+        <input type="url" id="artImage" placeholder="https://picsum.photos/seed/example/800/500">
+        <img id="articleImagePreview" src="" alt="معاينة">
       </div>
       <div class="form-actions">
-        <button type="button" class="btn-cancel" id="cancelBtn">إلغاء</button>
+        <button type="button" class="btn-cancel" data-close="articleModal">إلغاء</button>
         <button type="submit" class="btn-save">حفظ المقال</button>
       </div>
     </form>
   </div>
 </div>
 
+<!-- ========== EVENT MODAL ========== -->
+<div class="modal" id="eventModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="eventModalTitle">إضافة فعالية جديدة</h2>
+      <button class="modal-close" data-close="eventModal">&times;</button>
+    </div>
+    <form id="eventForm" novalidate>
+      <input type="hidden" id="eventId">
+      <div class="form-group">
+        <label>عنوان الفعالية <span style="color:red">*</span></label>
+        <input type="text" id="evTitle" placeholder="اسم الفعالية">
+        <div class="field-err" id="err-evTitle">الرجاء إدخال عنوان الفعالية</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>التاريخ <span style="color:red">*</span></label>
+          <input type="date" id="evDate">
+          <div class="field-err" id="err-evDate">الرجاء إدخال تاريخ الفعالية</div>
+        </div>
+        <div class="form-group">
+          <label>الحالة <span style="color:red">*</span></label>
+          <select id="evStatus">
+            <option value="upcoming">قادمة</option>
+            <option value="past">سابقة</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>المكان <span style="color:red">*</span></label>
+          <input type="text" id="evLocation" placeholder="مكان الفعالية">
+          <div class="field-err" id="err-evLocation">الرجاء إدخال المكان</div>
+        </div>
+        <div class="form-group">
+          <label>الوقت</label>
+          <input type="text" id="evTime" placeholder="مثال: ٥ مساءً — ١١ مساءً">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>رسوم الدخول</label>
+        <input type="text" id="evTicket" placeholder="مجاني / تسجيل مسبق / ٢٠ $">
+      </div>
+      <div class="form-group">
+        <label>وصف الفعالية <span style="color:red">*</span></label>
+        <textarea id="evExcerpt" rows="3" placeholder="وصف موجز للفعالية"></textarea>
+        <div class="field-err" id="err-evExcerpt">الرجاء إدخال وصف الفعالية</div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" data-close="eventModal">إلغاء</button>
+        <button type="submit" class="btn-save">حفظ الفعالية</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ========== CAROUSEL MODAL ========== -->
+<div class="modal" id="carouselModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="carouselModalTitle">إضافة شريحة جديدة</h2>
+      <button class="modal-close" data-close="carouselModal">&times;</button>
+    </div>
+    <form id="carouselForm" novalidate>
+      <input type="hidden" id="slideId">
+      <div class="form-row">
+        <div class="form-group">
+          <label>تصنيف الشريحة <span style="color:red">*</span></label>
+          <select id="slideTag">
+            <option value="">اختر التصنيف</option>
+            <option value="أخبار السفارة">أخبار السفارة</option>
+            <option value="ثقافة وفنون">ثقافة وفنون</option>
+            <option value="قصص نجاح">قصص نجاح</option>
+            <option value="مطاعم مصرية">مطاعم مصرية</option>
+            <option value="إقامة وأوراق">إقامة وأوراق</option>
+            <option value="فعاليات وتجمعات">فعاليات وتجمعات</option>
+            <option value="عمل وفرص">عمل وفرص</option>
+          </select>
+          <div class="field-err" id="err-slideTag">الرجاء اختيار التصنيف</div>
+        </div>
+        <div class="form-group">
+          <label>رابط الصفحة</label>
+          <input type="text" id="slideLink" placeholder="مثال: single.html?id=5">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>عنوان الشريحة <span style="color:red">*</span></label>
+        <input type="text" id="slideTitle" placeholder="العنوان الرئيسي للشريحة">
+        <div class="field-err" id="err-slideTitle">الرجاء إدخال عنوان الشريحة</div>
+      </div>
+      <div class="form-group">
+        <label>الوصف <span style="color:red">*</span></label>
+        <textarea id="slideDesc" rows="2" placeholder="نص وصفي مختصر"></textarea>
+        <div class="field-err" id="err-slideDesc">الرجاء إدخال وصف الشريحة</div>
+      </div>
+      <div class="form-group">
+        <label>رابط صورة الخلفية <span style="color:red">*</span></label>
+        <input type="url" id="slideImage" placeholder="https://picsum.photos/seed/example/1920/700">
+        <div class="field-err" id="err-slideImage">الرجاء إدخال رابط الصورة</div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" data-close="carouselModal">إلغاء</button>
+        <button type="submit" class="btn-save">حفظ الشريحة</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script src="src/mockPosts.js"></script>
-<script src="src/adminLogic.js"></script>
+<script src="src/adminData.js"></script>
 <script src="src/adminUI.js"></script>
 <script>
-  /* Logout */
   document.getElementById('logout-btn').addEventListener('click', function (e) {
     e.preventDefault();
     sessionStorage.removeItem('adminLoggedIn');
     location.replace('login.html');
   });
-
-  /* Image URL preview */
-  var imgUrlInput = document.getElementById('postImageUrl');
-  var imgPreview  = document.getElementById('imagePreview');
-  if (imgUrlInput && imgPreview) {
-    imgUrlInput.addEventListener('input', function () {
-      var val = this.value.trim();
-      if (val) { imgPreview.src = val; imgPreview.style.display = 'block'; }
-      else      { imgPreview.style.display = 'none'; }
-    });
-  }
 </script>
 </body>
 </html>

@@ -239,10 +239,13 @@
     document.getElementById('cat-header').style.backgroundImage = "url('" + cat.bg + "')";
     document.getElementById('breadcrumb-cat').textContent = cat.name;
 
-    /* Merge mockPosts with any posts added via admin */
-    var storedPosts = null;
-    try { storedPosts = JSON.parse(localStorage.getItem('blog_posts')); } catch (e) {}
-    var allPosts = storedPosts || window.mockPosts || [];
+    /* Always show mockPosts as base; append admin-created extras (id > max base id) */
+    var basePosts = window.mockPosts || [];
+    var storedPosts = [];
+    try { storedPosts = JSON.parse(localStorage.getItem('blog_posts')) || []; } catch (e) {}
+    var maxBaseId = basePosts.reduce(function (m, p) { return p.id > m ? p.id : m; }, 0);
+    var extraPosts = storedPosts.filter(function (p) { return p.id > maxBaseId; });
+    var allPosts = basePosts.concat(extraPosts);
     var filteredPosts = allPosts.filter(function (p) { return p.category === cat.name; });
     
     /* Update category sidebar counts */

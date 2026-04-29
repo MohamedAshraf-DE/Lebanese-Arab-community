@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
 
-  // Initialize posts in storage if not already there
-  if (window.adminLogic && window.mockPosts) {
-    const storedPosts = window.adminLogic.getPostsFromStorage();
-    if (storedPosts.length === 0) {
-      window.adminLogic.savePostsToStorage(window.mockPosts);
-    }
-  }
-
-  // Helper to get current posts
-  window.getCurrentPosts = () => {
-    return (window.adminLogic) ? window.adminLogic.getPostsFromStorage(window.mockPosts) : window.mockPosts;
+  // Helper to get current posts — always uses mockPosts as the base so content
+  // is never lost; admin-created extras (id > max base id) are appended.
+  window.getCurrentPosts = function () {
+    var base = window.mockPosts || [];
+    var stored = [];
+    try { stored = JSON.parse(localStorage.getItem('blog_posts')) || []; } catch (e) {}
+    var maxBaseId = base.reduce(function (m, p) { return p.id > m ? p.id : m; }, 0);
+    var extras = stored.filter(function (p) { return p.id > maxBaseId; });
+    return base.concat(extras);
   };
 
   // -- 1. Blog & Category Pages --

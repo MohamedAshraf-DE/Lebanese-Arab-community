@@ -76,99 +76,13 @@
       <span>الفعاليات</span>
     </nav>
 
-    <!-- Upcoming Events -->
+    <!-- Upcoming Events (populated by JS from localStorage / defaults) -->
     <div class="section-divider reveal"><span>فعاليات قادمة</span></div>
+    <div id="upcoming-events"></div>
 
-    <div class="event-card reveal">
-      <div class="event-date-badge">
-        <span class="event-date-day">١٥</span>
-        <span class="event-date-month">مايو</span>
-      </div>
-      <div class="event-body">
-        <h3 class="event-title">مهرجان النيل السنوي ٢٠٢٦ — بيروت</h3>
-        <div class="event-meta">
-          <span>📍 مسرح البيال، بيروت</span>
-          <span>⏰ ٥ مساءً — ١١ مساءً</span>
-          <span>🎟 مجاني</span>
-        </div>
-        <p class="event-excerpt">الحدث الأكبر للجالية المصرية في لبنان يعود هذا العام بحلة جديدة. عروض فنية، موسيقى حية، مأكولات شعبية، وفقرات للأطفال. لا تفوت فرصة التواصل مع الأسرة الكبيرة!</p>
-      </div>
-    </div>
-
-    <div class="event-card reveal">
-      <div class="event-date-badge">
-        <span class="event-date-day">٣</span>
-        <span class="event-date-month">يونيو</span>
-      </div>
-      <div class="event-body">
-        <h3 class="event-title">ورشة تراخيص العمل والإقامة مع محامين متطوعين</h3>
-        <div class="event-meta">
-          <span>📍 نادي الجالية المصرية، الحمرا</span>
-          <span>⏰ ٤ عصراً — ٧ مساءً</span>
-          <span>🎟 تسجيل مسبق</span>
-        </div>
-        <p class="event-excerpt">جلسة مفتوحة مع نخبة من المحامين اللبنانيين والمصريين للإجابة على أسئلتكم حول تجديد الإقامة وتصاريح العمل وحقوق العمالة. الحضور مجاني والأماكن محدودة.</p>
-      </div>
-    </div>
-
-    <div class="event-card reveal">
-      <div class="event-date-badge">
-        <span class="event-date-day">٢٠</span>
-        <span class="event-date-month">يونيو</span>
-      </div>
-      <div class="event-body">
-        <h3 class="event-title">يوم عائلي في ضيعة تنورين — رحلة الجالية الصيفية</h3>
-        <div class="event-meta">
-          <span>📍 تنورين، شمال لبنان</span>
-          <span>⏰ ٩ صباحاً — ٦ مساءً</span>
-          <span>🎟 ٢٠ $ للشخص</span>
-        </div>
-        <p class="event-excerpt">رحلة ترفيهية جماعية إلى قرية تنورين الجبلية الساحرة. نزهات طبيعية، شواء جماعي، وأنشطة للأطفال في أجواء الطبيعة اللبنانية بعيداً عن صخب المدينة.</p>
-      </div>
-    </div>
-
-    <!-- Past Events -->
+    <!-- Past Events (populated by JS from localStorage / defaults) -->
     <div class="section-divider reveal"><span>تغطيات سابقة</span></div>
-
-    <div class="posts-grid">
-
-      <article class="post reveal">
-        <div class="post-image"><img src="https://picsum.photos/seed/byblos-event/600/420" alt="يوم الجالية في جبيل" loading="lazy"></div>
-        <span class="category-badge">فعاليات وتجمعات</span>
-        <h3 class="post-title">يوم الجالية المصرية في جبيل: تجمع يجمع الأجيال</h3>
-        <div class="post-meta">
-          <span class="post-date">١٠ يوليو ٢٠٢٥</span>
-          <span class="reading-time">٥ دقائق</span>
-        </div>
-        <p class="post-excerpt">تجمع استثنائي في أجواء مدينة جبيل الأثرية جمع مئات العائلات المصرية في يوم من الفرح والتواصل والانتماء...</p>
-        <a href="single.html?id=12" class="read-more">اقرأ المزيد ←</a>
-      </article>
-
-      <article class="post reveal">
-        <div class="post-image"><img src="https://picsum.photos/seed/nile-festival/600/420" alt="مهرجان النيل" loading="lazy"></div>
-        <span class="category-badge">فعاليات وتجمعات</span>
-        <h3 class="post-title">مهرجان النيل في بيروت: احتفالية تجمع الجاليتين</h3>
-        <div class="post-meta">
-          <span class="post-date">١٥ سبتمبر ٢٠٢٥</span>
-          <span class="reading-time">٤ دقائق</span>
-        </div>
-        <p class="post-excerpt">عاشت العاصمة اللبنانية بيروت ليلة من ليالي العمر، حيث امتزجت أنغام السمسمية المصرية بإيقاعات الدبكة اللبنانية في "مهرجان النيل" السنوي...</p>
-        <a href="single.html?id=5" class="read-more">اقرأ المزيد ←</a>
-      </article>
-
-      <article class="post reveal">
-        <div class="post-image"><img src="https://picsum.photos/seed/art-gallery1/600/420" alt="المعرض الثقافي" loading="lazy"></div>
-        <span class="category-badge">ثقافة وفنون</span>
-        <h3 class="post-title">افتتاح المعرض الثقافي المصري اللبناني في بيروت</h3>
-        <div class="post-meta">
-          <span class="post-date">١٢ أكتوبر ٢٠٢٥</span>
-          <span class="reading-time">٣ دقائق</span>
-        </div>
-        <p class="post-excerpt">في أجواء احتفالية رائعة، تم افتتاح المعرض الثقافي الذي يجمع بين التراث المصري واللبناني وسط حضور واسع من الجاليتين...</p>
-        <a href="single.html?id=7" class="read-more">اقرأ المزيد ←</a>
-      </article>
-
-    </div>
+    <div class="posts-grid" id="past-events"></div>
 
   </main>
 
@@ -271,6 +185,72 @@
 
 <button id="back-to-top" title="العودة للأعلى">↑</button>
 <script src="src/mockPosts.js"></script>
+<script src="src/adminData.js"></script>
+<script>
+(function () {
+  var AR_MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  var AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+
+  function toAr(n) {
+    return String(n).replace(/\d/g, function (d) { return AR_DIGITS[d]; });
+  }
+
+  function parseDate(str) {
+    var parts = str.split('-');
+    return new Date(+parts[0], +parts[1] - 1, +parts[2]);
+  }
+
+  var allEvents = window.adminData ? window.adminData.getEvents() : [];
+
+  var upcoming = allEvents.filter(function (e) { return e.status === 'upcoming'; });
+  var past     = allEvents.filter(function (e) { return e.status === 'past'; });
+
+  /* ---- Upcoming ---- */
+  var upEl = document.getElementById('upcoming-events');
+  if (!upcoming.length) {
+    upEl.innerHTML = '<p style="color:#aaa;padding:20px 0;">لا توجد فعاليات قادمة حالياً</p>';
+  } else {
+    upEl.innerHTML = upcoming.map(function (ev) {
+      var d = parseDate(ev.date);
+      return '<div class="event-card reveal">' +
+        '<div class="event-date-badge">' +
+          '<span class="event-date-day">' + toAr(d.getDate()) + '</span>' +
+          '<span class="event-date-month">' + AR_MONTHS[d.getMonth()] + '</span>' +
+        '</div>' +
+        '<div class="event-body">' +
+          '<h3 class="event-title">' + ev.title + '</h3>' +
+          '<div class="event-meta">' +
+            (ev.location ? '<span>📍 ' + ev.location + '</span>' : '') +
+            (ev.time     ? '<span>⏰ ' + ev.time + '</span>'     : '') +
+            (ev.ticket   ? '<span>🎟 ' + ev.ticket + '</span>'  : '') +
+          '</div>' +
+          '<p class="event-excerpt">' + ev.excerpt + '</p>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  /* ---- Past ---- */
+  var SEEDS = ['byblos-event','nile-festival','art-gallery1','beirut-event','cairo-event','culture-event'];
+  var pastEl = document.getElementById('past-events');
+  if (!past.length) {
+    pastEl.innerHTML = '<p style="color:#aaa;padding:20px 0;">لا توجد تغطيات سابقة بعد</p>';
+  } else {
+    pastEl.innerHTML = past.map(function (ev, i) {
+      var d = parseDate(ev.date);
+      var fDate = toAr(d.getDate()) + ' ' + AR_MONTHS[d.getMonth()] + ' ' + toAr(d.getFullYear());
+      var seed = SEEDS[i % SEEDS.length];
+      return '<article class="post reveal">' +
+        '<div class="post-image"><img src="https://picsum.photos/seed/' + seed + '/600/420" alt="' + ev.title + '" loading="lazy"></div>' +
+        '<span class="category-badge">فعاليات وتجمعات</span>' +
+        '<h3 class="post-title">' + ev.title + '</h3>' +
+        '<div class="post-meta"><span class="post-date">' + fDate + '</span></div>' +
+        '<p class="post-excerpt">' + ev.excerpt + '</p>' +
+      '</article>';
+    }).join('');
+  }
+}());
+</script>
 <script src="src/site.js"></script>
 </body>
 </html>
