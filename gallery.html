@@ -485,17 +485,22 @@
 </footer>
 
 <script src="src/mockPosts.js"></script>
+<script src="src/config.js"></script>
+<script src="src/api.js"></script>
 <script src="src/site.js"></script>
 <script>
   /* Gallery filter chips */
   var chips = document.querySelectorAll('.gal-chip');
   var items = document.querySelectorAll('.gallery-item');
+  function currentItems() {
+    return document.querySelectorAll('.gallery-item');
+  }
   chips.forEach(function (chip) {
     chip.addEventListener('click', function () {
       chips.forEach(function (c) { c.classList.remove('active'); });
       this.classList.add('active');
       var filter = this.dataset.filter;
-      items.forEach(function (item) {
+      currentItems().forEach(function (item) {
         if (filter === 'all' || item.dataset.cat === filter) {
           item.style.display = '';
         } else {
@@ -510,14 +515,15 @@
   var lbImg       = document.getElementById('lightboxImg');
   var lbCap       = document.getElementById('lightboxCaption');
   var lbClose     = document.getElementById('lightboxClose');
-  items.forEach(function (item) {
+  function bindGalleryItem(item) {
     item.addEventListener('click', function () {
       lbImg.src = this.dataset.src || this.querySelector('img').src;
       lbCap.textContent = this.dataset.cap || '';
       lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
-  });
+  }
+  items.forEach(bindGalleryItem);
   lbClose.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', function (e) {
     if (e.target === lightbox) closeLightbox();
@@ -528,6 +534,30 @@
   function closeLightbox() {
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  if (window.jalitunaAPI && window.jalitunaAPI.culture) {
+    window.jalitunaAPI.culture.getAll().then(function (cultureItems) {
+      var grid = document.getElementById('galleryGrid');
+      if (!grid || !cultureItems || !cultureItems.length) return;
+      cultureItems.forEach(function (item) {
+        var node = document.createElement('div');
+        node.className = 'gallery-item reveal in-view';
+        node.dataset.cat = 'culture';
+        node.dataset.src = item.image;
+        node.dataset.cap = item.title;
+        node.innerHTML =
+          '<img src="' + item.image + '" alt="' + (item.alt || item.title) + '">' +
+          '<div class="gallery-overlay">' +
+            '<div class="gallery-caption">' +
+              item.title +
+              '<small>' + (item.date || 'ثقافة وفنون') + '</small>' +
+            '</div>' +
+          '</div>';
+        grid.appendChild(node);
+        bindGalleryItem(node);
+      });
+    });
   }
 </script>
 </body>

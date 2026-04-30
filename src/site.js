@@ -100,8 +100,33 @@
       var inp = this.previousElementSibling;
       if (inp && inp.type === 'email') {
         if (inp.value && inp.value.includes('@')) {
-          showToast('تم الاشتراك بنجاح! شكراً لك');
-          inp.value = '';
+          var email = inp.value.trim();
+          btn.disabled = true;
+          var done = function (offline) {
+            showToast(offline ? 'تم حفظ بريدك مؤقتاً وسيتم إرساله عند توفر الخادم' : 'تم الاشتراك بنجاح! شكراً لك');
+            inp.value = '';
+          };
+          var fail = function (msg) {
+            showToast(msg || 'تعذّر حفظ البريد، يرجى المحاولة لاحقاً');
+          };
+
+          if (window.jalitunaAPI && window.jalitunaAPI.newsletter) {
+            window.jalitunaAPI.newsletter.subscribe(email)
+              .then(function (result) { done(result && result.offline); })
+              .catch(function (err) { fail(err.message); })
+              .finally(function () { btn.disabled = false; });
+          } else {
+            try {
+              var key = 'jalituna_newsletter_pending';
+              var rows = JSON.parse(localStorage.getItem(key) || '[]');
+              rows.push({ email: email.toLowerCase(), source_page: location.pathname, created_at: new Date().toISOString() });
+              localStorage.setItem(key, JSON.stringify(rows));
+              done(true);
+            } catch (e) {
+              fail();
+            }
+            btn.disabled = false;
+          }
         } else {
           showToast('يرجى إدخال بريد إلكتروني صحيح');
         }
@@ -144,33 +169,40 @@
   });
 
   /* ---- Hero Carousel ---- */
-  var carouselSlides = document.querySelectorAll('.carousel-slide');
-  var carouselDots   = document.querySelectorAll('.carousel-dot');
-  if (carouselSlides.length) {
-    var cCurrent = 0;
-    var cTimer;
-    function cGoTo(n) {
-      carouselSlides[cCurrent].classList.remove('active');
-      if (carouselDots[cCurrent]) carouselDots[cCurrent].classList.remove('active');
-      cCurrent = (n + carouselSlides.length) % carouselSlides.length;
-      carouselSlides[cCurrent].classList.add('active');
-      if (carouselDots[cCurrent]) carouselDots[cCurrent].classList.add('active');
+  function initHeroCarousel() {
+    var carouselSlides = document.querySelectorAll('.carousel-slide');
+    var carouselDots   = document.querySelectorAll('.carousel-dot');
+    if (carouselSlides.length) {
+      var cCurrent = 0;
+      var cTimer;
+      function cGoTo(n) {
+        carouselSlides[cCurrent].classList.remove('active');
+        if (carouselDots[cCurrent]) carouselDots[cCurrent].classList.remove('active');
+        cCurrent = (n + carouselSlides.length) % carouselSlides.length;
+        carouselSlides[cCurrent].classList.add('active');
+        if (carouselDots[cCurrent]) carouselDots[cCurrent].classList.add('active');
+      }
+      function cStart() {
+        clearInterval(cTimer);
+        cTimer = setInterval(function () { cGoTo(cCurrent + 1); }, 5500);
+      }
+      cGoTo(0);
+      cStart();
+      document.querySelectorAll('.carousel-prev').forEach(function (btn) {
+        btn.addEventListener('click', function () { cGoTo(cCurrent - 1); cStart(); });
+      });
+      document.querySelectorAll('.carousel-next').forEach(function (btn) {
+        btn.addEventListener('click', function () { cGoTo(cCurrent + 1); cStart(); });
+      });
+      carouselDots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () { cGoTo(i); cStart(); });
+      });
     }
-    function cStart() {
-      clearInterval(cTimer);
-      cTimer = setInterval(function () { cGoTo(cCurrent + 1); }, 5500);
-    }
-    cGoTo(0);
-    cStart();
-    document.querySelectorAll('.carousel-prev').forEach(function (btn) {
-      btn.addEventListener('click', function () { cGoTo(cCurrent - 1); cStart(); });
-    });
-    document.querySelectorAll('.carousel-next').forEach(function (btn) {
-      btn.addEventListener('click', function () { cGoTo(cCurrent + 1); cStart(); });
-    });
-    carouselDots.forEach(function (dot, i) {
-      dot.addEventListener('click', function () { cGoTo(i); cStart(); });
-    });
+  }
+  if (window.jalitunaCarouselReady && typeof window.jalitunaCarouselReady.then === 'function') {
+    window.jalitunaCarouselReady.then(initHeroCarousel);
+  } else {
+    initHeroCarousel();
   }
 
   /* ---- FAQ Accordion ---- */

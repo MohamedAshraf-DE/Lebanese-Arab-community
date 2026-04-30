@@ -203,20 +203,20 @@
 
 <button id="back-to-top" title="العودة للأعلى">↑</button>
 
+<script src="src/config.js"></script>
+<script src="src/api.js"></script>
 <script src="src/mockPosts.js"></script>
 <script>
 (function () {
-  /* ---- Date in top bar ---- */
-  var days = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  var days   = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
   var months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-  
+
   function updateDate() {
     var now = new Date();
     var el = document.getElementById('top-bar-date');
     if (el) el.textContent = days[now.getDay()] + '، ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
   }
 
-  /* ---- Category config ---- */
   var CATS = {
     embassy:     { name: 'أخبار السفارة',    desc: 'كل ما يهمك من قرارات رسمية وخدمات قنصلية جديدة',    bg: 'https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?auto=format&fit=crop&q=80&w=1920' },
     restaurants: { name: 'مطاعم مصرية',      desc: 'استكشف أفضل أماكن الطعام المصري الأصيل في لبنان',   bg: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1920' },
@@ -227,81 +227,84 @@
     culture:     { name: 'ثقافة وفنون',       desc: 'إبداع مصري ولبناني في معارض وأمسيات بيروتية رائعة', bg: 'https://picsum.photos/seed/culture-jalituna/1920/600' }
   };
 
+  var CAT_SLUG_MAP = {
+    'embassy': 'أخبار السفارة', 'restaurants': 'مطاعم مصرية', 'success': 'قصص نجاح',
+    'residency': 'إقامة وأوراق', 'events': 'فعاليات وتجمعات', 'work': 'عمل وفرص', 'culture': 'ثقافة وفنون'
+  };
+
+  function updateCounts(allPosts) {
+    var counts = {};
+    allPosts.forEach(function (p) { counts[p.category] = (counts[p.category] || 0) + 1; });
+    Object.keys(CAT_SLUG_MAP).forEach(function (s) {
+      var countEl = document.querySelector('a[href*="cat=' + s + '"] + .cat-count');
+      if (countEl) countEl.textContent = counts[CAT_SLUG_MAP[s]] || 0;
+    });
+  }
+
+  function renderPosts(filteredPosts) {
+    var grid = document.getElementById('cat-grid');
+    grid.innerHTML = '';
+    if (!filteredPosts.length) {
+      document.getElementById('no-posts').style.display = 'block';
+      return;
+    }
+    document.getElementById('no-posts').style.display = 'none';
+    filteredPosts.forEach(function (p) {
+      var d = new Date(p.date);
+      var fDate = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+      var rt = Math.max(2, Math.ceil(((p.excerpt || '') + ' ' + (p.content || '')).split(' ').length / 200));
+      var art = document.createElement('article');
+      art.className = 'post reveal in-view';
+      art.innerHTML =
+        '<div class="post-image"><img src="' + p.image + '" alt="' + (p.alt || p.title) + '" loading="lazy"></div>' +
+        '<span class="category-badge">' + p.category + '</span>' +
+        '<h3 class="post-title">' + p.title + '</h3>' +
+        '<div class="post-meta">' +
+          '<span class="post-date">' + fDate + '</span>' +
+          '<span class="reading-time">' + rt + ' دقائق للقراءة</span>' +
+        '</div>' +
+        '<p class="post-excerpt">' + p.excerpt + '</p>' +
+        '<a href="single.html?id=' + p.id + '" class="read-more">اقرأ المزيد ←</a>';
+      grid.appendChild(art);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function localFallback(catName) {
+    var base  = window.mockPosts || [];
+    var stored = [];
+    try { stored = JSON.parse(localStorage.getItem('blog_posts')) || []; } catch (e) {}
+    var maxId  = base.reduce(function (m, p) { return p.id > m ? p.id : m; }, 0);
+    var extras = stored.filter(function (p) { return p.id > maxId; });
+    var all    = base.concat(extras);
+    updateCounts(all);
+    renderPosts(all.filter(function (p) { return p.category === catName; }));
+  }
+
   function loadCategory() {
     var params = new URLSearchParams(window.location.search);
     var slug = params.get('cat') || 'embassy';
-    var cat = CATS[slug] || CATS.embassy;
+    var cat  = CATS[slug] || CATS.embassy;
 
-    /* Update page elements */
     document.title = cat.name + ' — جاليتُنا';
     document.getElementById('cat-name').textContent = cat.name;
     document.getElementById('cat-desc').textContent = cat.desc;
     document.getElementById('cat-header').style.backgroundImage = "url('" + cat.bg + "')";
     document.getElementById('breadcrumb-cat').textContent = cat.name;
 
-    /* Always show mockPosts as base; append admin-created extras (id > max base id) */
-    var basePosts = window.mockPosts || [];
-    var storedPosts = [];
-    try { storedPosts = JSON.parse(localStorage.getItem('blog_posts')) || []; } catch (e) {}
-    var maxBaseId = basePosts.reduce(function (m, p) { return p.id > m ? p.id : m; }, 0);
-    var extraPosts = storedPosts.filter(function (p) { return p.id > maxBaseId; });
-    var allPosts = basePosts.concat(extraPosts);
-    var filteredPosts = allPosts.filter(function (p) { return p.category === cat.name; });
-    
-    /* Update category sidebar counts */
-    var counts = {};
-    allPosts.forEach(function(p) { counts[p.category] = (counts[p.category] || 0) + 1; });
-
-    var catMap = {
-      'embassy': 'أخبار السفارة',
-      'restaurants': 'مطاعم مصرية',
-      'success': 'قصص نجاح',
-      'residency': 'إقامة وأوراق',
-      'events': 'فعاليات وتجمعات',
-      'work': 'عمل وفرص',
-      'culture': 'ثقافة وفنون'
-    };
-
-    Object.keys(catMap).forEach(function(s) {
-      var name = catMap[s];
-      var countEl = document.querySelector('a[href*="cat=' + s + '"] + .cat-count');
-      if (countEl) countEl.textContent = counts[name] || 0;
-    });
-
-    var grid = document.getElementById('cat-grid');
-    grid.innerHTML = '';
-
-    if (!filteredPosts.length) {
-      document.getElementById('no-posts').style.display = 'block';
+    if (window.jalitunaAPI) {
+      window.jalitunaAPI.articles.getAll().then(function (data) {
+        var all = Array.isArray(data) ? data : (data.data || []);
+        updateCounts(all);
+        renderPosts(all.filter(function (p) { return p.category === cat.name; }));
+      }).catch(function () { localFallback(cat.name); });
     } else {
-      document.getElementById('no-posts').style.display = 'none';
-      filteredPosts.forEach(function (p, i) {
-        var d = new Date(p.date);
-        var fDate = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
-        var rt = Math.max(2, Math.ceil((p.excerpt + ' ' + p.content).split(' ').length / 200));
-        
-        var art = document.createElement('article');
-        art.className = 'post reveal in-view';
-        art.innerHTML =
-          '<div class="post-image"><img src="' + p.image + '" alt="' + (p.alt || p.title) + '" loading="lazy"></div>' +
-          '<span class="category-badge">' + p.category + '</span>' +
-          '<h3 class="post-title">' + p.title + '</h3>' +
-          '<div class="post-meta">' +
-            '<span class="post-date">' + fDate + '</span>' +
-            '<span class="reading-time">' + rt + ' دقائق للقراءة</span>' +
-          '</div>' +
-          '<p class="post-excerpt">' + p.excerpt + '</p>' +
-          '<a href="single.html?id=' + p.id + '" class="read-more">اقرأ المزيد ←</a>';
-        grid.appendChild(art);
-      });
+      localFallback(cat.name);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   updateDate();
   loadCategory();
-
-  /* Listen for URL changes */
   window.addEventListener('popstate', loadCategory);
 })();
 </script>

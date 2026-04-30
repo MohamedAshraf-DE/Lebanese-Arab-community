@@ -142,6 +142,10 @@
     <li><a href="#" class="a-tab-link" data-tab="articles">📄 المقالات</a></li>
     <li><a href="#" class="a-tab-link" data-tab="events">📅 الفعاليات</a></li>
     <li><a href="#" class="a-tab-link" data-tab="carousel">🖼 الكاروسيل</a></li>
+    <li><a href="#" class="a-tab-link" data-tab="news">📰 الأخبار</a></li>
+    <li><a href="#" class="a-tab-link" data-tab="categories">🏷 التصنيفات</a></li>
+    <li><a href="#" class="a-tab-link" data-tab="culture">🎨 الثقافة والفنون</a></li>
+    <li><a href="#" class="a-tab-link" data-tab="subscribers">✉️ المشتركون</a></li>
     <div class="a-divider"></div>
     <li><a href="index.html" target="_blank">🌐 عرض الموقع</a></li>
     <li><a href="#" id="logout-btn" class="a-logout">🚪 تسجيل الخروج</a></li>
@@ -162,8 +166,11 @@
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-icon">📄</div><div class="stat-val" id="stat-art">0</div><div class="stat-lbl">إجمالي المقالات</div></div>
       <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-val" id="stat-ev">0</div><div class="stat-lbl">إجمالي الفعاليات</div></div>
-      <div class="stat-card"><div class="stat-icon">🏷</div><div class="stat-val">7</div><div class="stat-lbl">التصنيفات</div></div>
+      <div class="stat-card"><div class="stat-icon">🏷</div><div class="stat-val" id="stat-cat">0</div><div class="stat-lbl">التصنيفات</div></div>
       <div class="stat-card"><div class="stat-icon">🖼</div><div class="stat-val" id="stat-sl">0</div><div class="stat-lbl">شرائح الكاروسيل</div></div>
+      <div class="stat-card"><div class="stat-icon">📰</div><div class="stat-val" id="stat-news">0</div><div class="stat-lbl">الأخبار</div></div>
+      <div class="stat-card"><div class="stat-icon">🎨</div><div class="stat-val" id="stat-culture">0</div><div class="stat-lbl">الثقافة والفنون</div></div>
+      <div class="stat-card"><div class="stat-icon">✉️</div><div class="stat-val" id="stat-subscribers">0</div><div class="stat-lbl">مشتركو النشرة</div></div>
     </div>
     <div class="recent-box">
       <h3>آخر ٥ مقالات مضافة</h3>
@@ -209,6 +216,61 @@
       <table>
         <thead><tr><th>#</th><th>العنوان</th><th>التصنيف</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
         <tbody id="carouselBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB: News -->
+  <section class="admin-tab" id="tab-news">
+    <div class="admin-header">
+      <div><h1>إدارة الأخبار</h1></div>
+      <button class="btn-add" id="openAddNews">+ إضافة خبر جديد</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>العنوان</th><th>التصنيف</th><th>التاريخ</th><th>الحالة</th><th>الإجراءات</th></tr></thead>
+        <tbody id="newsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB: Categories -->
+  <section class="admin-tab" id="tab-categories">
+    <div class="admin-header">
+      <div><h1>إدارة التصنيفات</h1></div>
+      <button class="btn-add" id="openAddCategory">+ إضافة تصنيف جديد</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>الاسم</th><th>المعرف</th><th>عدد المقالات</th><th>الترتيب</th><th>الإجراءات</th></tr></thead>
+        <tbody id="categoriesBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB: Culture -->
+  <section class="admin-tab" id="tab-culture">
+    <div class="admin-header">
+      <div><h1>إدارة الثقافة والفنون</h1><small>تظهر أيضاً في معرض الصور</small></div>
+      <button class="btn-add" id="openAddCulture">+ إضافة محتوى ثقافي</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>العنوان</th><th>التصنيف</th><th>التاريخ</th><th>الصورة</th><th>الإجراءات</th></tr></thead>
+        <tbody id="cultureBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB: Subscribers -->
+  <section class="admin-tab" id="tab-subscribers">
+    <div class="admin-header">
+      <div><h1>مشتركو النشرة البريدية</h1><small>العناوين تحفظ في قاعدة البيانات</small></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>البريد الإلكتروني</th><th>الصفحة</th><th>الحالة</th><th>تاريخ الاشتراك</th><th>الإجراءات</th></tr></thead>
+        <tbody id="subscribersBody"></tbody>
       </table>
     </div>
   </section>
@@ -386,13 +448,181 @@
   </div>
 </div>
 
+<!-- ========== NEWS MODAL ========== -->
+<div class="modal" id="newsModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="newsModalTitle">إضافة خبر جديد</h2>
+      <button class="modal-close" data-close="newsModal">&times;</button>
+    </div>
+    <form id="newsForm" novalidate>
+      <input type="hidden" id="newsId">
+      <div class="form-group">
+        <label>عنوان الخبر <span style="color:red">*</span></label>
+        <input type="text" id="newsTitle" placeholder="أدخل العنوان">
+        <div class="field-err" id="err-newsTitle">الرجاء إدخال عنوان الخبر</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>التصنيف <span style="color:red">*</span></label>
+          <select id="newsCategory">
+            <option value="أخبار السفارة">أخبار السفارة</option>
+            <option value="إقامة وأوراق">إقامة وأوراق</option>
+            <option value="عمل وفرص">عمل وفرص</option>
+            <option value="فعاليات وتجمعات">فعاليات وتجمعات</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>تاريخ الخبر <span style="color:red">*</span></label>
+          <input type="date" id="newsDate">
+          <div class="field-err" id="err-newsDate">الرجاء إدخال تاريخ الخبر</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>المصدر</label>
+          <input type="text" id="newsSource" placeholder="اسم المصدر أو الكاتب">
+        </div>
+        <div class="form-group">
+          <label>الحالة</label>
+          <select id="newsStatus">
+            <option value="published">منشور</option>
+            <option value="draft">مسودة</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>مقتطف <span style="color:red">*</span></label>
+        <textarea id="newsExcerpt" rows="2" placeholder="ملخص الخبر"></textarea>
+        <div class="field-err" id="err-newsExcerpt">الرجاء إدخال مقتطف</div>
+      </div>
+      <div class="form-group">
+        <label>المحتوى <span style="color:red">*</span></label>
+        <textarea id="newsContent" rows="5" placeholder="نص الخبر كاملاً"></textarea>
+        <div class="field-err" id="err-newsContent">الرجاء إدخال محتوى الخبر</div>
+      </div>
+      <div class="form-group">
+        <label>رابط الصورة</label>
+        <input type="url" id="newsImage" placeholder="https://picsum.photos/seed/news/800/500">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" data-close="newsModal">إلغاء</button>
+        <button type="submit" class="btn-save">حفظ الخبر</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ========== CATEGORY MODAL ========== -->
+<div class="modal" id="categoryModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="categoryModalTitle">إضافة تصنيف جديد</h2>
+      <button class="modal-close" data-close="categoryModal">&times;</button>
+    </div>
+    <form id="categoryForm" novalidate>
+      <input type="hidden" id="catId">
+      <div class="form-row">
+        <div class="form-group">
+          <label>الاسم <span style="color:red">*</span></label>
+          <input type="text" id="catName" placeholder="اسم التصنيف">
+          <div class="field-err" id="err-catName">الرجاء إدخال اسم التصنيف</div>
+        </div>
+        <div class="form-group">
+          <label>المعرف <span style="color:red">*</span></label>
+          <input type="text" id="catSlug" placeholder="culture">
+          <div class="field-err" id="err-catSlug">الرجاء إدخال معرف التصنيف</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>الوصف</label>
+        <textarea id="catDescription" rows="2" placeholder="وصف قصير للتصنيف"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>صورة رأسية</label>
+          <input type="url" id="catImage" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>الترتيب</label>
+          <input type="number" id="catSort" min="0" value="0">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" data-close="categoryModal">إلغاء</button>
+        <button type="submit" class="btn-save">حفظ التصنيف</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ========== CULTURE MODAL ========== -->
+<div class="modal" id="cultureModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="cultureModalTitle">إضافة محتوى ثقافي</h2>
+      <button class="modal-close" data-close="cultureModal">&times;</button>
+    </div>
+    <form id="cultureForm" novalidate>
+      <input type="hidden" id="cultureId">
+      <div class="form-group">
+        <label>العنوان <span style="color:red">*</span></label>
+        <input type="text" id="cultureTitle" placeholder="عنوان المحتوى">
+        <div class="field-err" id="err-cultureTitle">الرجاء إدخال العنوان</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>التصنيف</label>
+          <input type="text" id="cultureCategory" value="ثقافة وفنون">
+        </div>
+        <div class="form-group">
+          <label>التاريخ</label>
+          <input type="date" id="cultureDate">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>الوصف <span style="color:red">*</span></label>
+        <textarea id="cultureDescription" rows="2" placeholder="وصف قصير"></textarea>
+        <div class="field-err" id="err-cultureDescription">الرجاء إدخال الوصف</div>
+      </div>
+      <div class="form-group">
+        <label>المحتوى</label>
+        <textarea id="cultureContent" rows="4" placeholder="تفاصيل إضافية"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>رابط الصورة <span style="color:red">*</span></label>
+          <input type="url" id="cultureImage" placeholder="https://...">
+          <div class="field-err" id="err-cultureImage">الرجاء إدخال رابط الصورة</div>
+        </div>
+        <div class="form-group">
+          <label>رابط الصفحة</label>
+          <input type="text" id="cultureLink" placeholder="single.html?id=7">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>الترتيب</label>
+        <input type="number" id="cultureSort" min="0" value="0">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" data-close="cultureModal">إلغاء</button>
+        <button type="submit" class="btn-save">حفظ المحتوى</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script src="src/mockPosts.js"></script>
 <script src="src/adminData.js"></script>
+<script src="src/config.js"></script>
+<script src="src/api.js"></script>
 <script src="src/adminUI.js"></script>
 <script>
   document.getElementById('logout-btn').addEventListener('click', function (e) {
     e.preventDefault();
+    if (window.jalitunaAPI) window.jalitunaAPI.auth.logout();
     sessionStorage.removeItem('adminLoggedIn');
+    localStorage.removeItem('jalituna_token');
     location.replace('login.html');
   });
 </script>

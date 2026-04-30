@@ -1,15 +1,35 @@
+window.jalitunaCarouselReady = new Promise(function (resolve) {
+  document.addEventListener('DOMContentLoaded', function () {
+    initDynamicCarousel().then(resolve).catch(resolve);
+  }, { once: true });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
 
-  // Helper to get current posts — always uses mockPosts as the base so content
-  // is never lost; admin-created extras (id > max base id) are appended.
-  window.getCurrentPosts = function () {
+  function getLocalPosts() {
     var base = window.mockPosts || [];
     var stored = [];
     try { stored = JSON.parse(localStorage.getItem('blog_posts')) || []; } catch (e) {}
     var maxBaseId = base.reduce(function (m, p) { return p.id > m ? p.id : m; }, 0);
     var extras = stored.filter(function (p) { return p.id > maxBaseId; });
     return base.concat(extras);
+  }
+
+  window.getCurrentPosts = function () {
+    return getLocalPosts();
+  };
+
+  window.getCurrentPostsAsync = function () {
+    if (window.jalitunaAPI && window.jalitunaAPI.articles) {
+      return window.jalitunaAPI.articles.getAll().then(function (data) {
+        var arr = Array.isArray(data) ? data : (data.data || []);
+        return arr.length ? arr : getLocalPosts();
+      }).catch(function () {
+        return getLocalPosts();
+      });
+    }
+    return Promise.resolve(getLocalPosts());
   };
 
   // -- 1. Blog & Category Pages --
@@ -44,6 +64,7 @@ function initBlogUI() {
   let currentCategory = 'all';
   let currentPage = 1;
   const pageSize = 6;
+  let allPosts = window.getCurrentPosts();
 
   // If chips exist, bind them
   if (chips.length > 0) {
@@ -90,7 +111,7 @@ function initBlogUI() {
     const category = categorySelect ? categorySelect.value : currentCategory;
     const sort = sortSelect ? sortSelect.value : 'newest';
 
-    const results = window.blogLogic.getBlogResults(window.getCurrentPosts(), {
+    const results = window.blogLogic.getBlogResults(allPosts, {
       query, category, sort, page: currentPage, pageSize
     });
 
@@ -155,6 +176,52 @@ function initBlogUI() {
   if (sortSelect) sortSelect.addEventListener('change', () => { currentPage = 1; render(); });
 
   render();
+  if (window.getCurrentPostsAsync) {
+    window.getCurrentPostsAsync().then(function (posts) {
+      allPosts = posts;
+      currentPage = 1;
+      render();
+    });
+  }
+}
+
+function initDynamicCarousel() {
+  const carousel = document.querySelector('.hero-carousel');
+  if (!carousel || !window.jalitunaAPI || !window.jalitunaAPI.carousel) return Promise.resolve();
+
+  return window.jalitunaAPI.carousel.getAll().then(function (slides) {
+    const arr = Array.isArray(slides) ? slides : [];
+    if (!arr.length) return;
+
+    carousel.querySelectorAll('.carousel-slide').forEach(function (node) { node.remove(); });
+    const firstArrow = carousel.querySelector('.carousel-arrow');
+    let dots = carousel.querySelector('.carousel-dots');
+    if (!dots) {
+      dots = document.createElement('div');
+      dots.className = 'carousel-dots';
+      carousel.appendChild(dots);
+    }
+    dots.innerHTML = '';
+
+    arr.forEach(function (slide, index) {
+      const node = document.createElement('div');
+      node.className = 'carousel-slide' + (index === 0 ? ' active' : '');
+      node.style.backgroundImage = "url('" + slide.image + "')";
+      node.innerHTML =
+        '<div class="carousel-content">' +
+          '<span class="carousel-tag">' + slide.tag + '</span>' +
+          '<h2 class="carousel-title">' + slide.title + '</h2>' +
+          '<p class="carousel-desc">' + slide.desc + '</p>' +
+          (slide.link ? '<a href="' + slide.link + '" class="carousel-btn">اقرأ المزيد</a>' : '') +
+        '</div>';
+      carousel.insertBefore(node, firstArrow || dots);
+
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'شريحة ' + (index + 1));
+      dots.appendChild(dot);
+    });
+  });
 }
 
 function createPaginationContainer(postsGrid) {

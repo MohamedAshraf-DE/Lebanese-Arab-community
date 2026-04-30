@@ -161,11 +161,15 @@
   </div>
 </div>
 
+<script src="src/config.js"></script>
+<script src="src/api.js"></script>
 <script>
-  /* If already logged in, go straight to admin */
-  if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+  /* If already logged in and token exists, skip login */
+  if (sessionStorage.getItem('adminLoggedIn') === 'true' && localStorage.getItem('jalituna_token')) {
     location.replace('admin.html');
   }
+
+  var btn = document.querySelector('.btn-login');
 
   document.getElementById('login-form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -173,15 +177,39 @@
     var pass = document.getElementById('password').value;
     var err  = document.getElementById('error-msg');
 
-    if (user === 'admin' && pass === 'admin123') {
-      sessionStorage.setItem('adminLoggedIn', 'true');
-      location.replace('admin.html');
-    } else {
+    if (!user || !pass) return;
+    btn.disabled = true;
+    btn.textContent = 'جاري التحقق...';
+
+    var apiBase = (window.JALITUNA_CONFIG && window.JALITUNA_CONFIG.apiBase) || '';
+
+    fetch(apiBase + '/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: user, password: pass })
+    })
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+    .then(function (result) {
+      if (result.ok && result.data.token) {
+        localStorage.setItem('jalituna_token', result.data.token);
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        location.replace('admin.html');
+      } else {
+        throw new Error(result.data.error || 'خطأ');
+      }
+    })
+    .catch(function (apiErr) {
+      /* Login requires the backend API; localStorage is not used for auth. */
+      err.textContent = apiErr.message || 'اسم المستخدم أو كلمة المرور غير صحيحة';
       err.classList.add('show');
       document.getElementById('password').value = '';
       document.getElementById('password').focus();
       setTimeout(function () { err.classList.remove('show'); }, 3500);
-    }
+    })
+    .finally(function () {
+      btn.disabled = false;
+      btn.textContent = 'دخول إلى لوحة التحكم';
+    });
   });
 </script>
 </body>

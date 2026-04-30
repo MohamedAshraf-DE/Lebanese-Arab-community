@@ -186,8 +186,10 @@
 <button id="back-to-top" title="العودة للأعلى">↑</button>
 <script src="src/mockPosts.js"></script>
 <script src="src/adminData.js"></script>
+<script src="src/config.js"></script>
+<script src="src/api.js"></script>
 <script>
-(function () {
+(async function () {
   var AR_MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
   var AR_DIGITS = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
 
@@ -201,6 +203,11 @@
   }
 
   var allEvents = window.adminData ? window.adminData.getEvents() : [];
+  if (window.jalitunaAPI && window.jalitunaAPI.events) {
+    try {
+      allEvents = await window.jalitunaAPI.events.getAll();
+    } catch (e) {}
+  }
 
   var upcoming = allEvents.filter(function (e) { return e.status === 'upcoming'; });
   var past     = allEvents.filter(function (e) { return e.status === 'past'; });
@@ -212,7 +219,7 @@
   } else {
     upEl.innerHTML = upcoming.map(function (ev) {
       var d = parseDate(ev.date);
-      return '<div class="event-card reveal">' +
+      return '<div class="event-card reveal in-view">' +
         '<div class="event-date-badge">' +
           '<span class="event-date-day">' + toAr(d.getDate()) + '</span>' +
           '<span class="event-date-month">' + AR_MONTHS[d.getMonth()] + '</span>' +
@@ -240,7 +247,7 @@
       var d = parseDate(ev.date);
       var fDate = toAr(d.getDate()) + ' ' + AR_MONTHS[d.getMonth()] + ' ' + toAr(d.getFullYear());
       var seed = SEEDS[i % SEEDS.length];
-      return '<article class="post reveal">' +
+      return '<article class="post reveal in-view">' +
         '<div class="post-image"><img src="https://picsum.photos/seed/' + seed + '/600/420" alt="' + ev.title + '" loading="lazy"></div>' +
         '<span class="category-badge">فعاليات وتجمعات</span>' +
         '<h3 class="post-title">' + ev.title + '</h3>' +
