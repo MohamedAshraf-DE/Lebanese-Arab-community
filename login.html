@@ -108,6 +108,79 @@
     text-align: center;
   }
   .error-msg.show { display: block; }
+  .api-settings {
+    border: 1px solid #edf0f2;
+    border-radius: 8px;
+    padding: 0;
+    margin-bottom: 18px;
+    background: #fafafa;
+    color: #5f6b76;
+    font-size: 12.5px;
+  }
+  .api-settings[open] { padding-bottom: 12px; }
+  .api-settings summary {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #2c3e50;
+  }
+  .api-settings p {
+    padding: 0 14px 10px;
+    line-height: 1.7;
+  }
+  .api-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 14px;
+  }
+  .api-row input {
+    flex: 1;
+    min-width: 0;
+    min-height: 40px;
+    padding: 9px 11px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 7px;
+    font: inherit;
+    font-size: 13px;
+    direction: ltr;
+    text-align: left;
+  }
+  .api-row button,
+  .api-clear {
+    min-height: 40px;
+    border: none;
+    border-radius: 7px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .api-row button {
+    padding: 0 14px;
+    background: #2c3e50;
+    color: #fff;
+  }
+  .api-clear {
+    margin: 8px 14px 0;
+    padding: 0 12px;
+    background: transparent;
+    color: #9b6b2d;
+  }
+  .api-current {
+    padding: 8px 14px 0;
+    line-height: 1.6;
+    direction: ltr;
+    text-align: left;
+    color: #7f8c8d;
+    word-break: break-all;
+  }
+  .api-current.err {
+    direction: rtl;
+    text-align: right;
+    color: #dc2626;
+  }
   .back-link {
     display: block;
     text-align: center;
@@ -162,6 +235,19 @@
       min-height: 46px;
       line-height: 1.5;
     }
+    .api-row {
+      flex-direction: column;
+    }
+    .api-row button,
+    .api-clear {
+      width: calc(100% - 28px);
+      margin-left: 14px;
+      margin-right: 14px;
+    }
+    .api-row button {
+      width: 100%;
+      margin: 0;
+    }
     .back-link {
       min-height: 40px;
       display: flex;
@@ -185,6 +271,17 @@
     <p class="sub">هذه المنطقة مخصصة للمشرفين فقط</p>
 
     <div class="error-msg" id="error-msg">اسم المستخدم أو كلمة المرور غير صحيحة</div>
+
+    <details class="api-settings" id="api-settings">
+      <summary>إعدادات الخادم</summary>
+      <p>إذا كانت الواجهة على GitHub Pages، ضع هنا رابط الـ backend المنشور على Render أو Railway أو أي خدمة مشابهة.</p>
+      <div class="api-row">
+        <input type="url" id="api-base-input" placeholder="https://your-backend.onrender.com" autocomplete="url">
+        <button type="button" id="save-api-base">حفظ</button>
+      </div>
+      <button type="button" class="api-clear" id="clear-api-base">مسح الرابط</button>
+      <div class="api-current" id="api-current"></div>
+    </details>
 
     <form id="login-form" autocomplete="off">
       <div class="form-group">
@@ -211,41 +308,124 @@
   }
 
   var btn = document.querySelector('.btn-login');
+  var err = document.getElementById('error-msg');
+  var apiSettings = document.getElementById('api-settings');
+  var apiInput = document.getElementById('api-base-input');
+  var apiCurrent = document.getElementById('api-current');
+
+  function normalizeApiBase(value) {
+    return (value || '').trim().replace(/\/+$/, '');
+  }
+
+  function isGithubPages() {
+    return /\.github\.io$/i.test(location.hostname);
+  }
+
+  function getConfiguredApiBase() {
+    return normalizeApiBase((window.JALITUNA_CONFIG && window.JALITUNA_CONFIG.apiBase) || '');
+  }
+
+  function setConfiguredApiBase(value) {
+    var cleaned = normalizeApiBase(value);
+    if (!window.JALITUNA_CONFIG) window.JALITUNA_CONFIG = {};
+    window.JALITUNA_CONFIG.apiBase = cleaned;
+    window.JALITUNA_CONFIG.needsExternalApi = isGithubPages() && !cleaned;
+
+    try {
+      if (cleaned) localStorage.setItem('jalituna_api_base', cleaned);
+      else localStorage.removeItem('jalituna_api_base');
+    } catch (e) {}
+
+    return cleaned;
+  }
+
+  function setApiStatus(message, isError) {
+    if (!apiCurrent) return;
+    apiCurrent.textContent = message || '';
+    apiCurrent.classList.toggle('err', !!isError);
+  }
+
+  function refreshApiSettings(message, isError) {
+    var apiBase = getConfiguredApiBase();
+    if (apiInput) apiInput.value = apiBase;
+    if (apiSettings && window.JALITUNA_CONFIG && window.JALITUNA_CONFIG.needsExternalApi) {
+      apiSettings.open = true;
+    }
+    setApiStatus(
+      message || (apiBase ? 'API: ' + apiBase : 'لم يتم ضبط رابط backend خارجي بعد.'),
+      isError
+    );
+  }
+
+  function showLoginError(message, openSettings) {
+    err.textContent = message;
+    err.classList.add('show');
+    if (openSettings && apiSettings) apiSettings.open = true;
+    setTimeout(function () { err.classList.remove('show'); }, 6000);
+  }
+
+  document.getElementById('save-api-base').addEventListener('click', function () {
+    var saved = setConfiguredApiBase(apiInput.value);
+    refreshApiSettings(saved ? 'تم حفظ رابط API: ' + saved : 'تم مسح رابط API.');
+  });
+
+  document.getElementById('clear-api-base').addEventListener('click', function () {
+    setConfiguredApiBase('');
+    refreshApiSettings('تم مسح الرابط. على GitHub Pages يجب وضع رابط backend منشور.', isGithubPages());
+  });
+
+  refreshApiSettings();
 
   document.getElementById('login-form').addEventListener('submit', function (e) {
     e.preventDefault();
     var user = document.getElementById('username').value.trim();
     var pass = document.getElementById('password').value;
-    var err  = document.getElementById('error-msg');
 
     if (!user || !pass) return;
+
+    var apiBase = getConfiguredApiBase();
+    if (isGithubPages() && !apiBase) {
+      showLoginError('GitHub Pages لا يشغّل Node.js. ضع رابط backend المنشور في إعدادات الخادم ثم جرّب مرة أخرى.', true);
+      refreshApiSettings('ضع رابط backend المنشور مثل: https://your-backend.onrender.com', true);
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = 'جاري التحقق...';
-
-    var apiBase = (window.JALITUNA_CONFIG && window.JALITUNA_CONFIG.apiBase) || '';
 
     fetch(apiBase + '/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: user, password: pass })
     })
-    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+    .then(function (r) {
+      return r.text().then(function (text) {
+        var data = {};
+        try { data = text ? JSON.parse(text) : {}; }
+        catch (e) { data = { error: 'رابط API لا يرجع JSON. تأكد أن الرابط هو رابط backend وليس رابط GitHub Pages.' }; }
+        return { ok: r.ok, status: r.status, data: data };
+      });
+    })
     .then(function (result) {
       if (result.ok && result.data.token) {
         localStorage.setItem('jalituna_token', result.data.token);
         sessionStorage.setItem('adminLoggedIn', 'true');
         location.replace('admin.html');
       } else {
-        throw new Error(result.data.error || 'خطأ');
+        throw new Error(result.data.error || ('تعذّر تسجيل الدخول (' + result.status + ')'));
       }
     })
     .catch(function (apiErr) {
       /* Login requires the backend API; localStorage is not used for auth. */
-      err.textContent = apiErr.message || 'اسم المستخدم أو كلمة المرور غير صحيحة';
-      err.classList.add('show');
+      var message = apiErr.message || 'اسم المستخدم أو كلمة المرور غير صحيحة';
+      if (apiErr instanceof TypeError || message === 'Failed to fetch') {
+        message = 'تعذّر الاتصال بخادم API. تأكد أن backend يعمل وأن الرابط صحيح: ' + (apiBase || 'نفس النطاق');
+      }
+      showLoginError(message, true);
+      refreshApiSettings(message, true);
+      console.error('Login API error:', apiErr, 'API base:', apiBase || '(same origin)');
       document.getElementById('password').value = '';
       document.getElementById('password').focus();
-      setTimeout(function () { err.classList.remove('show'); }, 3500);
     })
     .finally(function () {
       btn.disabled = false;
