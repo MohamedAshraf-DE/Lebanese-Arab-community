@@ -7,6 +7,9 @@
     "start": "node server.js",
     "test": "jest"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MohamedAshraf-DE/Lebanese-Arab-community.git"
