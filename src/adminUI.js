@@ -31,6 +31,22 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (tb) tb.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:#bbb;padding:24px">جاري التحميل...</td></tr>';
   }
 
+  function enhanceTablesForMobile() {
+    document.querySelectorAll('.table-wrap table').forEach(function (table) {
+      var headers = Array.from(table.querySelectorAll('thead th')).map(function (th) {
+        return th.textContent.trim();
+      });
+
+      table.querySelectorAll('tbody tr').forEach(function (row) {
+        Array.from(row.children).forEach(function (cell, index) {
+          if (cell.tagName === 'TD' && !cell.hasAttribute('colspan')) {
+            cell.setAttribute('data-label', headers[index] || '');
+          }
+        });
+      });
+    });
+  }
+
   // ---- Tab switching --------------------------------------------------------
   document.querySelectorAll('.a-tab-link').forEach(function (link) {
     link.addEventListener('click', function (e) {
@@ -40,6 +56,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       document.querySelectorAll('.admin-tab').forEach(function (t) { t.classList.remove('active'); });
       this.classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
+      this.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      if (window.innerWidth <= 760) window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 
@@ -773,7 +791,10 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Row action delegation
   // ==========================================================================
   function attachRowActions() {
+    enhanceTablesForMobile();
     document.querySelectorAll('.btn-edit').forEach(function (btn) {
+      if (btn.dataset.boundEdit === 'true') return;
+      btn.dataset.boundEdit = 'true';
       btn.addEventListener('click', function () {
         var id = btn.dataset.id, type = btn.dataset.type;
         if (type === 'article') openEditArticle(id);
@@ -786,6 +807,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       });
     });
     document.querySelectorAll('.btn-delete').forEach(function (btn) {
+      if (btn.dataset.boundDelete === 'true') return;
+      btn.dataset.boundDelete = 'true';
       btn.addEventListener('click', function () {
         var id = btn.dataset.id, type = btn.dataset.type;
         if (type === 'article') deleteArticle(id);
